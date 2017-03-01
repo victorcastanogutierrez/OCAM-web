@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>OCAM</title>
+  </head>
+  <body ng-app="ocam" ng-strict-di>
+
+    <ui-view>
+    </ui-view>
+
+    <!-- Libs -->
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-ui-router.min.js"></script>
+
+    <!-- OCAM main module -->
+    <script src="src/ocam.module.js"></script>
+
+    <!-- Public Module -->
+    <script src="src/public/public.module.js"></script>
+    <script src="src/public/public.routes.js"></script>
+
+  </body>
+
+</html>
