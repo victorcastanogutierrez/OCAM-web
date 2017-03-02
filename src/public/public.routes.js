@@ -4,15 +4,26 @@
 angular.module('public')
 .config(routeConfig);
 
+
 /**
- * Configures the routes and views
- */
+  Public routing of the application
+*/
 routeConfig.$inject = ['$stateProvider', '$locationProvider'];
 function routeConfig ($stateProvider, $locationProvider) {
   $stateProvider
-    .state('home', {
+    .state('public', {
+      abstract: true,
+      templateUrl: 'src/common/header/header.html'
+    })
+    .state('public.actList', {
       url: '/',
-      templateUrl: 'src/public/home/home.html'
+      templateUrl : 'src/public/actList/actList.html'
+    })
+    .state('public.login', {
+      url: '/login',
+      templateUrl : 'src/public/login/login.html',
+      controller: 'loginController',
+      controllerAs: 'loginCtrl'
     });
-}
+  }
 })();

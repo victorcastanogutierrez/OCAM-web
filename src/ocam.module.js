@@ -4,7 +4,7 @@
 /**
 Application main module
 */
-angular.module('ocam', ['public'])
+angular.module('ocam', ['public', 'common', 'ngMaterial'])
 .config(config);
 
 config.$inject = ['$urlRouterProvider'];
