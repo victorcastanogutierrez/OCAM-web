@@ -5,17 +5,16 @@ angular.module('common')
 .run(routingConfiguration)
 .constant('LOGIN_STATE', 'public.login');
 
-
 /**
   Comprueba los permisos de acceso a una página estando logueado o no
   un usuario
 */
-routingConfiguration.$inject = ['$rootScope', '$state', 'LOGIN_STATE']
-function routingConfiguration($rootScope, $state, LOGIN_STATE) {
+routingConfiguration.$inject = ['$rootScope', '$state', 'LOGIN_STATE', '$localStorage']
+function routingConfiguration($rootScope, $state, LOGIN_STATE, $localStorage) {
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         var authState = isAuthState(next);
-        if (authState && !userLoggedIn()) {
+        if (authState && !userLoggedIn($localStorage)) {
           $state.go(LOGIN_STATE);
         }
     });
@@ -32,9 +31,11 @@ function isAuthState (state) {
   return state.data.authorization === "undefined" || state.data.authorization;
 }
 
-function userLoggedIn() {
-  //TODO
-  return false;
+/**
+  Comprueba si el usuario está logueado o no
+*/
+function userLoggedIn(storage) {
+  return storage.currenUser;
 }
 
 

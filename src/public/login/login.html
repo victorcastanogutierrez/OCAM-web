@@ -14,8 +14,13 @@
               ng-model='loginCtrl.password' required>
           </md-input-container>
         </div>
-        <md-button class="md-raised md-primary" ng-click="loginCtrl.login()">Login</md-button>
+        <md-button class="md-raised md-primary" ng-click="loginCtrl.login()"
+          ng-disabled="loginCtrl.loading">Login</md-button>
       </form>
+      <md-progress-linear ng-show="loginCtrl.loading" md-mode="indeterminate"></md-progress-linear>
+      <div class="alert alert-danger" role="alert" ng-show="loginCtrl.error">
+        <p>{{ loginCtrl.errorMsg }}</p>
+      </div>
     </div>
   </div>
 </div>
