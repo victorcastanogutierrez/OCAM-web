@@ -19,11 +19,9 @@ function routeConfig ($stateProvider, $locationProvider) {
       url: '/',
       templateUrl : 'src/public/actList/actList.html'
     })
-    .state('public.login', {
-      url: '/login',
-      templateUrl : 'src/public/login/login.html',
-      controller: 'loginController',
-      controllerAs: 'loginCtrl'
+    .state('public.access', {
+      url: '/access',
+      templateUrl : 'src/public/access/access.html'
     });
   }
 })();

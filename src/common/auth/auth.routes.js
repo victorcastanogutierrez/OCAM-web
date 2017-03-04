@@ -3,7 +3,7 @@
 
 angular.module('common')
 .run(routingConfiguration)
-.constant('LOGIN_STATE', 'public.login');
+.constant('LOGIN_STATE', 'public.access');
 
 /**
   Comprueba los permisos de acceso a una página estando logueado o no

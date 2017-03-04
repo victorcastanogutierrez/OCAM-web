@@ -1,0 +1,18 @@
+<div class="col-md-4 col-md-offset-4">
+  <md-tabs md-dynamic-height md-border-bottom>
+    <md-tab label="Login" ng-disabled="$ctrl.loading">
+      <md-content class="md-padding">
+        <div class="panel-body">
+          <!-- LoginForm component -->
+          <login-form on-error="$ctrl.msg = msg" loading="$ctrl.loading"/>
+        </div>
+        <errors-component msg="$ctrl.msg" loadingbar="$ctrl.loading"/>
+      </md-content>
+    </md-tab>
+    <md-tab label="Registro" ng-disabled="$ctrl.loading">
+      <md-content class="md-padding">
+      <errors-component msg="accessCtrl.msg"/>
+      </md-content>
+    </md-tab>
+  </md-tabs>
+</div>
