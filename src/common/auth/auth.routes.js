@@ -12,8 +12,8 @@ angular.module('common')
 routingConfiguration.$inject = ['$rootScope', '$state', 'LOGIN_STATE', '$localStorage']
 function routingConfiguration($rootScope, $state, LOGIN_STATE, $localStorage) {
 
-    $rootScope.$on('$locationChangeStart', function (event, next, current) {
-        var authState = isAuthState(next);
+    $rootScope.$on("$stateChangeStart", function (e, toState, toParams, fromState, fromParams, error) {
+        var authState = isAuthState(toState);
         if (authState && !userLoggedIn($localStorage)) {
           $state.go(LOGIN_STATE);
         }
