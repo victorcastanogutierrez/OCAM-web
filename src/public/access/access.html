@@ -1,22 +1,28 @@
-<div layout="row">
-  <div flex="35"/>
-  <div flex="30">
-  <md-tabs md-dynamic-height md-border-bottom>
-    <md-tab label="Login" ng-disabled="$ctrl.loading">
-      <md-content class="md-padding">
-        <div class="panel-body">
-          <!-- LoginForm component -->
-          <login-form on-error="$ctrl.msg = msg" loading="$ctrl.loading"/>
-        </div>
-        <errors-component msg="$ctrl.msg" loadingbar="$ctrl.loading"/>
-      </md-content>
-    </md-tab>
-    <md-tab label="Registro" ng-disabled="$ctrl.loading">
-      <md-content class="md-padding">
-      <errors-component msg="accessCtrl.msg"/>
-      </md-content>
-    </md-tab>
-  </md-tabs>
-  </div>
-  <div flex="35"/>
+<div layout="column" ng-cloak class="md-inline-form">
+  <md-content md-theme="default" layout-gt-sm="row" layout-padding>
+    <div flex="35"/>
+    <div flex="30">
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="Login" ng-disabled="$ctrl.loading">
+        <md-content class="md-padding">
+          <div class="panel-body">
+            <!-- LoginForm component -->
+            <login-form on-error="$ctrl.msg = msg" loading="$ctrl.loading"/>
+          </div>
+          <errors-component msg="$ctrl.msg" loadingbar="$ctrl.loading"/>
+        </md-content>
+      </md-tab>
+      <md-tab label="Registro" ng-disabled="$ctrl.loading">
+        <md-content class="md-padding">
+          <div class="panel-body">
+            <!-- LoginForm component -->
+            <register-form on-error="$ctrl.msg = msg" loading="$ctrl.loading"/>
+          </div>
+          <errors-component msg="$ctrl.msg" loadingbar="$ctrl.loading"/>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+    </div>
+    <div flex="35"/>
+  </md-content>
 </div>

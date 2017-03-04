@@ -4,8 +4,10 @@
 angular.module('common')
 .factory('Auth', AuthFactory);
 
-AuthFactory.$inject =['$http', '$base64', 'SERVER_URL', 'LOGIN_API', '$localStorage'];
-function AuthFactory($http, $base64, SERVER_URL, LOGIN_API, $localStorage) {
+AuthFactory.$inject =['$http', '$base64', 'SERVER_URL',
+  'LOGIN_API', '$localStorage', 'REGISTER_API', 'HIKER_EXISTS_API'];
+function AuthFactory($http, $base64, SERVER_URL,
+    LOGIN_API, $localStorage, REGISTER_API, HIKER_EXISTS_API) {
 
   var Auth = {
     logIn: function (username, password, successCallback, errorCallback) {
@@ -26,6 +28,28 @@ function AuthFactory($http, $base64, SERVER_URL, LOGIN_API, $localStorage) {
     },
     logOut: function () {
       //TODO
+    },
+    register: function(newUser, successCallback, errorCallback) {
+      $http({
+        method: 'POST',
+        url: SERVER_URL + REGISTER_API,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: angular.toJson(newUser)
+      }).then(function (response) {
+        successCallback(response);
+      }, function (response) {
+        errorCallback(response);
+      });
+    },
+    existsHiker: function(username, successCallback) {
+      $http({
+        method: 'GET',
+        url: SERVER_URL + HIKER_EXISTS_API + '/' + username
+      }).then(function (response) {
+        successCallback(response.data);
+      });
     }
   }
 

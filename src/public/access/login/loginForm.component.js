@@ -20,7 +20,7 @@ function LoginFormController(Auth, $scope) {
   $ctrl.login = function() {
 
     if (!$ctrl.username || !$ctrl.password) {
-      $ctrl.displayError("Credenciales inválidas.")
+      displayError("Credenciales inválidas.")
       return;
     }
 
@@ -36,15 +36,15 @@ function LoginFormController(Auth, $scope) {
     //Login error callback
     var loginError = function(error){
       $ctrl.loading = false;
-      var error;
+      var errormsg;
       if (error.status == 401) {
-        error = "Credenciales inválidas.";
+        errormsg = "Credenciales inválidas.";
       } else {
-        error = "En estos momentos no es posible acceder a " +
+        errormsg = "En estos momentos no es posible acceder a " +
           "la aplicación. Inténtalo más tarde.";
       }
       //Comunicamos el mensaje de error al controllador que contiene el componente
-      $ctrl.displayError(error);
+      displayError(errormsg);
     };
 
     Auth.logIn($ctrl.username, $ctrl.password, loginSuccess, loginError);
@@ -54,7 +54,7 @@ function LoginFormController(Auth, $scope) {
     $ctrl.onError({msg : false});
   }
 
-  $ctrl.displayError = function(errorMsg) {
+  var displayError = function(errorMsg) {
     $ctrl.onError({msg : errorMsg});
   }
 
