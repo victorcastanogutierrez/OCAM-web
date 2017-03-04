@@ -17,11 +17,17 @@ function routeConfig ($stateProvider, $locationProvider) {
     })
     .state('public.actList', {
       url: '/',
-      templateUrl : 'src/public/actList/actList.html'
+      templateUrl : 'src/public/actList/actList.html',
+      data: {
+        authorization: false
+      }
     })
     .state('public.access', {
       url: '/access',
-      templateUrl : 'src/public/access/access.html'
+      templateUrl : 'src/public/access/access.html',
+      data: {
+        authorization: false
+      }
     });
   }
 })();

@@ -1,12 +1,14 @@
-<md-content class="md-padding" >
-    <md-nav-bar md-selected-nav-item="page2" nav-bar-aria-label="navigation links">
-      <md-nav-item md-nav-sref="public.actList" name="activities">
-              Actividades
-      </md-nav-item>
-      <md-nav-item md-nav-sref="public.access" name="access">
-              Acceso
-      </md-nav-item>
-    </md-nav-bar>
-</md-content>
+<div ng-controller="headerController as headerCtrl" ng-cloak>
+  <md-content class="md-padding" >
+      <md-nav-bar md-selected-nav-item="headerCtrl.currentNavItem" nav-bar-aria-label="navigation links">
+        <md-nav-item md-nav-sref="public.actList" name="activities">
+                Actividades
+        </md-nav-item>
+        <md-nav-item md-nav-sref="public.access" name="access">
+                Acceso
+        </md-nav-item>
+      </md-nav-bar>
+  </md-content>
+</div>
 <ui-view>
 </ui-view>
