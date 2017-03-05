@@ -11,8 +11,8 @@ angular.module('common')
   comprobando así si el servidor no es capaz de responder
   y redireccionar por tanto al usuario a la página de login.
 */
-LoadingHttpInterceptor.$inject = ['$rootScope', '$q', 'LOGIN_STATE', '$localStorage'];
-function LoadingHttpInterceptor($rootScope, $q, LOGIN_STATE, $localStorage) {
+LoadingHttpInterceptor.$inject = ['$rootScope', '$q', 'LOGIN_STATE'];
+function LoadingHttpInterceptor($rootScope, $q, LOGIN_STATE) {
 
   var loadingCount = 0;
   var loadingEventName = 'spinner:activate';
@@ -41,7 +41,7 @@ function LoadingHttpInterceptor($rootScope, $q, LOGIN_STATE, $localStorage) {
 
       //Servidor caído
       if (response.status == -1) {
-        Auth.logOut();
+        //TODO Redireccionar a pagina 404
       }
       return $q.reject(response);
     }

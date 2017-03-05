@@ -7,20 +7,19 @@
         <md-content class="md-padding">
           <div class="panel-body">
             <!-- LoginForm component -->
-            <login-form on-error="$ctrl.msg = msg" loading="$ctrl.loading"/>
+            <login-form loading="$ctrl.loading"/>
             <loading></loading>
           </div>
-          <errors-component msg="$ctrl.msg" loadingbar="$ctrl.loading"/>
         </md-content>
       </md-tab>
       <md-tab label="Registro" ng-disabled="$ctrl.loading">
         <md-content class="md-padding">
           <div class="panel-body">
             <!-- LoginForm component -->
-            <register-form on-error="$ctrl.msg = msg" loading="$ctrl.loading"/>
+            <register-form loading="$ctrl.loading"/>
             <loading></loading>
           </div>
-          <errors-component msg="$ctrl.msg" loadingbar="$ctrl.loading"/>
+
         </md-content>
       </md-tab>
     </md-tabs>

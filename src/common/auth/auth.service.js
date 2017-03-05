@@ -14,6 +14,9 @@ function AuthFactory($localStorage) {
         token: data.token,
         refreshToken: data.refreshToken
       };
+    },
+    logOutUser: function() {
+      delete $localStorage.currentUser;
     }
   }
   return Auth;

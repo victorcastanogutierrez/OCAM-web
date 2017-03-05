@@ -7,13 +7,12 @@ angular.module('public')
   templateUrl: 'src/public/access/login/login.template.html',
   controllerAs: 'loginCtrl',
   bindings: {
-    onError: '&',
     loading: '='
   }
 });
 
-LoginFormController.$inject = ['hikerService', '$scope'];
-function LoginFormController(hikerService, $scope) {
+LoginFormController.$inject = ['hikerService'];
+function LoginFormController(hikerService) {
   var $ctrl = this;
   $ctrl.loading = false;
 
@@ -36,26 +35,20 @@ function LoginFormController(hikerService, $scope) {
     //Login error callback
     var loginError = function(error){
       $ctrl.loading = false;
-      var errormsg;
       if (error.status == 401) {
-        errormsg = "Credenciales inválidas.";
-      } else {
-        errormsg = "En estos momentos no es posible acceder a " +
-          "la aplicación. Inténtalo más tarde.";
+        displayError("Credenciales inválidas.");
       }
-      //Comunicamos el mensaje de error al controllador que contiene el componente
-      displayError(errormsg);
     };
 
     hikerService.logIn($ctrl.username, $ctrl.password, loginSuccess, loginError);
   };
 
   $ctrl.disableErrors = function() {
-    $ctrl.onError({msg : false});
+    $ctrl.errors = false;
   }
 
   var displayError = function(errorMsg) {
-    $ctrl.onError({msg : errorMsg});
+    $ctrl.errors = errorMsg;
   }
 
 }
