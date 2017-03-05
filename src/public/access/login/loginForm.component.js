@@ -12,8 +12,8 @@ angular.module('public')
   }
 });
 
-LoginFormController.$inject = ['Auth', '$scope'];
-function LoginFormController(Auth, $scope) {
+LoginFormController.$inject = ['hikerService', '$scope'];
+function LoginFormController(hikerService, $scope) {
   var $ctrl = this;
   $ctrl.loading = false;
 
@@ -47,7 +47,7 @@ function LoginFormController(Auth, $scope) {
       displayError(errormsg);
     };
 
-    Auth.logIn($ctrl.username, $ctrl.password, loginSuccess, loginError);
+    hikerService.logIn($ctrl.username, $ctrl.password, loginSuccess, loginError);
   };
 
   $ctrl.disableErrors = function() {

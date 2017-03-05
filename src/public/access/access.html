@@ -8,6 +8,7 @@
           <div class="panel-body">
             <!-- LoginForm component -->
             <login-form on-error="$ctrl.msg = msg" loading="$ctrl.loading"/>
+            <loading></loading>
           </div>
           <errors-component msg="$ctrl.msg" loadingbar="$ctrl.loading"/>
         </md-content>
@@ -17,6 +18,7 @@
           <div class="panel-body">
             <!-- LoginForm component -->
             <register-form on-error="$ctrl.msg = msg" loading="$ctrl.loading"/>
+            <loading></loading>
           </div>
           <errors-component msg="$ctrl.msg" loadingbar="$ctrl.loading"/>
         </md-content>

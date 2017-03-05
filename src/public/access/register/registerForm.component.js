@@ -13,8 +13,8 @@ angular.module('public')
 })
 .constant ('EMAIL_FORMAT', /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/);
 
-RegisterFormController.$inject = ['Auth', '$scope', 'EMAIL_FORMAT'];
-function RegisterFormController(Auth, $scope, EMAIL_FORMAT) {
+RegisterFormController.$inject = ['hikerService', '$scope', 'EMAIL_FORMAT'];
+function RegisterFormController(hikerService, $scope, EMAIL_FORMAT) {
   var $ctrl = this;
   $ctrl.loading = false;
   $ctrl.emailFormat = EMAIL_FORMAT;
@@ -52,12 +52,12 @@ function RegisterFormController(Auth, $scope, EMAIL_FORMAT) {
 
     var newUser = getNewUser();
 
-    Auth.existsHiker(newUser.login, function(result) {
+    hikerService.existsHiker(newUser.login, function(result) {
       if (result == 'true') { // El usuario ya existe
         displayError('Nombre de usuario ya existente en el sistema!');
         $ctrl.loading = false;
       } else {
-        Auth.register(newUser, registerSuccess, registerError);
+        hikerService.register(newUser, registerSuccess, registerError);
       }
     });
   };
