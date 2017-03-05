@@ -1,14 +1,29 @@
 <div ng-controller="headerController as headerCtrl" ng-cloak>
-  <md-content class="md-padding" >
-      <md-nav-bar md-selected-nav-item="headerCtrl.currentNavItem" nav-bar-aria-label="navigation links">
-        <md-nav-item md-nav-sref="public.actList" name="activities">
-                Actividades
-        </md-nav-item>
-        <md-nav-item md-nav-sref="public.access" name="access">
-                Acceso
-        </md-nav-item>
-      </md-nav-bar>
-  </md-content>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand">OCAM</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li ui-sref-active="active" ng-show="!headerCtrl.user">
+            <a ui-sref="public.actList"> </i><span>Actividades</span></a>
+          </li>
+          <li ui-sref-active="active" ng-show="headerCtrl.user">
+            <a ui-sref="private.actList"> </i><span>Actividades</span></a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li ui-sref-active="active"ng-show="!headerCtrl.user">
+            <a ui-sref="public.access"> </i><span>Acceso</span></a>
+          </li>
+          <li ui-sref-active="active" ng-show="headerCtrl.user">
+            <a ui-sref="public.access">  </i><span>Cerrar sesión</span></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </div>
 <ui-view>
 </ui-view>

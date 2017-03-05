@@ -19,7 +19,7 @@ function hikerFactory($http, $base64, SERVER_URL,
            'password': $base64.encode(password)
          }
       }).then(function (response) {
-        Auth.saveUserData(username, response.data);
+        Auth.logUser(username, response.data);
         configHttpHeaders(response.data);
         successCallback(response);
       }, function (response) {

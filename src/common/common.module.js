@@ -2,7 +2,7 @@
 "use strict";
 
 angular.module('common', ['base64', 'ngStorage'])
-.constant('SERVER_URL', 'https://localhost:8443')
+.constant('SERVER_URL', 'https://ocam-server.herokuapp.com')
 .constant('LOGIN_API', '/api/auth/login')
 .constant('REGISTER_API', '/hiker')
 .config(CommonConfig);
