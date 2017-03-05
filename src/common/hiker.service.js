@@ -5,9 +5,9 @@ angular.module('common')
 .factory('hikerService', hikerFactory);
 
 hikerFactory.$inject =['$http', '$base64', 'SERVER_URL',
-  'LOGIN_API', 'REGISTER_API', 'HIKER_EXISTS_API', 'Auth'];
+  'LOGIN_API', 'REGISTER_API', 'Auth'];
 function hikerFactory($http, $base64, SERVER_URL,
-    LOGIN_API, REGISTER_API, HIKER_EXISTS_API, Auth) {
+    LOGIN_API, REGISTER_API, Auth) {
 
   var Hiker = {
     logIn: function (username, password, successCallback, errorCallback) {
@@ -33,19 +33,11 @@ function hikerFactory($http, $base64, SERVER_URL,
         headers: {
           'Content-Type': 'application/json'
         },
-        data: angular.toJson(newUser)
-      }).then(function (response) {
-        successCallback(response);
-      }, function (response) {
-        errorCallback(response);
-      });
-    },
-    existsHiker: function(username, successCallback) {
-      $http({
-        method: 'GET',
-        url: SERVER_URL + HIKER_EXISTS_API + '/' + username
+        data: JSON.stringify(newUser)
       }).then(function (response) {
         successCallback(response.data);
+      }, function(err) {
+        errorCallback(err.data);
       });
     }
   }

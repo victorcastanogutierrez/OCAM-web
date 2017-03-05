@@ -20,12 +20,10 @@ angular.module('public')
           if (value) {
               ctrl.$parsers.unshift(function(viewValue) {
                   var origin = scope.passwordVerify;
-                  console.log(origin+", "+viewValue);
                   if (origin !== viewValue) {
                       ctrl.$setValidity("passwordVerify", false);
                       return undefined;
                   } else {
-                    console.log("true");
                       ctrl.$setValidity("passwordVerify", true);
                       return viewValue;
                   }

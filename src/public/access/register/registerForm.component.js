@@ -31,25 +31,17 @@ function RegisterFormController(hikerService, EMAIL_FORMAT) {
     //Registrado con exito
     var registerSuccess = function(result) {
       $ctrl.loading = false;
+      console.log(result);
       //TODO: notificar y redireccionar
     };
 
     //Error en el registro
     var registerError = function(error){
       $ctrl.loading = false;
-      //TODO: controlar coincidencia de correo electronico
+      displayError(error.message);
     };
 
-    var newUser = getNewUser();
-
-    hikerService.existsHiker(newUser.login, function(result) {
-      if (result == 'true') { // El usuario ya existe
-        displayError('Nombre de usuario ya existente en el sistema!');
-        $ctrl.loading = false;
-      } else {
-        hikerService.register(newUser, registerSuccess, registerError);
-      }
-    });
+    hikerService.register(getNewUser(), registerSuccess, registerError);
   };
 
   $ctrl.disableErrors = function() {
