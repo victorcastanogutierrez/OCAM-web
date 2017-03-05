@@ -35,9 +35,13 @@
     <md-input-container class="md-block" flex-gt-sm>
       <input type="password" placeholder="Repite password"
         ng-model='registerCtrl.repassword' name="repassword"
-        ng-click='registerCtrl.disableErrors()' required>
-      <span class="text-red" ng-if="registerForm.repassword.$invalid && registerForm.repassword.$touched">
+        ng-click='registerCtrl.disableErrors()'
+        password-verify='registerCtrl.password' required>
+      <span class="text-red" ng-if="registerForm.repassword.$error.required && registerForm.repassword.$touched">
         Debes introducir tu contraseña!
+      </span>
+      <span class="text-red" ng-show="registerForm.repassword.$error.passwordVerify">
+        Las contraseñas no coinciden
       </span>
     </md-input-container>
   </div>
