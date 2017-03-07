@@ -17,9 +17,16 @@ function routeConfig ($stateProvider, $locationProvider) {
     })
     .state('private.actList', {
       url: '/actividades',
-      templateUrl : 'src/public/actList/actList.html',
+      controller: 'activityListController',
+      controllerAs: 'actListCtrl',
+      templateUrl : 'src/common/actList/actList.html',
       data: {
         authorization: true
+      },
+      resolve: {
+        activityList: ['activityService', function(activityService) {
+          return activityService.findAllPending();
+        }]
       }
     });
   }

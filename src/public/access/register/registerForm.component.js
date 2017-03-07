@@ -5,17 +5,13 @@ angular.module('public')
 .component('registerForm', {
   controller: RegisterFormController,
   templateUrl: 'src/public/access/register/register.template.html',
-  controllerAs: 'registerCtrl',
-  bindings: {
-    loading: '='
-  }
+  controllerAs: 'registerCtrl'
 })
 .constant ('EMAIL_FORMAT', /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/);
 
 RegisterFormController.$inject = ['hikerService', 'EMAIL_FORMAT'];
 function RegisterFormController(hikerService, EMAIL_FORMAT) {
   var $ctrl = this;
-  $ctrl.loading = false;
   $ctrl.emailFormat = EMAIL_FORMAT;
 
   $ctrl.register = function() {
@@ -25,19 +21,15 @@ function RegisterFormController(hikerService, EMAIL_FORMAT) {
       return;
     }
 
-    $ctrl.loading = true;
     $ctrl.disableErrors();
 
     //Registrado con exito
     var registerSuccess = function(result) {
-      $ctrl.loading = false;
-      console.log(result);
       //TODO: notificar y redireccionar
     };
 
     //Error en el registro
     var registerError = function(error){
-      $ctrl.loading = false;
       displayError(error.message);
     };
 

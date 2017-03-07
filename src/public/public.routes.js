@@ -17,7 +17,9 @@ function routeConfig ($stateProvider, $locationProvider) {
     })
     .state('public.actList', {
       url: '/',
-      templateUrl : 'src/public/actList/actList.html',
+      controller: 'activityListController',
+      controllerAs: 'actListCtrl',
+      templateUrl : 'src/common/actList/actList.html',
       data: {
         authorization: false
       }

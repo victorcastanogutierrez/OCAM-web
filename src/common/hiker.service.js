@@ -15,6 +15,7 @@ function hikerFactory($http, $base64, SERVER_URL,
         method: 'POST',
         url: SERVER_URL + LOGIN_API,
         headers: {
+           'Content-Type': 'application/json',
            'username': $base64.encode(username),
            'password': $base64.encode(password)
          }

@@ -5,16 +5,12 @@ angular.module('public')
 .component('loginForm', {
   controller: LoginFormController,
   templateUrl: 'src/public/access/login/login.template.html',
-  controllerAs: 'loginCtrl',
-  bindings: {
-    loading: '='
-  }
+  controllerAs: 'loginCtrl'
 });
 
-LoginFormController.$inject = ['hikerService'];
-function LoginFormController(hikerService) {
+LoginFormController.$inject = ['hikerService', '$mdToast', '$scope'];
+function LoginFormController(hikerService, $mdToast, $scope) {
   var $ctrl = this;
-  $ctrl.loading = false;
 
   $ctrl.login = function() {
 
@@ -23,18 +19,15 @@ function LoginFormController(hikerService) {
       return;
     }
 
-    $ctrl.loading = true;
     $ctrl.disableErrors();
 
     //Login success callback
     var loginSuccess = function(result) {
-      $ctrl.loading = false;
-      //TODO: redireccionar a zona privada
+      showWelcomeToast();
     };
 
     //Login error callback
     var loginError = function(error){
-      $ctrl.loading = false;
       if (error.status == 401) {
         displayError("Credenciales inválidas.");
       }
@@ -49,6 +42,15 @@ function LoginFormController(hikerService) {
 
   var displayError = function(errorMsg) {
     $ctrl.errors = errorMsg;
+  }
+
+  var showWelcomeToast = function() {
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent('¡Bienvenido ' + $ctrl.username + '!')
+        .position("bottom, right")
+        .hideDelay(3000)
+    );
   }
 
 }
