@@ -24,7 +24,7 @@ function routeConfig ($stateProvider, $locationProvider) {
         authorization: true
       },
       resolve: {
-        activityList: ['activityService', function(activityService) {
+        'list': ['activityService', function(activityService) {
           return activityService.findAllPending();
         }]
       }

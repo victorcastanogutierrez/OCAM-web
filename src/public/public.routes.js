@@ -22,6 +22,11 @@ function routeConfig ($stateProvider, $locationProvider) {
       templateUrl : 'src/common/actList/actList.html',
       data: {
         authorization: false
+      },
+      resolve: {
+        'list': ['activityService', function(activityService) {
+          return activityService.findAllPending();
+        }]
       }
     })
     .state('public.access', {
