@@ -1,28 +1,10 @@
+<div ng-cloak="" class="virtualRepeatdemoInfiniteScroll">
+  <md-content layout="column">
 
-<div layout="row" layout-wrap>
-<div flex="10"></div>
-<div flex="80">
-  <md-toolbar layout="row" class="md-hue-3">
-    <div class="md-toolbar-tools">
-      <span>Actividades pendientes</span>
-    </div>
-  </md-toolbar>
-  <md-content>
-    <!-- <md-list>
-      <md-list-item class="md-3-line" ng-repeat="act in actListCtrl.list" ng-click="null"
-        md-on-demand>
-        <div class="md-list-item-text" layout="column">
-          <h3>{{ act.shortDescription }}</h3>
-        </div>
-      </md-list-item>
-    </md-list> -->
-    <md-virtual-repeat-container id="vertical-container">
-      <div md-virtual-repeat="item in ctrl.dynamicItems" md-on-demand
-          class="repeated-item" flex>
+    <md-virtual-repeat-container id="vertical-container" >
+      <div md-virtual-repeat="item in actListCtrl.infiniteItems" md-on-demand="" class="repeated-item" flex="">
         {{item}}
       </div>
     </md-virtual-repeat-container>
   </md-content>
-</div>
-<div flex="80"></div>
 </div>
