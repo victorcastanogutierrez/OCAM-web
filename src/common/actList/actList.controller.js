@@ -4,68 +4,63 @@
 angular.module('common')
 .controller('activityListController', activityListController);
 
-activityListController.$inject = ['list', '$timeout'];
-function activityListController(list, $timeout) {
+/**
+  Controlador que encapsula la lógica de la tabla de actividades.
+
+  Realiza una búsqueda de las actividades bajo demanda. Buscará todas aquellas
+  actividades hasta la página seleccionada, teniendo inyectado por parámetro el
+  máximo de actividades existentes.
+
+*/
+activityListController.$inject = ['list', 'numEle', 'activityService', '$q'];
+function activityListController(list, numEle, activityService, $q) {
 
   var $ctrl = this;
 
-  var initialLoad = ;
+  // Configuración de la paginación
+  // Lista de actividades
+  $ctrl.activities = list;
+  // Página seleccionada en todo momento
+  $ctrl.page = 1;
+  // Variable auxiliar para manejar el cambio de página
+  $ctrl.oldPage = 1;
+  // Máximo de elementos por página
+  $ctrl.itemsPage = 5;
+  // Número de actividades existentes en el servidor bajo los criterios de
+  // búsqueda en cada momento
+  $ctrl.numEle = numEle;
+  // Array que indica que páginas están ya descargadas
+  $ctrl.cached = [true];
 
-  this.infiniteItems = {
-    // Primera cantidad precargada al cargar la página
-    numLoaded_: list.length,
-    toLoad_: 0,
+  // Callback que maneja el cambio de página
+  $ctrl.onPageChange = function() {
+    if ($ctrl.page != $ctrl.oldPage) {
+      //Auxiliar para no perder el valor
+      var oldP = $ctrl.oldPage;
+      //Actualizamos el nuevo valor con la página nueva
+      $ctrl.oldPage = $ctrl.page;
+      //Comprueba si tenemos que cargar o no más elementos
+      //en cuyo caso cargaríamos todos hasta la página necesaria
+      if (!$ctrl.cached[$ctrl.page]) {
 
-    getItemAtIndex: function(index) {
-      if (index > this.numLoaded_) {
-        this.fetchMoreItems_(index);
-        return null;
-      }
+        var deferred = $q.defer();
+        $ctrl.promise = deferred.promise;
 
-      return index;
-    },
+        var nItemsFrom = (oldP * 5) ;
+        var nItemsTo = ($ctrl.page * 5);
 
-    getLength: function() {
-      return this.numLoaded_ + 5;
-    },
-
-    fetchMoreItems_: function(index) {
-      if (this.toLoad_ < index) {
-        this.toLoad_ += 20;
-        $timeout(angular.noop, 300).then(angular.bind(this, function() {
-          this.numLoaded_ = this.toLoad_;
-        }));
+        activityService.findAllPending(nItemsFrom, nItemsTo, function(res) {
+          $ctrl.activities = $ctrl.activities.concat(res);
+          //Marcamos como cacheadas las páginas que hemos descargado
+          for (var i = oldP; i <= $ctrl.page; i++) {
+            $ctrl.cached[i] = true;
+          }
+          deferred.resolve();
+        });
       }
     }
-  };
 
-    /*this.infiniteItems = {
-      numLoaded_: 0,
-      toLoad_: 0,
-
-      getItemAtIndex: function(index) {
-        if (index > this.numLoaded_) {
-          this.fetchMoreItems_(index);
-          return null;
-        }
-
-        return index;
-      },
-
-      getLength: function() {
-        return this.numLoaded_ + 5;
-      },
-
-      fetchMoreItems_: function(index) {
-
-        if (this.toLoad_ < index) {
-          this.toLoad_ += 20;
-          $timeout(angular.noop, 300).then(angular.bind(this, function() {
-            this.numLoaded_ = this.toLoad_;
-          }));
-        }
-      }
-    };*/
+  }
 }
 
 })();

@@ -25,7 +25,7 @@ function routeConfig ($stateProvider, $locationProvider) {
       },
       resolve: {
         'list': ['activityService', function(activityService) {
-          return activityService.findAllPending();
+          return activityService.findAllPending(0, 10);
         }]
       }
     });

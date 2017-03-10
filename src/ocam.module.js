@@ -4,7 +4,7 @@
 /**
 Application main module
 */
-angular.module('ocam', ['public', 'common', 'private', 'ngMaterial'])
+angular.module('ocam', ['public', 'common', 'private', 'ngMaterial', 'md.data.table'])
 .config(config);
 
 config.$inject = ['$urlRouterProvider', '$mdThemingProvider'];

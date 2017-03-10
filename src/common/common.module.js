@@ -7,6 +7,7 @@ angular.module('common', ['base64', 'ngStorage'])
 .constant('LOGIN_API', '/api/auth/login')
 .constant('REGISTER_API', '/hiker')
 .constant('PENDING_ACTIVITIES_API', '/pendingActivities')
+.constant('COUNT_PENDING_ACTIVITIES_API', '/countPendingActivities')
 .config(CommonConfig);
 
 CommonConfig.$inject = ['$httpProvider']
