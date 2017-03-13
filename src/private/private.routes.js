@@ -25,7 +25,25 @@ function routeConfig ($stateProvider, $locationProvider) {
       },
       resolve: {
         'list': ['activityService', function(activityService) {
-          return activityService.findAllPending(0, 10);
+          return activityService.findAllPending(0, 5);
+        }],
+        'numEle': ['activityService', function(activityService) {
+          return activityService.findCountAll();
+        }]
+      }
+    })
+    .state('private.profile', {
+      url: '/profile',
+      controller: 'profileController',
+      controllerAs: 'profileCtrl',
+      templateUrl : 'src/private/profile/profile.template.html',
+      data: {
+        authorization: true
+      },
+      resolve: {
+        'userData': ['Auth', 'hikerService', function(Auth, hikerService) {
+          var user = Auth.isUserLoggedIn();
+          return hikerService.getHikerData(user.username);
         }]
       }
     });

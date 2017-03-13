@@ -2,7 +2,8 @@
 'use strict';
 
 angular.module('common')
-.controller('activityListController', activityListController);
+.controller('activityListController', activityListController)
+.constant('DEFAULT_ITEM_PER_PAGE');
 
 /**
   Controlador que encapsula la lógica de la tabla de actividades.
@@ -12,8 +13,10 @@ angular.module('common')
   máximo de actividades existentes.
 
 */
-activityListController.$inject = ['list', 'numEle', 'activityService', '$q'];
-function activityListController(list, numEle, activityService, $q) {
+activityListController.$inject = ['list', 'numEle', 'activityService', '$q',
+  'DEFAULT_ITEM_PER_PAGE'];
+function activityListController(list, numEle, activityService, $q,
+    DEFAULT_ITEM_PER_PAGE) {
 
   var $ctrl = this;
 
@@ -25,7 +28,7 @@ function activityListController(list, numEle, activityService, $q) {
   // Variable auxiliar para manejar el cambio de página
   $ctrl.oldPage = 1;
   // Máximo de elementos por página
-  $ctrl.itemsPage = 5;
+  $ctrl.itemsPage = DEFAULT_ITEM_PER_PAGE;
   // Número de actividades existentes en el servidor bajo los criterios de
   // búsqueda en cada momento
   $ctrl.numEle = numEle;

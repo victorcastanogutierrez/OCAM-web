@@ -14,11 +14,21 @@
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown" ng-show="headerCtrl.user">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              {{headerCtrl.user.username}}<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a ui-sref-active="active" ui-sref="private.profile">
+                Mi perfil</a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li><a ui-sref="public.access">Cerrar sesión</a></li>
+            </ul>
+          </li>
+
           <li ui-sref-active="active"ng-show="!headerCtrl.user">
             <a ui-sref="public.access"> </i><span>Acceso</span></a>
-          </li>
-          <li ui-sref-active="active" ng-show="headerCtrl.user">
-            <a ui-sref="public.access">  </i><span>Cerrar sesión</span></a>
           </li>
         </ul>
       </div>
