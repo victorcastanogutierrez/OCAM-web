@@ -5,9 +5,9 @@ angular.module('common')
 .factory('hikerService', hikerFactory);
 
 hikerFactory.$inject =['$http', '$base64', 'SERVER_URL',
-  'LOGIN_API', 'REGISTER_API', 'Auth', 'HIKER_DATA'];
+  'LOGIN_API', 'REGISTER_API', 'Auth', 'HIKER_DATA', 'HIKER_CHANGE_PASSWORD'];
 function hikerFactory($http, $base64, SERVER_URL,
-    LOGIN_API, REGISTER_API, Auth, HIKER_DATA) {
+    LOGIN_API, REGISTER_API, Auth, HIKER_DATA, HIKER_CHANGE_PASSWORD) {
 
   var Hiker = {
     logIn: function (username, password, successCallback, errorCallback) {
@@ -21,7 +21,7 @@ function hikerFactory($http, $base64, SERVER_URL,
          }
       }).then(function (response) {
         Auth.logUser(username, response.data);
-        configHttpHeaders(response.data);
+        Auth.configureHttpAuth();
         successCallback(response);
       }, function (response) {
         errorCallback(response);
@@ -46,16 +46,18 @@ function hikerFactory($http, $base64, SERVER_URL,
       .then(function (response) {
         return response.data;
       });
+    },
+    changePassword: function (dto, success, error) {
+      $http({
+        method: 'POST',
+        url: SERVER_URL + HIKER_CHANGE_PASSWORD,
+        data: JSON.stringify(dto)
+      }).then(function (response) {
+        success(response.data);
+      }, function(err) {
+        error(err.data);
+      });
     }
-  }
-
-  /**
-    Preconfigura el servicio $http para enviar el token
-    en sucesivas peticiones sin tener que añadirlo manualmente
-    en todas las cabeceras
-  */
-  var configHttpHeaders = function (data) {
-    $http.defaults.headers.common.Authorization = data.token;
   }
 
   return Hiker;

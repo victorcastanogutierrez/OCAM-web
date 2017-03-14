@@ -1,0 +1,56 @@
+<md-dialog aria-label="Mango (Fruit)" ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Cambiar password</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="dialog.cancel()">
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <form name='passwordForm' novalidate>
+          Introduce tu password actual para verificar tu identidad
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <md-icon class="material-icons md-24" style="color: #50D050">lock outline</md-icon>
+            <input type="password" placeholder="Password"
+              ng-model="dialogCtrl.actPassword"
+              ng-maxlength="256" name="actPassword" required>
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <md-icon class="material-icons md-24" style="color: #50D050">lock outline</md-icon>
+            <input type="password" placeholder="Nueva password"
+              ng-model="dialogCtrl.newPassword"
+              ng-maxlength="256" name="newPassword" required>
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <md-icon class="material-icons md-24" style="color: #50D050">lock outline</md-icon>
+            <input type="password" placeholder="Repite password"
+              ng-maxlength="256" name="rePassword"
+              ng-model="dialogCtrl.rePassword" required>
+          </md-input-container>
+          <div ng-show="dialogCtrl.error">
+            <p>{{ dialogCtrl.error }}</p>
+          </div>
+          <loading/>
+        </form>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-disabled="dialogCtrl.loading"
+        ng-click="dialogCtrl.answer()" md-autofocus>
+       Siguiente
+      </md-button>
+      <md-button ng-disabled="dialogCtrl.loading"
+        ng-click="dialogCtrl.cancel()">
+        Cancelar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

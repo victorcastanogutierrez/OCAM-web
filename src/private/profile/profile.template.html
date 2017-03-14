@@ -2,7 +2,7 @@
   <div>
     <md-input-container>
       <label>Nombre de usuario</label>
-      <input ng-model="profileCtrl.user.username" disabled>
+      <input ng-model="profileCtrl.user.login" disabled>
     </md-input-container>
 
     <md-input-container>
@@ -11,3 +11,6 @@
     </md-input-container>
   </div>
 </md-content>
+<md-button class="md-primary md-raised" ng-click="profileCtrl.mostrarDialog($event)"  >
+  Cambiar password
+</md-button>

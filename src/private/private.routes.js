@@ -16,7 +16,7 @@ function routeConfig ($stateProvider, $locationProvider) {
       templateUrl: 'src/common/header/header.html'
     })
     .state('private.actList', {
-      url: '/actividades',
+      url: '/activities',
       controller: 'activityListController',
       controllerAs: 'actListCtrl',
       templateUrl : 'src/common/actList/actList.html',

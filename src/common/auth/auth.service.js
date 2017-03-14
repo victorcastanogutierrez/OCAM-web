@@ -4,8 +4,8 @@
 angular.module('common')
 .factory('Auth', AuthFactory);
 
-AuthFactory.$inject =['$localStorage', '$state', '$rootScope'];
-function AuthFactory($localStorage, $state, $rootScope) {
+AuthFactory.$inject =['$localStorage', '$state', '$rootScope', '$http'];
+function AuthFactory($localStorage, $state, $rootScope, $http) {
 
   var Auth = {
     logUser: function(username, data) {
@@ -24,6 +24,17 @@ function AuthFactory($localStorage, $state, $rootScope) {
     },
     isUserLoggedIn: function() {
       return $localStorage.currentUser;
+    },
+    /**
+      Preconfigura el servicio $http para enviar el token
+      en sucesivas peticiones sin tener que añadirlo manualmente
+      en todas las cabeceras
+    */
+    configureHttpAuth: function() {
+      if ($localStorage.currentUser) {
+        $http.defaults.headers.common['Authorization'] =
+          $localStorage.currentUser.token;
+      }
     }
   }
   return Auth;
