@@ -46,6 +46,18 @@ function routeConfig ($stateProvider, $locationProvider) {
           return hikerService.getHikerData(user.username);
         }]
       }
+    })
+    .state('private.activity', {
+      url: '/activity',
+      controller: 'activityController',
+      controllerAs: 'activityCtrl',
+      templateUrl : 'src/private/activity/activity.template.html',
+      data: {
+        authorization: true
+      },
+      params: {
+        activityId: null
+      }
     });
   }
 })();

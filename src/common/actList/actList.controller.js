@@ -3,7 +3,7 @@
 
 angular.module('common')
 .controller('activityListController', activityListController)
-.constant('DEFAULT_ITEM_PER_PAGE');
+.constant('DEFAULT_ITEM_PER_PAGE', 5);
 
 /**
   Controlador que encapsula la lógica de la tabla de actividades.
@@ -14,9 +14,9 @@ angular.module('common')
 
 */
 activityListController.$inject = ['list', 'numEle', 'activityService', '$q',
-  'DEFAULT_ITEM_PER_PAGE'];
+  'DEFAULT_ITEM_PER_PAGE', '$state'];
 function activityListController(list, numEle, activityService, $q,
-    DEFAULT_ITEM_PER_PAGE) {
+    DEFAULT_ITEM_PER_PAGE, $state) {
 
   var $ctrl = this;
 
@@ -62,7 +62,10 @@ function activityListController(list, numEle, activityService, $q,
         });
       }
     }
+  }
 
+  $ctrl.seeActivityDetails = function() {
+    $state.go('private.activity')
   }
 }
 

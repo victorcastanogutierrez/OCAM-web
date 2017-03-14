@@ -8,8 +8,8 @@ angular.module('ocam', ['public', 'common', 'private', 'ngMaterial', 'md.data.ta
 .config(config)
 .run(authConfig);
 
-config.$inject = ['$urlRouterProvider', '$mdThemingProvider'];
-function config($urlRouterProvider, $mdThemingProvider) {
+config.$inject = ['$urlRouterProvider', '$mdThemingProvider', '$mdAriaProvider'];
+function config($urlRouterProvider, $mdThemingProvider, $mdAriaProvider) {
 
   // Si va a una ruta no conocida le mandamos a /actividades
   // que es la lista de actividades de la zona privada.
@@ -21,6 +21,9 @@ function config($urlRouterProvider, $mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
     .accentPalette('brown');
+
+  //Disable some kind of warnings
+  $mdAriaProvider.disableWarnings();
 }
 
 authConfig.$inject = ['Auth']

@@ -30,5 +30,6 @@
 </md-table-container>
 <md-table-pagination md-limit="actListCtrl.itemsPage" md-page="actListCtrl.page"
   md-total="{{actListCtrl.numEle}}" md-page-select="true"
-  md-boundary-links="true" md-on-paginate="actListCtrl.onPageChange()">
+  md-boundary-links="false" md-on-paginate="actListCtrl.onPageChange()"
+  limitOptions="[5]" >
 </md-table-pagination>
