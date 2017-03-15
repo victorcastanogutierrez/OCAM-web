@@ -7,7 +7,8 @@
 <!-- exact table from live demo -->
 <md-table-container>
   <table md-table>
-    <thead md-head md-order="actListCtrl.order">
+    <thead md-head md-order="actListCtrl.order"
+      md-progress="actListCtrl.promise">
       <tr md-row>
         <th md-column md-order-by="id">ID</th>
         <th md-column md-order-by="startDate">Fecha</th>
@@ -16,8 +17,7 @@
       </tr>
     </thead>
     <tbody md-body>
-      <tr md-row md-select="activity" md-select-id="id" md-auto-select
-        ng-repeat="activity in actListCtrl.activities |
+      <tr md-row ng-repeat="activity in actListCtrl.activities |
           limitTo: actListCtrl.itemsPage : (actListCtrl.page - 1) * actListCtrl.itemsPage |
           orderBy: actListCtrl.order">
         <td md-cell>{{activity.id}}</td>

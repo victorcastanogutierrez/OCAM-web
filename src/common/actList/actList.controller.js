@@ -64,6 +64,13 @@ function activityListController(list, numEle, activityService, $q,
     }
   }
 
+  /**
+    Callback que maneja la selección de un item de la lista
+  */
+  $ctrl.selectItem = function(item) {
+    console.log("Selecciona");
+  }
+
   $ctrl.seeActivityDetails = function() {
     $state.go('private.activity')
   }
