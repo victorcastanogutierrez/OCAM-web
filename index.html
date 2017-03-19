@@ -76,6 +76,12 @@
     <script src="src/common/actList/actList.controller.js"></script>
 
     <!-- Private Module -->
+    <!-- TODO: Sacarlo a un fichero propio -->
+    <script type="text/ng-template" id="mapa.trackControl.html" >
+      <button class="button gmaps-button" ng-click="controlTrack()">
+        Mostrar/Ocultar track
+      </button>
+    </script>
     <script src="src/private/private.module.js"></script>
     <script src="src/private/private.routes.js"></script>
     <script src="src/private/profile/profile.controller.js"></script>

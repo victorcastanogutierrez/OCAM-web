@@ -1,1 +1,5 @@
 .angular-google-map-container { height: 600px; }
+.gmaps-button {
+direction: ltr; overflow: hidden; text-align: center; color: rgb(0, 0, 0); font-family: Roboto, Arial, sans-serif; user-select: none; font-size: 11px; background-color: rgb(255, 255, 255); padding: 8px; border-bottom-left-radius: 2px; border-top-left-radius: 2px; -webkit-background-clip: padding-box; background-clip: padding-box; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; min-width: 28px; font-weight: 500;
+cursor: pointer;
+}
