@@ -1,0 +1,50 @@
+<div layout="row" >
+  <div flex="95">
+    <div layout="column" >
+      <div flex-offset-gt-sm="5" flex="100">
+        <h1>{{ activityCtrl.activity.shortDescription }} </h1>
+        <br>
+        <form name='actForm' novalidate>
+          <div>
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Descripción de la ruta de la actividad</label>
+              <textarea ng-disabled="true"
+                ng-model="activityCtrl.activity.longDescription" md-select-on-focus>
+              </textarea>
+            </md-input-container>
+          </div>
+          <div>
+            <md-input-container>
+              <label>Plazas máximas</label>
+              <input ng-disabled="true" required type="number" step="any" name="rate"
+                ng-model="activityCtrl.activity.maxPlaces" min="0"
+                max="100" ng-pattern="/^1234/" />
+            </md-input-container>
+          </div>
+          <div>
+            <md-input-container  class="md-block" flex-gt-sm>
+              <label>Fecha de comienzo</label>
+              <md-datepicker ng-disabled="true" md-placeholder="Fecha de comienzo"
+                ng-model="activityCtrl.activity.startDate" md-hide-icons="calendar">
+              </md-datepicker>
+            </md-input-container>
+          </div>
+          <div>
+            <md-input-container  class="md-block" flex-gt-sm>
+              <label>Estado de la actividad: {{ activityCtrl.getActivityStatus() }}</label><br>
+              <md-button class="md-raised md-primary"
+                ng-disabled="activityCtrl.activity.status != 'RUNNING'">
+                Monitorizar
+              </md-button>
+            </md-input-container>
+          </div>
+        </form>
+        <h2>Track de la ruta</h2>
+        <ui-gmap-google-map
+          center='activityCtrl.map.center' zoom='activityCtrl.map.zoom'>
+        </ui-gmap-google-map>
+      </div>
+    </div>
+  </div>
+  <div flex="5"/>
+</div>

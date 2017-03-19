@@ -1,44 +1,4 @@
-<!-- <div ng-controller="headerController as headerCtrl" ng-cloak>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand">OCAM</a>
-      </div>
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li ui-sref-active="active" ng-show="!headerCtrl.user">
-            <a ui-sref="public.actList"> </i><span>Actividades</span></a>
-          </li>
-          <li ui-sref-active="active" ng-show="headerCtrl.user">
-            <a ui-sref="private.actList"> </i><span>Actividades</span></a>
-          </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown" ng-show="headerCtrl.user">
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              {{headerCtrl.user.username}}<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a ui-sref-active="active" ui-sref="private.profile">
-                Mi perfil</a>
-              </li>
-              <li role="separator" class="divider"></li>
-              <li><a ui-sref="public.access">Cerrar sesión</a></li>
-            </ul>
-          </li>
-
-          <li ui-sref-active="active"ng-show="!headerCtrl.user">
-            <a ui-sref="public.access"> </i><span>Acceso</span></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</div> -->
-
-
-<!-- Static navbar -->
-<nav class="navbar navbar-default">
+<nav ng-controller="headerController as headerCtrl" ng-cloak class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">

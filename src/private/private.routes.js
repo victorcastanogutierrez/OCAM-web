@@ -56,7 +56,7 @@ function routeConfig ($stateProvider, $locationProvider) {
         authorization: true
       },
       params: {
-        activityId: null
+        activity: null
       }
     });
   }

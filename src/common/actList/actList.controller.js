@@ -14,11 +14,20 @@ angular.module('common')
 
 */
 activityListController.$inject = ['list', 'numEle', 'activityService', '$q',
-  'DEFAULT_ITEM_PER_PAGE', '$state'];
+  'DEFAULT_ITEM_PER_PAGE', '$state', 'Auth'];
 function activityListController(list, numEle, activityService, $q,
-    DEFAULT_ITEM_PER_PAGE, $state) {
+    DEFAULT_ITEM_PER_PAGE, $state, Auth) {
 
   var $ctrl = this;
+
+  //Array de elementos seleccionados
+  // (no utilizado pero requerido por la libreria)
+  $ctrl.selected = [];
+
+  //Callback que se ejecuta al seleccionar un elemento de la lista
+  $ctrl.onSelect = function (item) {
+    $state.go("private.activity", {activity: item});
+  };
 
   // Configuración de la paginación
   // Lista de actividades
@@ -62,17 +71,6 @@ function activityListController(list, numEle, activityService, $q,
         });
       }
     }
-  }
-
-  /**
-    Callback que maneja la selección de un item de la lista
-  */
-  $ctrl.selectItem = function(item) {
-    console.log("Selecciona");
-  }
-
-  $ctrl.seeActivityDetails = function() {
-    $state.go('private.activity')
   }
 }
 

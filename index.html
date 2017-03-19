@@ -22,11 +22,10 @@
     <!-- Navbar style -->
     <link href="css/navbar.css" rel="stylesheet" type="text/css"/>
 
+    <link href="css/mapstyle.css" rel="stylesheet" type="text/css"/>
+
   </head>
   <body ng-app="ocam" ng-strict-di>
-
-    <ui-view>
-    </ui-view>
 
     <!-- Libs -->
     <script src="lib/jquery-3.1.1.min.js"></script>
@@ -34,6 +33,13 @@
     <script src="lib/angular-ui-router.min.js"></script>
     <script src="lib/angular-base64.min.js"></script>
     <script src="lib/ngStorage.min.js"></script>
+    <script src="lib/gpxParser.js"></script>
+    <script type="text/javascript" src="lib/md-data-table.min.js"></script>
+
+    <!-- Maps libraries -->
+    <script type="text/javascript" src="lib/lodash.min.js"></script>
+    <script type="text/javascript" src="lib/angular-simple-logger.js"></script>
+    <script type="text/javascript" src="lib/angular-google-maps.min.js"></script>
 
     <!-- Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -50,7 +56,7 @@
     <script src="src/ocam.module.js"></script>
 
     <!-- Public Module -->
-    <script src="src/public/public.module.js"></script>
+     <script src="src/public/public.module.js"></script>
     <script src="src/public/public.routes.js"></script>
 
     <!-- Access (Login & Register) -->
@@ -75,11 +81,8 @@
     <script src="src/private/profile/profile.controller.js"></script>
     <script src="src/private/activity/activity.controller.js"></script>
 
-
-
-    <!-- module
-    <script type="text/javascript" src="bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>-->
-    <script type="text/javascript" src="lib/md-data-table.min.js"></script>
+    <ui-view>
+    </ui-view>
 
   </body>
 
