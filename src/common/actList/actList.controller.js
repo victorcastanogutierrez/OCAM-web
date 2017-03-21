@@ -3,7 +3,7 @@
 
 angular.module('common')
 .controller('activityListController', activityListController)
-.constant('DEFAULT_ITEM_PER_PAGE', 5);
+.constant('DEFAULT_ITEM_PER_PAGE', 10);
 
 /**
   Controlador que encapsula la lógica de la tabla de actividades.
@@ -14,9 +14,9 @@ angular.module('common')
 
 */
 activityListController.$inject = ['list', 'numEle', 'activityService', '$q',
-  'DEFAULT_ITEM_PER_PAGE', '$state', 'Auth'];
+  'DEFAULT_ITEM_PER_PAGE', '$state', 'Auth', '$mdDialog'];
 function activityListController(list, numEle, activityService, $q,
-    DEFAULT_ITEM_PER_PAGE, $state, Auth) {
+    DEFAULT_ITEM_PER_PAGE, $state, Auth, $mdDialog) {
 
   var $ctrl = this;
 
@@ -24,10 +24,42 @@ function activityListController(list, numEle, activityService, $q,
   // (no utilizado pero requerido por la libreria)
   $ctrl.selected = [];
 
+  //Flags de control
+  $ctrl.fl_refreshing = false;
+  $ctrl.fl_create_allowed = Auth.isUserLoggedIn();
+
   //Callback que se ejecuta al seleccionar un elemento de la lista
   $ctrl.onSelect = function (item) {
-    $state.go("private.activity", {activity: item});
+    if ($ctrl.fl_create_allowed) {
+      $state.go("private.activity", {activity: item});
+    } else {
+      var login = $mdDialog.confirm()
+            .title('Ver detalle actividad')
+            .textContent('Para ver el detalle de una actividad debes estar logueado!')
+            .ok('Login')
+            .cancel('Cancelar');
+
+      $mdDialog.show(login).then(function() {
+        $state.go('public.access');
+      });
+    }
   };
+
+
+  //Actualiza los datos
+  $ctrl.refreshData = function() {
+    $ctrl.fl_refreshing = true;
+    //Recarga el número de actividades total
+    $ctrl.promise = activityService.findCountAll().then(function success(response) {
+      $ctrl.numEle = response;
+      //Recarga las actividades
+      activityService.findAllPending(0, DEFAULT_ITEM_PER_PAGE).then(function success(response) {
+        $ctrl.activities = response;
+        $ctrl.fl_refreshing = false;
+      });
+    });
+
+  }
 
   // Configuración de la paginación
   // Lista de actividades
@@ -39,7 +71,7 @@ function activityListController(list, numEle, activityService, $q,
   // Máximo de elementos por página
   $ctrl.itemsPage = DEFAULT_ITEM_PER_PAGE;
   // Número de actividades existentes en el servidor bajo los criterios de
-  // búsqueda en cada momento
+  // búsqueda en cada momento. Utilizado en la pagina html md-total
   $ctrl.numEle = numEle;
   // Array que indica que páginas están ya descargadas
   $ctrl.cached = [true];
@@ -55,20 +87,17 @@ function activityListController(list, numEle, activityService, $q,
       //en cuyo caso cargaríamos todos hasta la página necesaria
       if (!$ctrl.cached[$ctrl.page]) {
 
-        var deferred = $q.defer();
-        $ctrl.promise = deferred.promise;
+        var nItemsFrom = (oldP * $ctrl.itemsPage) ;
+        var nItemsTo = ($ctrl.page * $ctrl.itemsPage);
 
-        var nItemsFrom = (oldP * 5) ;
-        var nItemsTo = ($ctrl.page * 5);
-
-        activityService.findAllPending(nItemsFrom, nItemsTo, function(res) {
-          $ctrl.activities = $ctrl.activities.concat(res);
-          //Marcamos como cacheadas las páginas que hemos descargado
-          for (var i = oldP; i <= $ctrl.page; i++) {
-            $ctrl.cached[i] = true;
-          }
-          deferred.resolve();
-        });
+        $ctrl.promise = activityService.findAllPending(nItemsFrom, nItemsTo,
+          function(res) {
+            $ctrl.activities = $ctrl.activities.concat(res);
+            //Marcamos como cacheadas las páginas que hemos descargado
+            for (var i = oldP; i <= $ctrl.page; i++) {
+              $ctrl.cached[i] = true;
+            }
+          });
       }
     }
   }

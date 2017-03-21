@@ -1,35 +1,63 @@
-<md-toolbar class="md-table-toolbar md-default">
-  <div class="md-toolbar-tools">
-    <span>Actividades</span>
-  </div>
-</md-toolbar>
+<md-card>
+  <md-toolbar class="md-table-toolbar md-default">
+    <div class="md-toolbar-tools">
+      <span>Actividades</span>
+      <div flex></div>
+      <md-button class="md-icon-button" ng-click="actListCtrl.refreshData()"
+        ng-disabled="actListCtrl.fl_refreshing">
+        <md-icon>refresh</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
 
-<md-table-container>
-  <table md-table
-      md-row-select="true" ng-model="actListCtrl.selected" multiple="false">
-    <thead md-head md-order="actListCtrl.order"
-      md-progress="actListCtrl.promise">
-      <tr md-row>
-        <th md-column md-order-by="id">ID</th>
-        <th md-column md-order-by="startDate">Fecha</th>
-        <th md-column md-order-by="maxPlaces">Plazas máximas</th>
-        <th md-column md-order-by="shortDescription">Descripción</th>
-      </tr>
-    </thead>
-    <tbody md-body>
-      <tr md-row ng-repeat="activity in actListCtrl.activities |
-          limitTo: actListCtrl.itemsPage : (actListCtrl.page - 1) * actListCtrl.itemsPage |
-          orderBy: actListCtrl.order" ng-click="actListCtrl.onSelect(activity)">
-        <td md-cell>{{activity.id}}</td>
-        <td md-cell>{{activity.startDate}}</td>
-        <td md-cell>{{activity.maxPlaces}}</td>
-        <td md-cell>{{activity.shortDescription}}</td>
-      </tr>
-    </tbody>
-  </table>
-</md-table-container>
-<md-table-pagination md-limit="actListCtrl.itemsPage" md-page="actListCtrl.page"
-  md-total="{{actListCtrl.numEle}}" md-page-select="true"
-  md-boundary-links="false" md-on-paginate="actListCtrl.onPageChange()"
-  limitOptions="[5]" >
-</md-table-pagination>
+  <div layout="row" >
+    <div flex="95">
+      <div layout="column" >
+        <div flex-offset-gt-sm="5" flex="100">
+          <md-table-container>
+            <table md-table
+                md-row-select="true" ng-model="actListCtrl.selected" multiple="false"
+                md-progress="actListCtrl.promise">
+              <thead md-head md-order="actListCtrl.order">
+                <tr md-row>
+                  <th md-column md-order-by="id">ID</th>
+                  <th md-column md-order-by="startDate">Fecha</th>
+                  <th md-column md-order-by="maxPlaces">Plazas máximas</th>
+                  <th md-column md-order-by="shortDescription">Descripción</th>
+                </tr>
+              </thead>
+              <tbody md-body>
+                <tr md-row ng-repeat="activity in actListCtrl.activities |
+                    limitTo: actListCtrl.itemsPage : (actListCtrl.page - 1) * actListCtrl.itemsPage |
+                    orderBy: actListCtrl.order" ng-click="actListCtrl.onSelect(activity)">
+                  <td md-cell>{{activity.id}}</td>
+                  <td md-cell>{{activity.startDate}}</td>
+                  <td md-cell>{{activity.maxPlaces}}</td>
+                  <td md-cell>{{activity.shortDescription}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </md-table-container>
+          <md-table-pagination md-limit="actListCtrl.itemsPage" md-page="actListCtrl.page"
+            md-total="{{actListCtrl.numEle}}" md-page-select="true"
+            md-boundary-links="false" md-on-paginate="actListCtrl.onPageChange()"
+            limitOptions="[5]" >
+          </md-table-pagination>
+
+          <div layout="row" layout-align="end end">
+            <md-button class="md-raised md-warn bigfab margin-left-20" ng-show="actListCtrl.fl_create_allowed">
+              <md-tooltip
+                md-direction="bottom">
+                Nueva actividad
+              </md-tooltip>
+              <md-icon class="material-icons md-18">
+                add
+              </md-icon>
+            </md-button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</md-card>

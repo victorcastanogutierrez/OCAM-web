@@ -31,40 +31,40 @@ function activityController($stateParams, $state, $scope) {
     }
   }
 
-  /**
-    Callback que maneja el boton de Mostrar/Ocultar track del mapa
-  */
-  $scope.controlTrack = function() {
-    $ctrl.track.visible = false;
-  }
-
   if ($ctrl.activity) {
     var dateFormat = $ctrl.activity.startDate.split('-');
     $ctrl.activity.startDate = new Date(dateFormat[0], dateFormat[1], dateFormat[2]);
 
-    $ctrl.map = {
-      center: {
-        latitude: 40.4165000,
-        longitude: -3.7025600
-      },
-      zoom: 6
-    };
-
-    $ctrl.track = getActivityTrack($ctrl.activity, $ctrl.map);
+    $ctrl.track = getActivityTrack($ctrl.activity);
+    if (assertTrackContainsPoints($ctrl.track)) {
+      $ctrl.map = {
+        center: {
+          latitude: $ctrl.track.path[0].latitude,
+          longitude: $ctrl.track.path[0].longitude
+        },
+        zoom: 12
+      };
+    }
   }
+}
+
+/**
+  Comprueba que el track tenga puntos
+*/
+var assertTrackContainsPoints = function(track) {
+  return track.path.length > 0;
 }
 
 /**
    Retorna la polilinea con el track de la ruta
 */
-var getActivityTrack = function(activity, map) {
+var getActivityTrack = function(activity) {
 
     //Obtiene el XML del track
     var parser = new DOMParser();
     var xmlDoc = parser.parseFromString(activity.track, "text/xml");
-
-
     var points = [];
+
     var incluirPunto = function(that) {
       var lat = that.attr("lat");
       var lon = that.attr("lon");

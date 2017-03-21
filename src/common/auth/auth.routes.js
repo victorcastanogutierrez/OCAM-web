@@ -12,7 +12,7 @@ angular.module('common')
 routingConfiguration.$inject = ['$rootScope', '$state', 'LOGIN_STATE', 'Auth']
 function routingConfiguration($rootScope, $state, LOGIN_STATE, Auth) {
 
-    $rootScope.$on("$stateChangeStart", function (e, toState, toParams, fromState, fromParams, error) {
+    $rootScope.$on("$stateChangeSuccess", function (e, toState, toParams, fromState, fromParams, error) {
         var authState = isAuthState(toState);
         // Si no está logueado y es un estado de zona privada no lo permitimos
         if (authState && !Auth.isUserLoggedIn()) {

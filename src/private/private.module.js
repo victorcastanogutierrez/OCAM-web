@@ -1,6 +1,6 @@
 (function() {
 "use strict";
 
-angular.module('private', []);
+angular.module('private', ['ui.router']);
 
 })();

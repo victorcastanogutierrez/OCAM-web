@@ -42,16 +42,15 @@
         <h2>Track de la ruta</h2>
         <ui-gmap-google-map
           center='activityCtrl.map.center' zoom='activityCtrl.map.zoom'>
-          <ui-gmap-map-control
-            template="mapa.trackControl.html"
-            controller="activityController" index="-1">
           </ui-gmap-map-control>
-          <ui-gmap-polyline path="activityCtrl.track.path" stroke="activityCtrl.track.stroke" visible='activityCtrl.track.visible'
-                  geodesic='activityCtrl.track.geodesic' fit="false" editable="false" draggable="false" icons='activityCtrl.track.icons'>
+          <ui-gmap-polyline path="activityCtrl.track.path" stroke="activityCtrl.track.stroke"
+                  geodesic='activityCtrl.track.geodesic' fit="false" editable="false" draggable="false" icons='activityCtrl.track.icons'
+                  bounds='activityCtrl.bounds'>
             </ui-gmap-polyline>
         </ui-gmap-google-map>
         <br>
       </div>
+      Activado : {{activityCtrl.trackVisible}}
     </div>
   </div>
   <div flex="5"/>

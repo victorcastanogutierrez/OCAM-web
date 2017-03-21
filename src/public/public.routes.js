@@ -26,7 +26,7 @@ function routeConfig ($stateProvider, $locationProvider) {
       //Inyecta en el controlador las primeras actividades y el número total
       resolve: {
         'list': ['activityService', function(activityService) {
-          return activityService.findAllPending(0, 5);
+          return activityService.findAllPending(0, 10);
         }],
         'numEle': ['activityService', function(activityService) {
           return activityService.findCountAll();

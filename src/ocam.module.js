@@ -30,7 +30,6 @@ function config($urlRouterProvider, $mdThemingProvider, $mdAriaProvider,
 
   //Google map API key
   uiGmapGoogleMapApiProvider.configure({
-      key: 'AIzaSyC1qtuDRnaAs3B3OBgWfUdhpBTZexMjbi8',
       libraries: 'weather,geometry,visualization'
   });
 }
