@@ -1,35 +1,66 @@
+<md-card>
 <div layout="row" >
   <div flex="95">
     <div layout="column" >
       <div flex-offset-gt-sm="5" flex="100">
-        <h1>{{ activityCtrl.activity.shortDescription }} </h1>
+        <h1 ng-show="!activityCtrl.nuevaActividad">
+          {{ activityCtrl.activity.shortDescription }}
+        </h1>
+        <h1 ng-show="activityCtrl.nuevaActividad">
+          Nueva actividad
+        </h1>
         <br>
         <form name='actForm' novalidate>
+          <div ng-show="activityCtrl.nuevaActividad">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Descripción breve de la actividad</label>
+              <textarea ng-model="activityCtrl.activity.shortDescription" md-select-on-focus
+                ng-maxlength="40" md-maxlength="40" name="shortDescription" required>
+              </textarea>
+              <span class="text-red" ng-if="actForm.shortDescription.$invalid && actForm.shortDescription.$touched">
+                Debes introducir una breve descripción para la actividad
+              </span>
+            </md-input-container>
+          </div>
           <div>
             <md-input-container class="md-block" flex-gt-sm>
-              <label>Descripción de la ruta de la actividad</label>
-              <textarea ng-disabled="true"
-                ng-model="activityCtrl.activity.longDescription" md-select-on-focus>
+              <label>Descripción de la ruta de la actividad (o enlace MIDE)</label>
+              <textarea ng-disabled="!activityCtrl.nuevaActividad"
+                ng-model="activityCtrl.activity.longDescription" md-select-on-focus
+                ng-maxlength="250" md-maxlength="250" name="longDescription"
+                required>
               </textarea>
+              <span class="text-red" ng-if="actForm.longDescription.$invalid && actForm.longDescription.$touched">
+                Debes introducir la descripción técnica de la ruta a seguir
+              </span>
             </md-input-container>
           </div>
           <div>
             <md-input-container>
-              <label>Plazas máximas</label>
-              <input ng-disabled="true" required type="number" step="any" name="rate"
+              <label>Plazas (máx. 100)</label>
+              <input ng-disabled="!activityCtrl.nuevaActividad" required
+                type="number" step="any"
                 ng-model="activityCtrl.activity.maxPlaces" min="0"
-                max="100" ng-pattern="/^1234/" />
+                max="70" name="maxPlaces"/>
             </md-input-container>
           </div>
           <div>
             <md-input-container  class="md-block" flex-gt-sm>
               <label>Fecha de comienzo</label>
-              <md-datepicker ng-disabled="true" md-placeholder="Fecha de comienzo"
-                ng-model="activityCtrl.activity.startDate" md-hide-icons="calendar">
+              <md-datepicker ng-disabled="!activityCtrl.nuevaActividad"
+                md-placeholder="Fecha" name="startDate"
+                ng-model="activityCtrl.activity.startDate" md-hide-icons="calendar"
+                md-min-date="activityCtrl.currentDate" required>
               </md-datepicker>
             </md-input-container>
           </div>
-          <div>
+          <div ng-show="activityCtrl.nuevaActividad">
+            <label>Track de la ruta (gpx)</label>
+            <input ng-model="activityCtrl.trackFile"
+               onchange="angular.element(this).scope().file_changed(this)"
+               type="file" multiple="false" accept=".gpx"/>
+          </div>
+          <div ng-show="!activityCtrl.nuevaActividad">
             <md-input-container  class="md-block" flex-gt-sm>
               <label>Estado de la actividad: {{ activityCtrl.getActivityStatus() }}</label><br>
               <md-button class="md-raised md-primary"
@@ -38,12 +69,27 @@
               </md-button>
             </md-input-container>
           </div>
+          <div ng-show="activityCtrl.nuevaActividad">
+            <md-input-container  class="md-block" flex-gt-sm>
+              <md-button class="md-raised md-primary"
+                ng-click="activityCtrl.nuevaActividad()"
+                ng-disabled="!actForm.$invalid">
+                Guardar
+              </md-button>
+            </md-input-container>
+            <span class="text-red" ng-show="activityCtrl.error">
+              {{activityCtrl.error}}
+            </span>
+          </div>
         </form>
-        <h2>Track de la ruta</h2>
-        <activity-track activity-track="activityCtrl.activity.track"></activity-track>
+        <div ng-show="!activityCtrl.nuevaActividad">
+          <h2>Track de la ruta</h2>
+          <activity-track activity-track="activityCtrl.activity.track"></activity-track>
+        </div>
         <br>
       </div>
     </div>
   </div>
   <div flex="5"/>
 </div>
+</md-card>
