@@ -58,6 +58,15 @@ function routeConfig ($stateProvider, $locationProvider) {
       params: {
         activity: null
       }
+    })
+    .state('private.newActivity', {
+      url: '/new',
+      controller: 'newActivityController',
+      controllerAs: 'activityCtrl',
+      templateUrl : 'src/private/activity/activity.template.html',
+      data: {
+        authorization: true
+      }
     });
   }
 })();
