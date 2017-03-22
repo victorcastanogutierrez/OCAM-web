@@ -24,7 +24,8 @@
           </div>
           <div>
             <md-input-container class="md-block" flex-gt-sm>
-              <label>Descripción de la ruta de la actividad (o enlace MIDE)</label>
+              <label>Descripción de la ruta de la actividad (o enlace <a href="http://mide.montanasegura.com/mide">MIDE</a>)</label>
+
               <textarea ng-disabled="!activityCtrl.nuevaActividad"
                 ng-model="activityCtrl.activity.longDescription" md-select-on-focus
                 ng-maxlength="250" md-maxlength="250" name="longDescription"
@@ -73,7 +74,7 @@
             <md-input-container  class="md-block" flex-gt-sm>
               <md-button class="md-raised md-primary"
                 ng-click="activityCtrl.nuevaActividad()"
-                ng-disabled="!actForm.$invalid">
+                ng-disabled="actForm.$invalid">
                 Guardar
               </md-button>
             </md-input-container>

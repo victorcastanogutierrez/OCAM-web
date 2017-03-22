@@ -21,14 +21,41 @@ function newActivityController($scope) {
   $ctrl.nuevaActividad = function() {
     $ctrl.error = assertGPXFile($ctrl.gpxFile);
     if (!$ctrl.error) {
-      var gpxContent = getGPXContent($ctrl.gpxFile);
+      var newActivity = getNewActivity();
+      var successGPXLoad = function(gpxContent) {
+        if (!assertGPXFileContent(gpxContent)) { // Comprobación GPX (contenido)
+          $ctrl.error = "Contenido del fichero GPX inválido";
+        } else {
+          newActivity.track = gpxContent;
+        }
+      };
+      getGPXContent($ctrl.gpxFile, successGPXLoad);
     }
   };
 
+
+  /**
+    Retorna el objeto actividad con los datos necsarios
+  */
+  var getNewActivity = function(){
+    return {
+      shortDescription: $ctrl.activity.shortDescription,
+      longDescription: $ctrl.activity.longDescription,
+      startDate: $ctrl.activity.startDate,
+      maxPlaces: $ctrl.activity.maxPlaces
+    };
+  }
 }
 
 /**
-  Comprueba la validez de un fichero GPX
+  Comprueba que el fichero GPX no esté vacío
+*/
+var assertGPXFileContent = function(track) {
+  return track;
+}
+
+/**
+  Comprueba la validez de un fichero GPX (extensión)
 */
 var assertGPXFile = function (file) {
   if (!file) {
@@ -47,10 +74,10 @@ var assertGPXFile = function (file) {
 /**
   Obtiene como una cadena de texto el contenido de un fichero GPX
 */
-var getGPXContent = function(file) {
+var getGPXContent = function(file, callback) {
   var reader = new FileReader();
   reader.onload = function(e) {
-     return e.target.result;
+    callback(e.target.result);
   };
   reader.readAsText(file);
 }
