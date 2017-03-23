@@ -32,8 +32,12 @@ function activityController($stateParams, $state, $scope) {
   }
 
   if ($ctrl.activity) {
-    var dateFormat = $ctrl.activity.startDate.split('-');
-    $ctrl.activity.startDate = new Date(dateFormat[0], dateFormat[1], dateFormat[2]);    
+    if (!$ctrl.activity.startDate.split) { // Timestamp
+      $ctrl.activity.startDate = new Date($ctrl.activity.startDate);
+    } else {
+      var dateFormat = $ctrl.activity.startDate.split('-');
+      $ctrl.activity.startDate = new Date(dateFormat[0], dateFormat[1], dateFormat[2]);
+    }
   }
 }
 

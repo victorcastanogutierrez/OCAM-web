@@ -25,6 +25,12 @@ function AuthFactory($localStorage, $state, $rootScope, $http) {
     isUserLoggedIn: function() {
       return $localStorage.currentUser;
     },
+    getHikerLoggedIn: function() {
+      var logged = $localStorage.currentUser;
+      return {
+        login: logged.username
+      };
+    },
     /**
       Preconfigura el servicio $http para enviar el token
       en sucesivas peticiones sin tener que añadirlo manualmente

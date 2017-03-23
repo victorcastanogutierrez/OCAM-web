@@ -4,12 +4,13 @@
 angular.module('private')
 .controller('newActivityController', newActivityController);
 
-newActivityController.$inject = ['$scope'];
-function newActivityController($scope) {
+newActivityController.$inject = ['$scope', 'activityService', '$mdDialog', '$state'];
+function newActivityController($scope, activityService, $mdDialog, $state) {
   var $ctrl = this;
 
   $ctrl.nuevaActividad = true;
   $ctrl.currentDate = new Date();
+  $ctrl.cargando = false;
 
   // Listener para el fichero gpx
   $scope.file_changed = function(element) {
@@ -26,14 +27,34 @@ function newActivityController($scope) {
         if (!assertGPXFileContent(gpxContent)) { // Comprobación GPX (contenido)
           $ctrl.error = "Contenido del fichero GPX inválido";
         } else {
-          newActivity.track = gpxContent;
+          confirmSave(function() {
+            newActivity.track = gpxContent;
+            $ctrl.cargando = true;
+            activityService.save(newActivity, function(response) {
+              $state.go("private.activity", {activity: response});
+              $ctrl.cargando = false;
+            }, function(err) {
+              $ctrl.error = err;
+              $ctrl.cargando = false;
+            });
+          });
         }
       };
       getGPXContent($ctrl.gpxFile, successGPXLoad);
     }
   };
 
+  var confirmSave = function (success) {
+    var confirm = $mdDialog.confirm()
+          .title('Guardar actividad')
+          .textContent('¿Estás seguro de que quieres crear esta actividad?')
+          .ok('Continuar')
+          .cancel('Cancelar');
 
+    $mdDialog.show(confirm).then(function() {
+      success();
+    });
+  }
   /**
     Retorna el objeto actividad con los datos necsarios
   */
@@ -67,6 +88,9 @@ var assertGPXFile = function (file) {
   var splits = file.name.split('.');
   if (splits[splits.length-1] != 'gpx') {
     return "Extensión de fichero GPX inválida";
+  }
+  if (file.size > 3145728) {
+    return "Fichero demasiado pesado (Máximo 3MB)";
   }
   return false;
 }
