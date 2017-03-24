@@ -5,9 +5,11 @@ angular.module('common')
 .factory('hikerService', hikerFactory);
 
 hikerFactory.$inject =['$http', '$base64', 'SERVER_URL',
-  'LOGIN_API', 'REGISTER_API', 'Auth', 'HIKER_DATA', 'HIKER_CHANGE_PASSWORD'];
+  'LOGIN_API', 'REGISTER_API', 'Auth', 'HIKER_DATA', 'HIKER_CHANGE_PASSWORD',
+  'EXISTS_EMAIL_API'];
 function hikerFactory($http, $base64, SERVER_URL,
-    LOGIN_API, REGISTER_API, Auth, HIKER_DATA, HIKER_CHANGE_PASSWORD) {
+    LOGIN_API, REGISTER_API, Auth, HIKER_DATA, HIKER_CHANGE_PASSWORD,
+    EXISTS_EMAIL_API) {
 
   var Hiker = {
     logIn: function (username, password, successCallback, errorCallback) {
@@ -56,6 +58,12 @@ function hikerFactory($http, $base64, SERVER_URL,
         success(response.data);
       }, function(err) {
         error(err.data);
+      });
+    },
+    findByEmail: function (email) {
+      return $http.get(SERVER_URL + EXISTS_EMAIL_API + '/' + email)
+      .then(function (response) {
+        return response.data;
       });
     }
   }

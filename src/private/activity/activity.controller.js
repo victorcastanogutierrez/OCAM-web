@@ -38,6 +38,7 @@ function activityController($stateParams, $state, $scope) {
       var dateFormat = $ctrl.activity.startDate.split('-');
       $ctrl.activity.startDate = new Date(dateFormat[0], dateFormat[1], dateFormat[2]);
     }
+    $ctrl.guides = $ctrl.activity.guides;
   }
 }
 

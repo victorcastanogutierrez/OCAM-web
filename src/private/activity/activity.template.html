@@ -1,15 +1,20 @@
-<md-card>
-<div layout="row" >
-  <div flex="95">
-    <div layout="column" >
-      <div flex-offset-gt-sm="5" flex="100">
-        <h1 ng-show="!activityCtrl.nuevaActividad">
-          {{ activityCtrl.activity.shortDescription }}
-        </h1>
-        <h1 ng-show="activityCtrl.nuevaActividad">
-          Nueva actividad
-        </h1>
-        <br>
+<md-content class="md-padding" layout-xs="column" layout="row">
+  <div flex-xs flex-gt-xs="50" layout="column">
+    <md-card>
+      <md-card-content>
+        <md-toolbar layout="row" class="md-hue-3">
+          <div class="md-toolbar-tools">
+            <span>
+              <md-icon class="material-icons md-18" style="color: #50D050">terrain</md-icon>
+              <label ng-show="activityCtrl.nuevaActividad">
+                Datos generales de la actividad
+              </label>
+              <label ng-show="!activityCtrl.nuevaActividad">
+                {{ activityCtrl.activity.shortDescription }}
+              </label>
+            </span>
+          </div>
+        </md-toolbar><br>
         <form name='actForm' novalidate>
           <div ng-show="activityCtrl.nuevaActividad">
             <md-input-container class="md-block" flex-gt-sm>
@@ -62,7 +67,7 @@
             <label>Track de la ruta (gpx)</label>
             <input ng-model="activityCtrl.trackFile"
                onchange="angular.element(this).scope().file_changed(this)"
-               type="file" multiple="false" accept=".gpx"/>
+               type="file" accept=".gpx"/>
           </div>
           <div ng-show="!activityCtrl.nuevaActividad">
             <md-input-container  class="md-block" flex-gt-sm>
@@ -73,27 +78,57 @@
               </md-button>
             </md-input-container>
           </div>
-          <div ng-show="activityCtrl.nuevaActividad">
-            <md-input-container  class="md-block" flex-gt-sm>
-              <md-button class="md-raised md-primary"
-                ng-click="activityCtrl.nuevaActividad()"
-                ng-disabled="actForm.$invalid || activityCtrl.cargando">
-                Guardar
-              </md-button>
-            </md-input-container>
-            <span class="text-red" ng-show="activityCtrl.error">
-              {{activityCtrl.error}}
+        </form>
+        <br>
+        <loading></loading>
+      </md-card-content>
+      <span class="text-red" ng-show="activityCtrl.error">
+        {{activityCtrl.error}}
+      </span>
+      <md-button class="md-raised md-primary"
+        ng-click="activityCtrl.crearActividad()"
+        ng-disabled="actForm.$invalid || activityCtrl.cargando"
+        ng-show="activityCtrl.nuevaActividad">
+        Guardar
+      </md-button>
+    </md-card>
+  </div>
+  <div flex-xs flex-gt-xs="50" layout="column">
+    <md-card>
+      <md-card-content>
+        <md-toolbar layout="row" class="md-hue-3">
+          <div class="md-toolbar-tools">
+            <span>
+              <md-icon class="material-icons md-18" style="color: #50D050">directions_walk</md-icon>
+              <label>Guías de la actividad</label>
             </span>
           </div>
-        </form>
-        <div ng-show="!activityCtrl.nuevaActividad">
-          <h2>Track de la ruta</h2>
-          <activity-track activity-track="activityCtrl.activity.track"></activity-track>
-        </div>
-        <br>
-      </div>
-    </div>
+        </md-toolbar>
+        <guides-selection
+          guides="activityCtrl.activity.guides"
+          nueva-actividad="activityCtrl.nuevaActividad"
+          cargando="activityCtrl.cargando"
+          on-add="activityCtrl.onAddGuide(guide)"
+          on-remove="activityCtrl.onRemoveGuide(guide)">
+        </guidesSelection>
+        <loading></loading>
+      </md-card-content>
+    </md-card>
   </div>
-  <div flex="5"/>
-</div>
-</md-card>
+
+</md-content>
+<md-content class="md-padding" layout="column">
+  <md-card ng-show="!activityCtrl.nuevaActividad">
+    <md-card-content>
+      <md-toolbar layout="row" class="md-hue-3">
+        <div class="md-toolbar-tools">
+          <span>
+            <md-icon class="material-icons md-18" style="color: #50D050">map</md-icon>
+            <label>Track de la ruta</label>
+          </span>
+        </div>
+      </md-toolbar><br>
+      <activity-track activity-track="activityCtrl.activity.track"></activity-track>
+    </md-card-content>
+  </md-card>
+</md-content>

@@ -1,0 +1,30 @@
+<md-list >
+  <md-subheader class="md-no-sticky">
+    <md-button class="md-primary"
+      ng-show="guidesCtrl.nuevaActividad"
+      ng-disabled="guidesCtrl.cargando"
+      ng-click="guidesCtrl.addGuide()">
+      Añadir guía
+    </md-button>
+    <md-button class="md-raised md-warn"
+      ng-show="guidesCtrl.nuevaActividad"
+      ng-disabled="guidesCtrl.cargando"
+      ng-click="guidesCtrl.emptyGuidesList()">
+      Eliminar todos
+    </md-button>
+  </md-subheader>
+  <md-list-item class="md-2-line" ng-repeat="guide in guidesCtrl.guides">
+    <div class="md-list-item-text" layout="column">
+      <h3>Guía</h3>
+      <h3> {{guide.email}} </h3>
+    </div>
+    <md-button class="md-secondary md-icon-button"
+      ng-click="guidesCtrl.removeGuide(guide)" aria-label="call"
+      ng-show="guidesCtrl.nuevaActividad">
+      <md-icon class="material-icons md-18" style="color: #50D050">close</md-icon>
+    </md-button>
+  </md-list-item>
+</md-list>
+<div>
+  {{guidesCtrl.guidesError}}
+</div>
