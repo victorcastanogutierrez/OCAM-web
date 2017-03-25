@@ -13,13 +13,13 @@
       Eliminar todos
     </md-button>
   </md-subheader>
-  <md-list-item class="md-2-line" ng-repeat="guide in guidesCtrl.guides">
+  <md-list-item class="md-2-line" ng-repeat="guide in guidesCtrl.guides track by $index">
     <div class="md-list-item-text" layout="column">
       <h3>Guía</h3>
       <h3> {{guide.email}} </h3>
     </div>
     <md-button class="md-secondary md-icon-button"
-      ng-click="guidesCtrl.removeGuide(guide)" aria-label="call"
+      ng-click="guidesCtrl.removeGuide($index)" aria-label="call"
       ng-show="guidesCtrl.nuevaActividad">
       <md-icon class="material-icons md-18" style="color: #50D050">close</md-icon>
     </md-button>

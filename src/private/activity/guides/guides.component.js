@@ -32,8 +32,7 @@ function ActivityGuidesController($mdDialog, hikerService) {
       .cancel('Cancelar');
 
     $mdDialog.show(confirm).then(function(result) {
-
-      if (!result || $ctrl.guides.find(x => x == result)) {
+      if (!result || $ctrl.guides.find(x => x.email == result)) {
         return;
       }
       $ctrl.cargando = true;
@@ -43,7 +42,6 @@ function ActivityGuidesController($mdDialog, hikerService) {
         var myGuide = {
           email: result
         };
-        $ctrl.guides.push(myGuide);
         $ctrl.onAdd({ guide : myGuide }); // Notificamos el controlador
       }, function() {
         $ctrl.cargando = false;
@@ -53,15 +51,23 @@ function ActivityGuidesController($mdDialog, hikerService) {
   };
 
   $ctrl.emptyGuidesList = function() {
-    $ctrl.guides.forEach(x => $ctrl.onRemove({ guide : x}));
+    var tam = $ctrl.guides.length;
+    for (var i = 0; i < tam; i++) {
+      $ctrl.onRemove({ guide : 0 });
+    }
     $ctrl.guides = [];
   };
 
-  $ctrl.removeGuide = function(myGuide) {
-    if (myGuide && $ctrl.guides.find(x => x == myGuide)) {
-      $ctrl.onRemove({ guide : myGuide })
-      $ctrl.guides.splice($ctrl.guides.indexOf(myGuide), 1);
-    }
+  $ctrl.removeGuide = function(index) {
+    $ctrl.onRemove({ guide : index });
+    /*if (myGuide) {
+      for (var i = 0; i < $ctrl.guides.length; i++) {
+        if ($ctrl.guides[i].email == myGuide.email) {
+          $ctrl.onRemove({ guide : i });
+          break;
+        }
+      }
+    }*/
   };
 }
 

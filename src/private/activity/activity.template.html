@@ -10,13 +10,20 @@
                 <md-icon class="material-icons md-18" style="color: #50D050">terrain</md-icon>
                 <label ng-show="activityCtrl.nuevaActividad">
                   Datos generales de la actividad
+                  <md-button class="md-primary"
+                    ng-show="activityCtrl.editando"
+                    ng-disabled="true">
+                    EDITANDO
+                  </md-button>
                 </label>
                 <label ng-show="!activityCtrl.nuevaActividad">
                   {{ activityCtrl.activity.shortDescription }}
                 </label>
               </span>
             </div>
-            <tools-options ng-show="activityCtrl.isOwner"></tools-options>
+            <tools-options ng-show="activityCtrl.isOwner"
+              activity="activityCtrl.activity">
+            </tools-options>
           </div>
         </md-toolbar><br>
         <form name='actForm' novalidate>
@@ -109,7 +116,7 @@
           </div>
         </md-toolbar>
         <guides-selection
-          guides="activityCtrl.activity.guides"
+          guides="activityCtrl.guides"
           nueva-actividad="activityCtrl.nuevaActividad"
           cargando="activityCtrl.cargando"
           on-add="activityCtrl.onAddGuide(guide)"

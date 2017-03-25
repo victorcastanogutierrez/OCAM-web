@@ -5,16 +5,24 @@ angular.module('private')
 .controller('newActivityController', newActivityController);
 
 newActivityController.$inject = ['$scope', 'activityService', '$mdDialog', '$state',
-  'TrackService'];
+  'TrackService', '$stateParams'];
 function newActivityController($scope, activityService, $mdDialog, $state,
-  TrackService) {
+  TrackService, $stateParams) {
 
   var $ctrl = this;
+  $ctrl.activity = $stateParams.activity;
 
+  //Flag que controla la editabilidad de los campos del template
   $ctrl.nuevaActividad = true;
   $ctrl.currentDate = new Date();
   $ctrl.cargando = false;
   $ctrl.guides = [];
+
+  //Flag que indica si se está editando o no una actividad
+  $ctrl.editando = $ctrl.activity != undefined;
+  if ($ctrl.editando) {
+    $ctrl.guides = $ctrl.activity.guides;
+  }
 
   // Listener para el fichero gpx
   $scope.file_changed = function(element) {
@@ -34,11 +42,13 @@ function newActivityController($scope, activityService, $mdDialog, $state,
     Metodo llamado desde el componente para eliminar el guía
   */
   $ctrl.onRemoveGuide = function(guide) {
-    $ctrl.guides.splice($ctrl.guides.indexOf(guide), 1);
+    $ctrl.guides.splice(guide, 1);
   }
 
   $ctrl.crearActividad = function() {
-    $ctrl.error = TrackService.assertGPXFile($ctrl.gpxFile);
+    if (!$ctrl.editando || ($ctrl.editando && $ctrl.gpxFile)) {
+      $ctrl.error = TrackService.assertGPXFile($ctrl.gpxFile);
+    }
     if (!$ctrl.error) {
       var newActivity = getNewActivity();
       var successGPXLoad = function(gpxContent) {
@@ -48,9 +58,9 @@ function newActivityController($scope, activityService, $mdDialog, $state,
           $ctrl.error = "Debe haber como mínimo un guía!";
         } else {
           confirmSave(function() {
-            newActivity.track = gpxContent;
+            //$ctrl.cargando = true;
             newActivity.guides = $ctrl.guides;
-            $ctrl.cargando = true;
+            newActivity.track = gpxContent;
             activityService.save(newActivity, function(response) {
               $state.go("private.activity", {activity: response});
               $ctrl.cargando = false;
@@ -61,7 +71,12 @@ function newActivityController($scope, activityService, $mdDialog, $state,
           });
         }
       };
-      TrackService.getGPXContent($ctrl.gpxFile, successGPXLoad);
+      //Solo en caso que haya contenido: nuevo o editado
+      if (!$ctrl.activity.track) {
+        TrackService.getGPXContent($ctrl.gpxFile, successGPXLoad);
+      } else { // Se está editando y el track ya lo tiene
+        successGPXLoad($ctrl.activity.track)
+      }
     }
   };
 
@@ -71,8 +86,8 @@ function newActivityController($scope, activityService, $mdDialog, $state,
 
   var confirmSave = function (success) {
     var confirm = $mdDialog.confirm()
-          .title('Guardar actividad')
-          .textContent('¿Estás seguro de que quieres crear esta actividad?')
+          .title(getTitleText($ctrl.editando))
+          .textContent(getConfirmText($ctrl.editando))
           .ok('Continuar')
           .cancel('Cancelar');
 
@@ -86,12 +101,13 @@ function newActivityController($scope, activityService, $mdDialog, $state,
   */
   var getNewActivity = function(){
     return {
+      id: $ctrl.activity.id, // Si la está editando habrá contenido.
       shortDescription: $ctrl.activity.shortDescription,
       longDescription: $ctrl.activity.longDescription,
       startDate: $ctrl.activity.startDate,
       maxPlaces: $ctrl.activity.maxPlaces
     };
-  }
+  };
 }
 
 /**
@@ -99,6 +115,24 @@ function newActivityController($scope, activityService, $mdDialog, $state,
 */
 var assertGPXFileContent = function(track) {
   return track;
+}
+
+var getConfirmText = function(editando) {
+  if (!editando) {
+    return '¿Estás seguro de que quieres crear esta actividad?';
+  }
+  else {
+    //TODO
+  }
+}
+
+var getTitleText = function(editando) {
+  if (!editando) {
+    return 'Guardar actividad';
+  }
+  else {
+    return 'Actualizar actividad';
+  }
 }
 
 })();

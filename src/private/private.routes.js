@@ -66,6 +66,9 @@ function routeConfig ($stateProvider, $locationProvider) {
       templateUrl : 'src/private/activity/activity.template.html',
       data: {
         authorization: true
+      },
+      params: {
+        activity: null
       }
     });
   }
