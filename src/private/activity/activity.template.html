@@ -22,7 +22,9 @@
               </span>
             </div>
             <tools-options ng-show="activityCtrl.isOwner"
-              activity="activityCtrl.activity">
+              activity="activityCtrl.activity"
+              on-error="activityCtrl.onError(error)"
+              on-loading="activityCtrl.onLoading(loading)">
             </tools-options>
           </div>
         </md-toolbar><br>

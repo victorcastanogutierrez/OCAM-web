@@ -29,7 +29,7 @@ function activityController($stateParams, $state, $scope, Auth) {
         return 'finalizada'
       }
     }
-  }
+  };
 
   if ($ctrl.activity) {
     if (!$ctrl.activity.startDate.split) { // Timestamp
@@ -40,7 +40,15 @@ function activityController($stateParams, $state, $scope, Auth) {
     }
     $ctrl.guides = $ctrl.activity.guides;
     $ctrl.isOwner = Auth.isUserLoggedIn().email == $ctrl.activity.owner.email;
-  }
+  };
+
+  $ctrl.onError = function(error) {
+    $ctrl.error = error;
+  };
+
+  $ctrl.onLoading = function(loading) {
+    $ctrl.cargando = loading;
+  };
 }
 
 })();

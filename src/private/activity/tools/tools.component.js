@@ -7,23 +7,52 @@ angular.module('private')
   controllerAs: 'toolsCtrl',
   templateUrl: 'src/private/activity/tools/tools.component.html',
   bindings: {
-    activity: '<'
+    activity: '<',
+    onError: '&',
+    onLoading: '&'
   }
 });
 
-ToolsController.$inject = ['$scope', '$timeout', '$state'];
-function ToolsController($scope, $timeout, $state) {
+ToolsController.$inject = ['$scope', '$timeout', '$state', 'activityService',
+  '$mdDialog'];
+function ToolsController($scope, $timeout, $state, activityService,
+  $mdDialog) {
   var $ctrl = this;
 
   var editActivity = function() {
     $state.go("private.newActivity", {activity: $ctrl.activity});
   };
 
+  var deleteActivity = function() {
+    $ctrl.onLoading({loading : true});
+
+    var success = function() {
+      $ctrl.activity.deleted = true;
+      activityService.save($ctrl.activity, function(response) {
+        $ctrl.onLoading({loading : false});
+        $state.go("private.actList");
+      }, function(err) {
+        $ctrl.onLoading({loading : false});
+        $ctrl.onError({error : err.message})
+      });
+    }
+
+    var confirm = $mdDialog.confirm()
+          .title('¿Estás seguro de eliminar la actividad?')
+          .textContent('No habrá vuelta atrás, todos los datos relativos a la actividad se eliminarán.')
+          .ok('Eliminar')
+          .cancel('Cancelar');
+
+    $mdDialog.show(confirm).then(function() {
+      success();
+    });
+  }
+
   $ctrl.edit = true;
   $ctrl.items = [
     { name: "Editar", icon: "mode_edit", direction: "bottom", action: editActivity},
     { name: "Monitorizar", icon: "visibility", direction: "top" },
-    { name: "Eliminar", icon:"delete_forever", direction: "bottom"}
+    { name: "Eliminar", icon:"delete_forever", direction: "bottom", action: deleteActivity}
   ];
   $ctrl.hidden = false;
   $ctrl.isOpen = false;

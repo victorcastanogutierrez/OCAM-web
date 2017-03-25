@@ -60,14 +60,6 @@ function ActivityGuidesController($mdDialog, hikerService) {
 
   $ctrl.removeGuide = function(index) {
     $ctrl.onRemove({ guide : index });
-    /*if (myGuide) {
-      for (var i = 0; i < $ctrl.guides.length; i++) {
-        if ($ctrl.guides[i].email == myGuide.email) {
-          $ctrl.onRemove({ guide : i });
-          break;
-        }
-      }
-    }*/
   };
 }
 
