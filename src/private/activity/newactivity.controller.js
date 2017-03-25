@@ -5,9 +5,9 @@ angular.module('private')
 .controller('newActivityController', newActivityController);
 
 newActivityController.$inject = ['$scope', 'activityService', '$mdDialog', '$state',
-  'TrackService', '$stateParams'];
+  'TrackService', '$stateParams', '$mdToast'];
 function newActivityController($scope, activityService, $mdDialog, $state,
-  TrackService, $stateParams) {
+  TrackService, $stateParams, $mdToast) {
 
   var $ctrl = this;
   $ctrl.activity = $stateParams.activity;
@@ -66,6 +66,7 @@ function newActivityController($scope, activityService, $mdDialog, $state,
             newActivity.guides = $ctrl.guides;
             newActivity.track = gpxContent;
             activityService.save(newActivity, function(response) {
+              showConfirmToast();
               $state.go("private.activity", {activity: response});
               $ctrl.cargando = false;
             }, function(err) {
@@ -84,9 +85,18 @@ function newActivityController($scope, activityService, $mdDialog, $state,
     }
   };
 
+  var showConfirmToast = function() {
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent(getToastText($ctrl.editando))
+        .position("bottom, right")
+        .hideDelay(3000)
+    );
+  }
+
   var assertGuides = function() {
     return $ctrl.guides.length > 0;
-  }
+  };
 
   var confirmSave = function (success) {
     var confirm = $mdDialog.confirm()
@@ -119,16 +129,25 @@ function newActivityController($scope, activityService, $mdDialog, $state,
 */
 var assertGPXFileContent = function(track) {
   return track;
-}
+};
+
+var getToastText = function(editando) {
+  if (!editando) {
+    return 'Actividad creada con éxito';
+  }
+  else {
+    return 'Actividad actualizada con éxito'
+  }
+};
 
 var getConfirmText = function(editando) {
   if (!editando) {
     return '¿Estás seguro de que quieres crear esta actividad?';
   }
   else {
-    //TODO
+    return 'Estás seguro de que quieres editar la actividad?'
   }
-}
+};
 
 var getTitleText = function(editando) {
   if (!editando) {
@@ -137,6 +156,6 @@ var getTitleText = function(editando) {
   else {
     return 'Actualizar actividad';
   }
-}
+};
 
 })();
