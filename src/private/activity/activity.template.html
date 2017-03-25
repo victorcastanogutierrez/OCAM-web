@@ -99,6 +99,12 @@
         {{activityCtrl.error}}
       </span>
       <md-button class="md-raised md-primary"
+        ng-click="activityCtrl.cancelarEdicion()"
+        ng-disabled="activityCtrl.cargando"
+        ng-show="activityCtrl.editando">
+        Cancelar edición
+      </md-button>
+      <md-button class="md-raised md-primary"
         ng-click="activityCtrl.crearActividad()"
         ng-disabled="actForm.$invalid || activityCtrl.cargando"
         ng-show="activityCtrl.nuevaActividad">

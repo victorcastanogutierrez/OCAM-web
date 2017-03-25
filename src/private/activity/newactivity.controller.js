@@ -45,6 +45,10 @@ function newActivityController($scope, activityService, $mdDialog, $state,
     $ctrl.guides.splice(guide, 1);
   }
 
+  $ctrl.cancelarEdicion = function() {
+    $state.go("private.activity", {activity: $ctrl.activity});
+  };
+
   $ctrl.crearActividad = function() {
     if (!$ctrl.editando || ($ctrl.editando && $ctrl.gpxFile)) {
       $ctrl.error = TrackService.assertGPXFile($ctrl.gpxFile);
