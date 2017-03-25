@@ -1,18 +1,22 @@
 <md-content class="md-padding" layout-xs="column" layout="row">
+
   <div flex-xs flex-gt-xs="50" layout="column">
     <md-card>
       <md-card-content>
         <md-toolbar layout="row" class="md-hue-3">
-          <div class="md-toolbar-tools">
-            <span>
-              <md-icon class="material-icons md-18" style="color: #50D050">terrain</md-icon>
-              <label ng-show="activityCtrl.nuevaActividad">
-                Datos generales de la actividad
-              </label>
-              <label ng-show="!activityCtrl.nuevaActividad">
-                {{ activityCtrl.activity.shortDescription }}
-              </label>
-            </span>
+          <div class="md-toolbar-tools" layout="row">
+            <div flex>
+              <span>
+                <md-icon class="material-icons md-18" style="color: #50D050">terrain</md-icon>
+                <label ng-show="activityCtrl.nuevaActividad">
+                  Datos generales de la actividad
+                </label>
+                <label ng-show="!activityCtrl.nuevaActividad">
+                  {{ activityCtrl.activity.shortDescription }}
+                </label>
+              </span>
+            </div>
+            <tools-options ng-show="activityCtrl.isOwner"></tools-options>
           </div>
         </md-toolbar><br>
         <form name='actForm' novalidate>

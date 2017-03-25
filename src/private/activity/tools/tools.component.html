@@ -1,0 +1,20 @@
+<md-fab-speed-dial ng-hide="toolsCtrl.hidden" md-direction="left" md-open="toolsCtrl.isOpen"
+   class="md-scale" ng-class="{ 'md-hover-full': toolsCtrl.hover }"
+   ng-mouseenter="toolsCtrl.isOpen=true" ng-mouseleave="toolsCtrl.isOpen=false">
+  <md-fab-trigger>
+    <md-button aria-label="menu">
+      <md-icon class="material-icons md-18" style="color: #50D050">settings</md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <div ng-repeat="item in toolsCtrl.items">
+      <md-button aria-label="{{item.name}}" class="md-fab md-raised md-mini">
+        <md-tooltip md-direction="{{item.direction}}" md-visible="toolsCtrl.tooltipVisible"
+                    md-autohide="false" ng-disabled="true">
+          {{item.name}}
+        </md-tooltip>
+        <md-icon class="material-icons md-18" style="color: #50D050">{{item.icon}}</md-icon>
+      </md-button>
+    </div>
+  </md-fab-actions>
+</md-fab-speed-dial>

@@ -4,8 +4,8 @@
 angular.module('private')
 .controller('activityController', activityController);
 
-activityController.$inject = ['$stateParams', '$state', '$scope'];
-function activityController($stateParams, $state, $scope) {
+activityController.$inject = ['$stateParams', '$state', '$scope', 'Auth'];
+function activityController($stateParams, $state, $scope, Auth) {
   var $ctrl = this;
   $ctrl.activity = $stateParams.activity;
 
@@ -39,6 +39,7 @@ function activityController($stateParams, $state, $scope) {
       $ctrl.activity.startDate = new Date(dateFormat[0], dateFormat[1], dateFormat[2]);
     }
     $ctrl.guides = $ctrl.activity.guides;
+    $ctrl.isOwner = Auth.isUserLoggedIn().email == $ctrl.activity.owner.email;
   }
 }
 

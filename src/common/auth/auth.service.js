@@ -11,6 +11,7 @@ function AuthFactory($localStorage, $state, $rootScope, $http) {
     logUser: function(username, data) {
       $localStorage.currentUser = {
         username: username,
+        email: data.email,
         token: data.token,
         refreshToken: data.refreshToken
       };
