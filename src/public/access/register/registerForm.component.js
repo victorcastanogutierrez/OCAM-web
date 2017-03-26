@@ -51,7 +51,7 @@ function RegisterFormController(hikerService, EMAIL_FORMAT) {
   var getNewUser = function() {
     return {
       email : $ctrl.email,
-      login : $ctrl.username,
+      username : $ctrl.username,
       password : $ctrl.password
     };
   }

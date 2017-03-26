@@ -4,8 +4,10 @@
 angular.module('private')
 .controller('activityController', activityController);
 
-activityController.$inject = ['$stateParams', '$state', '$scope', 'Auth'];
-function activityController($stateParams, $state, $scope, Auth) {
+activityController.$inject = ['$stateParams', '$state', '$scope', 'Auth',
+  '$mdDialog', 'activityService'];
+function activityController($stateParams, $state, $scope, Auth, $mdDialog,
+  activityService) {
   var $ctrl = this;
   $ctrl.activity = $stateParams.activity;
 
@@ -49,6 +51,42 @@ function activityController($stateParams, $state, $scope, Auth) {
   $ctrl.onLoading = function(loading) {
     $ctrl.cargando = loading;
   };
+
+  $ctrl.monitorizarActividad = function() {
+    var confirm = $mdDialog.prompt()
+      .title('Monitorizar actividad')
+      .textContent('Introduce la contraseña para acceder a la monitorización de la actividad.')
+      .placeholder('Contraseña')
+      .ok('Continuar')
+      .cancel('Cancelar');
+
+    $mdDialog.show(confirm).then(function(result) {
+      if (!result) {
+        errorPassword('¡Debes introducir la password!');
+        return;
+      }
+      $ctrl.cargando = true;
+
+      activityService.checkPassword($ctrl.activity.id, result).then(function() {
+        //$state.go("private.activity", {activity: response});
+        $ctrl.cargando = false;
+      }, function(err) {
+        errorPassword(err.data.message);
+        $ctrl.cargando = false;
+      });
+    });
+  };
+
+  var errorPassword = function(err) {
+    $mdDialog.show(
+      $mdDialog.alert()
+        .parent(angular.element(document.querySelector('#popupContainer')))
+        .clickOutsideToClose(true)
+        .title('Error comprobando la password de la actividad')
+        .textContent(err)
+        .ok('Aceptar')
+    );
+  }
 }
 
 })();

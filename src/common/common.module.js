@@ -12,6 +12,7 @@ angular.module('common', ['base64', 'ngStorage', 'ui.router'])
 .constant('HIKER_CHANGE_PASSWORD', '/api/hiker/changePassword')
 .constant('SAVE_ACT_API', '/api/activity/save')
 .constant('EXISTS_EMAIL_API', '/api/existshiker')
+.constant('CHECK_ACTIVITY_PASSWORD_API', '/api/activity/checkPassword')
 .config(CommonConfig);
 
 CommonConfig.$inject = ['$httpProvider']

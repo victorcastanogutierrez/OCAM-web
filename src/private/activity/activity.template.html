@@ -86,7 +86,8 @@
             <md-input-container  class="md-block" flex-gt-sm>
               <label>Estado de la actividad: {{ activityCtrl.getActivityStatus() }}</label><br>
               <md-button class="md-raised md-primary"
-                ng-disabled="activityCtrl.activity.status != 'RUNNING'">
+                ng-disabled="activityCtrl.activity.status != 'RUNNING' || activityCtrl.cargando"
+                ng-click="activityCtrl.monitorizarActividad()">
                 Monitorizar
               </md-button>
             </md-input-container>

@@ -62,7 +62,7 @@ function newActivityController($scope, activityService, $mdDialog, $state,
           $ctrl.error = "Debe haber como mínimo un guía!";
         } else {
           confirmSave(function() {
-            //$ctrl.cargando = true;
+            $ctrl.cargando = true;
             newActivity.guides = $ctrl.guides;
             newActivity.track = gpxContent;
             activityService.save(newActivity, function(response) {
