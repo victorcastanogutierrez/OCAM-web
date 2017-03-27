@@ -5,9 +5,11 @@ angular.module('common')
 .service('activityService', activityService);
 
 activityService.$inject =['Auth', '$http', 'SERVER_URL', 'PENDING_ACTIVITIES_API',
-  'COUNT_PENDING_ACTIVITIES_API', 'SAVE_ACT_API', 'CHECK_ACTIVITY_PASSWORD_API'];
+  'COUNT_PENDING_ACTIVITIES_API', 'SAVE_ACT_API', 'CHECK_ACTIVITY_PASSWORD_API',
+  'ACTIVITY_FIND_BY_ID'];
 function activityService(Auth, $http, SERVER_URL, PENDING_ACTIVITIES_API,
-  COUNT_PENDING_ACTIVITIES_API, SAVE_ACT_API, CHECK_ACTIVITY_PASSWORD_API) {
+  COUNT_PENDING_ACTIVITIES_API, SAVE_ACT_API, CHECK_ACTIVITY_PASSWORD_API,
+  ACTIVITY_FIND_BY_ID) {
 
   var service = this;
 
@@ -54,6 +56,13 @@ function activityService(Auth, $http, SERVER_URL, PENDING_ACTIVITIES_API,
   service.checkPassword = function(activityId, password) {
     return $http.get(SERVER_URL + CHECK_ACTIVITY_PASSWORD_API + '/' + activityId +
       '/' + password)
+      .then(function (response) {
+        return response.data;
+      });
+  };
+
+  service.findById = function(activityId) {
+    return $http.get(SERVER_URL + ACTIVITY_FIND_BY_ID + '/' + activityId)
       .then(function (response) {
         return response.data;
       });

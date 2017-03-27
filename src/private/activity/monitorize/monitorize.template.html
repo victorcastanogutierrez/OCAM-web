@@ -1,0 +1,62 @@
+<md-content class="md-padding" layout-xs="column" layout="column">
+    <md-card>
+      <md-card-content>
+        <!-- Formulario de búsqueda oculto -->
+        <md-toolbar class="md-table-toolbar md-default"
+          ng-hide="monCtrl.showFilter" aria-hiddel="false">
+          <div class="md-toolbar-tools">
+            <h2>Excursionistas</h2>
+            <div class="flex" flex=""></div>
+            <button md-button class="md-icon-button md-ink-ripple" type="button"
+               ng-click="monCtrl.showFilter=true" ng-disabled="monCtrl.cargando">
+              <md-icon class="material-icons md-18" style="color: #50D050">filter_list</md-icon>
+            </button>
+            <button md-button class="md-icon-button md-ink-ripple" ng-click="monCtrl.refreshData()"
+              ng-disabled="monCtrl.cargando">
+              <md-icon class="material-icons md-18" style="color: #50D050">refresh</md-icon>
+            </button>
+          </div>
+        </md-toolbar>
+        <!-- Formulario de búsqueda visible -->
+        <md-toolbar class="md-table-toolbar md-default" ng-show="monCtrl.showFilter" aria-hidden="false">
+          <div class="md-toolbar-tools">
+            <form flex="" name="filter.form" class="ng-pristine ng-valid flex">
+              <md-input-container>
+                <md-icon class="material-icons md-18" style="color: #50D050">search</md-icon>
+                <input ng-model="mailFilter">
+              </md-input-container>
+            </form>
+            <button class="md-icon-button md-button md-ink-ripple" type="button" ng-click="monCtrl.disableFilter()" aria-label="close">
+              <md-icon class="material-icons md-18" style="color: #50D050">close</md-icon>
+            </button>
+          </div>
+        </md-toolbar>
+
+        <md-table-container>
+          <table md-table md-row-select
+              md-row-select="true" ng-model="monCtrl.selected" multiple="true"
+              md-progress="monCtrl.promise" >
+            <thead md-head md-order="monCtrl.order">
+              <tr md-row>
+                <th md-column md-order-by="email"><label>Email</label></th>
+              </tr>
+            </thead>
+            <tbody md-body>
+              <tr md-row ng-repeat="hiker in monCtrl.hikers |
+                  limitTo: monCtrl.initialRowLimit : (monCtrl.page - 1) * monCtrl.initialRowLimit |
+                  orderBy: monCtrl.order" mdAutoSelect="true" md-select="hiker"
+                  md-on-deselect="monCtrl.deSelectItem" md-on-select="monCtrl.selectItem">
+                <td md-cell>{{hiker.email}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </md-table-container>
+
+        <md-table-pagination md-page="monCtrl.page" md-limit="monCtrl.initialRowLimit"
+          md-total="{{monCtrl.activity.hikers.length}}" md-page-select="true"
+          md-boundary-links="true" md-limit-options="monCtrl.pageOptions"
+          md-label="{page: 'Página:', rowsPerPage: 'Filas por página:', of: 'de'}">
+        </md-table-pagination>
+      </md-card-content>
+    </md-card>
+</md-content>

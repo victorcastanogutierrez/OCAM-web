@@ -70,6 +70,18 @@ function routeConfig ($stateProvider, $locationProvider) {
       params: {
         activity: null
       }
+    })
+    .state('private.monitorize', {
+      url: '/monitorization',
+      controller: 'monitorizeController',
+      controllerAs: 'monCtrl',
+      templateUrl : 'src/private/activity/monitorize/monitorize.template.html',
+      data: {
+        authorization: true
+      },
+      params: {
+        activityId: null
+      }
     });
   }
 })();

@@ -53,6 +53,10 @@ function activityController($stateParams, $state, $scope, Auth, $mdDialog,
   };
 
   $ctrl.monitorizarActividad = function() {
+    //borrar
+    $state.go("private.monitorize", {activityId: $ctrl.activity.id});
+    return ;
+    //--
     var confirm = $mdDialog.prompt()
       .title('Monitorizar actividad')
       .textContent('Introduce la contraseña para acceder a la monitorización de la actividad.')
@@ -68,7 +72,7 @@ function activityController($stateParams, $state, $scope, Auth, $mdDialog,
       $ctrl.cargando = true;
 
       activityService.checkPassword($ctrl.activity.id, result).then(function() {
-        //$state.go("private.activity", {activity: response});
+        $state.go("private.monitorize", {activityId: $ctrl.activity.id});
         $ctrl.cargando = false;
       }, function(err) {
         errorPassword(err.data.message);

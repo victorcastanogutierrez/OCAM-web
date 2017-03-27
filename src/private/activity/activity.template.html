@@ -1,5 +1,4 @@
 <md-content class="md-padding" layout-xs="column" layout="row">
-
   <div flex-xs flex-gt-xs="50" layout="column">
     <md-card>
       <md-card-content>
@@ -24,7 +23,8 @@
             <tools-options ng-show="activityCtrl.isOwner"
               activity="activityCtrl.activity"
               on-error="activityCtrl.onError(error)"
-              on-loading="activityCtrl.onLoading(loading)">
+              on-loading="activityCtrl.onLoading(loading)"
+              monitorizar="activityCtrl.monitorizarActividad()">
             </tools-options>
           </div>
         </md-toolbar><br>

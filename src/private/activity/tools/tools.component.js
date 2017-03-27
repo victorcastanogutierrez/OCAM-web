@@ -9,7 +9,8 @@ angular.module('private')
   bindings: {
     activity: '<',
     onError: '&',
-    onLoading: '&'
+    onLoading: '&',
+    monitorizar: '&'
   }
 });
 
@@ -51,7 +52,7 @@ function ToolsController($scope, $timeout, $state, activityService,
   $ctrl.edit = true;
   $ctrl.items = [
     { name: "Editar", icon: "mode_edit", direction: "bottom", action: editActivity},
-    { name: "Monitorizar", icon: "visibility", direction: "top" },
+    { name: "Monitorizar", icon: "visibility", direction: "top", action: $ctrl.monitorizar},
     { name: "Eliminar", icon:"delete_forever", direction: "bottom", action: deleteActivity}
   ];
   $ctrl.hidden = false;

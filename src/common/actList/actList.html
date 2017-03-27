@@ -42,7 +42,7 @@
           <md-table-pagination md-limit="actListCtrl.itemsPage" md-page="actListCtrl.page"
             md-total="{{actListCtrl.numEle}}" md-page-select="true"
             md-boundary-links="false" md-on-paginate="actListCtrl.onPageChange()"
-            limitOptions="[5]" >
+            md-label="{page: 'Página:', rowsPerPage: 'Filas por página:', of: 'de'}">
           </md-table-pagination>
 
           <div layout="row" layout-align="end end">

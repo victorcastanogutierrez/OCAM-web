@@ -58,8 +58,7 @@ function activityListController(list, numEle, activityService, $q,
         $ctrl.fl_refreshing = false;
       });
     });
-
-  }
+  };
 
   // Configuración de la paginación
   // Lista de actividades
