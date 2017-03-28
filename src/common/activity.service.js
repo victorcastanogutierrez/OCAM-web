@@ -67,5 +67,8 @@ function activityService(Auth, $http, SERVER_URL, PENDING_ACTIVITIES_API,
         return response.data;
       });
   };
+
+  
+
 }
 })();

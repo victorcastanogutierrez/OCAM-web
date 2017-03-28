@@ -5,10 +5,18 @@ angular.module('private')
 .controller('monitorizeController', monitorizeController);
 
 monitorizeController.$inject = ['$stateParams', '$state', 'activityService',
-  '$scope'];
-function monitorizeController($stateParams, $state, activityService, $scope) {
+  '$scope', 'TrackService'];
+function monitorizeController($stateParams, $state, activityService, $scope,
+  TrackService) {
   var $ctrl = this;
 
+  $ctrl.map = {
+    center: {
+      latitude: 0,
+      longitude: 0
+    },
+    zoom: 12
+  };
   $ctrl.cargando = false;
   $ctrl.selected = [];
   $ctrl.page = 1;
@@ -35,6 +43,15 @@ function monitorizeController($stateParams, $state, activityService, $scope) {
       $ctrl.activity = response;
       $ctrl.cargando = false;
       $ctrl.hikers = $ctrl.activity.hikers;
+      $ctrl.track = TrackService.getActivityTrack($ctrl.activity.track);
+      $ctrl.map = {
+        center: {
+          latitude: $ctrl.track.path[0].latitude,
+          longitude: $ctrl.track.path[0].longitude
+        },
+        zoom: 12
+      };
+      console.log($ctrl.map);
       if (!$ctrl.activity.status == 'RUNNING') {
         notAllowed();
       } else {
@@ -79,7 +96,8 @@ function monitorizeController($stateParams, $state, activityService, $scope) {
         }
       });
     }
-    $ctrl.initialRowLimit = total;
+    //$ctrl.initialRowLimit = total;
+    $ctrl.initialRowLimit = 3;
   };
 
   var updateHikers = function() {

@@ -59,4 +59,15 @@
         </md-table-pagination>
       </md-card-content>
     </md-card>
+    <md-card>
+      <md-card-content>
+        <ui-gmap-google-map
+          center='monCtrl.map.center' zoom='monCtrl.map.zoom'>
+          <ui-gmap-polyline path="monCtrl.track.path" stroke="monCtrl.track.stroke"
+            geodesic='monCtrl.track.geodesic' fit="false" editable="false"
+            draggable="false" icons='monCtrl.track.icons'>
+          </ui-gmap-polyline>
+        </ui-gmap-google-map>
+      </md-card-content>
+    </md-card>
 </md-content>

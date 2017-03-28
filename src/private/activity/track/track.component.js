@@ -11,10 +11,19 @@ angular.module('private')
   }
 });
 
-function ActivityTrackController() {
+ActivityTrackController.$inject = ['TrackService'];
+function ActivityTrackController(TrackService) {
   var $ctrl = this;
 
-  $ctrl.track = getActivityTrack($ctrl.activityTrack);
+  $ctrl.map = {
+    center: {
+      latitude: 0,
+      longitude: 0
+    },
+    zoom: 12
+  };
+
+  $ctrl.track = TrackService.getActivityTrack($ctrl.activityTrack);
   if (assertTrackContainsPoints($ctrl.track)) {
     $ctrl.map = {
       center: {
@@ -24,6 +33,7 @@ function ActivityTrackController() {
       zoom: 12
     };
   }
+
 }
 
 /**
@@ -33,50 +43,5 @@ var assertTrackContainsPoints = function(track) {
   return track.path.length > 0;
 }
 
-/**
-   Retorna la polilinea con el track de la ruta
-*/
-var getActivityTrack = function(pts) {
-
-    //Obtiene el XML del track
-    var parser = new DOMParser();
-    var xmlDoc = parser.parseFromString(pts, "text/xml");
-    var points = [];
-
-    var incluirPunto = function(that) {
-      var lat = that.attr("lat");
-      var lon = that.attr("lon");
-      points.push({latitude: lat, longitude: lon});
-    }
-
-    //Obtiene el array de puntos
-    $(xmlDoc).find("trkpt").each(function () {
-      incluirPunto($(this));
-    });
-    $(xmlDoc).find("wpt").each(function () {
-      incluirPunto($(this));
-    });
-
-    //Construye la polylinea
-    var polyLinea = {
-      id : 1,
-      path : points,
-      stroke: {
-        color: '#6060FB',
-        weight: 3
-      },
-      geodesic: true,
-      visible: true,
-      icons: [{
-        icon: {
-            path: google.maps.SymbolPath.BACKWARD_OPEN_ARROW
-        },
-        offset: '25px',
-        repeat: '50px'
-      }]
-    };
-
-    return polyLinea;
-};
 
 })();
