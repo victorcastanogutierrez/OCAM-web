@@ -28,11 +28,10 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   };
   $ctrl.hikers = [];
   $ctrl.initialRowLimit = 5; // Se machacará con otro dato al cargar las actividades
-  $ctrl.fl_refreshing = false;
   $ctrl.currentReports = [];
-
-
   $ctrl.markers = [];
+  $ctrl.trayectorias = [];
+  $ctrl.controlTrayectorias = false;
 
   var createMarker = function(id,  title, GPSPoint) {
     return {
@@ -56,18 +55,39 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     $state.go('private.actList');
   };
 
+  /**
+    Formatea una fecha a partir de un timestamp
+  */
+  var formatDate = function(timestamp) {
+    var date = new Date(timestamp);
+    if (date) {
+      return date.getHours() + ':' + date.getMinutes() + ' ' +
+      date.getFullYear() + '/' + date.getMonth() + '/' + date.getDate();
+    }
+    return '';
+  };
+
+  /**
+    Carga los últimos reportes de cada hiker
+  */
   var cargarActivityReports = function() {
+    $ctrl.cargando = true;
     $ctrl.promise = activityService.finLastActivityReports($ctrl.activity.id).then(
       /**
         Cruza los datos de los hiker con los reportes para asignar a cada uno
         la fecha de su último reporte
       */
       function(response) {
+        $ctrl.cargando = false;
         $ctrl.currentReports = response;
-        $ctrl.hikers.map(x =>
-          x.lastReport = response.find(y => y.hiker.id == x.id).date
-        );
+        $ctrl.hikers.map(x => {
+          var report = response.find(y => y.hiker.id == x.id);
+          if (report) {
+            x.lastReport = formatDate(report.date);
+          }
+        });
       }, function(err) {
+        $ctrl.cargando = false;
         notAllowed();
       }
     )
@@ -134,7 +154,9 @@ function monitorizeController($stateParams, $state, activityService, $scope,
 
   var updateHikers = function() {
     if ($ctrl.activity) {
-      $ctrl.hikers = $ctrl.activity.hikers.filter(x => x.email.includes($scope.mailFilter));
+      $ctrl.hikers = $ctrl.activity.hikers.filter(x =>
+        x.email.toLowerCase().includes($scope.mailFilter.toLowerCase())
+      );
     }
   };
 
@@ -162,7 +184,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
 
   $ctrl.refreshData = function() {
     $ctrl.cargando = true;
-
+    $ctrl.markers = [];
     $ctrl.promise = activityService.findById(activityId).then(function (response) {
       $ctrl.activity = response;
       $ctrl.cargando = false;
@@ -172,6 +194,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
         notAllowed();
       } else {
         loadPageOptions();
+		    cargarActivityReports();
       }
     }, function() {
       $ctrl.cargando = false;
@@ -181,7 +204,6 @@ function monitorizeController($stateParams, $state, activityService, $scope,
 
   $ctrl.selectItem = function(item) {
     var report = $ctrl.currentReports.find(x => x.hiker.email == item.email);
-    console.log(report);
     if (report) {
       var marker = createMarker(item.id, item.email, report.point);
       $ctrl.markers.push(marker);
@@ -202,5 +224,70 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       $ctrl.markers.splice(pos, 1);
     }
   };
+
+  /**
+    Carga la trayectoria de un excursionista
+  */
+  $ctrl.cargarTrayectoria = function (hiker) {
+    $ctrl.cargando = true;
+    $ctrl.promise = activityService
+      .findAllActivityReportsByHiker($ctrl.activity.id, hiker.id).then(
+      function(response) {
+        if (response && response.length > 0) {
+          insertarTrayectoria(response, hiker.id);
+        }
+        $ctrl.cargando = false;
+      }, function(err) {
+        $ctrl.cargando = false;
+      }
+    );
+  };
+
+  /**
+    Pone visible/oculta la trayectoria de un excursionista en caso de tenerla
+    o la carga en caso contrario.
+  */
+  $ctrl.trayectoria = function(hiker) {
+    var trayectoria = $ctrl.trayectorias.find(x => x.id == hiker.id);
+    if (!trayectoria) {
+      $ctrl.cargarTrayectoria(hiker);
+    } else {
+      trayectoria.visible = !trayectoria.visible;
+    }
+  };
+
+  /**
+    Crea una nueva trayectoria sustituyendo en caso de existir la antigua
+  */
+  var insertarTrayectoria = function(reports, hikerId) {
+    var trayectoria = $ctrl.trayectorias.find(x => x.id == hikerId);
+    var exists = trayectoria != undefined;
+
+    if (!exists) {
+      trayectoria = {
+        id: hikerId,
+        path: [],
+        editable: false,
+        draggable: false,
+        geodesic: true,
+        visible: false
+      };
+    } else {
+      trayectoria.path = [];
+    }
+
+    reports.forEach(x => {
+      trayectoria.path.push({
+        latitude: x.point.latitude,
+        longitude: x.point.longitude
+      });
+    });
+
+    trayectoria.visible = true;
+    if (!exists) {
+      $ctrl.trayectorias.push(trayectoria);
+    }
+  };
+
 }
 })();

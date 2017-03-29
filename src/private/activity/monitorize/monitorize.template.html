@@ -5,7 +5,7 @@
         <md-toolbar class="md-table-toolbar md-default"
           ng-hide="monCtrl.showFilter" aria-hiddel="false">
           <div class="md-toolbar-tools">
-            <h2>Excursionistas</h2>
+            <h2>Monitorización de excursionistas</h2>
             <div class="flex" flex=""></div>
             <button md-button class="md-icon-button md-ink-ripple" type="button"
                ng-click="monCtrl.showFilter=true" ng-disabled="monCtrl.cargando">
@@ -40,6 +40,7 @@
               <tr md-row>
                 <th md-column md-order-by="email"><label>Email</label></th>
                 <th md-column md-order-by="email"><label>Último reporte</label></th>
+                <th md-column md-order-by="email"></th>
               </tr>
             </thead>
             <tbody md-body>
@@ -49,6 +50,16 @@
                   md-on-deselect="monCtrl.deSelectItem" md-on-select="monCtrl.selectItem">
                 <td md-cell>{{hiker.email}}</td>
                 <td md-cell>{{hiker.lastReport}}</td>
+                <td md-cell>
+                  <md-button md-no-ink class="md-primary"
+                    ng-click="monCtrl.trayectoria(hiker)" ng-disabled="monCtrl.cargando">
+                    Mostrar trayectoria
+                  </md-button>
+                  <button md-button class="md-icon-button md-ink-ripple" ng-click="monCtrl.cargarTrayectoria(hiker)"
+                    ng-disabled="monCtrl.hikers.trayectoria">
+                    <md-icon class="material-icons md-18" style="color: #50D050">refresh</md-icon>
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -75,6 +86,10 @@
           <ui-gmap-markers models="monCtrl.markers" coords="'self'"
             options="'options'" icon="'icon'">
           </ui-gmap-markers>
+
+          <ui-gmap-polylines models="monCtrl.trayectorias" path="'path'" stroke="'stroke'" visible="'visible'"
+                          geodesic="'geodesic'" editable="'editable'" draggable="'draggable'" static="true" >
+          </ui-gmap-polylines>
         </ui-gmap-google-map>
       </md-card-content>
     </md-card>
