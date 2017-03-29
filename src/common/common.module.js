@@ -14,6 +14,7 @@ angular.module('common', ['base64', 'ngStorage', 'ui.router'])
 .constant('EXISTS_EMAIL_API', '/api/existshiker')
 .constant('CHECK_ACTIVITY_PASSWORD_API', '/api/activity/checkPassword')
 .constant('ACTIVITY_FIND_BY_ID', '/api/activity')
+.constant('ACTIVITY_LAST_REPORTS', '/api/lastActivityReports')
 .config(CommonConfig);
 
 CommonConfig.$inject = ['$httpProvider']

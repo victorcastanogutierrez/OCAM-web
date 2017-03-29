@@ -77,7 +77,7 @@ function newActivityController($scope, activityService, $mdDialog, $state,
         }
       };
       //Solo en caso que haya contenido: nuevo o editado
-      if (!$ctrl.activity.track) {
+      if ($ctrl.gpxFile) {
         TrackService.getGPXContent($ctrl.gpxFile, successGPXLoad);
       } else { // Se está editando y el track ya lo tiene
         successGPXLoad($ctrl.activity.track)

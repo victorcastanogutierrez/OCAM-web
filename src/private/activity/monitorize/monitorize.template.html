@@ -39,6 +39,7 @@
             <thead md-head md-order="monCtrl.order">
               <tr md-row>
                 <th md-column md-order-by="email"><label>Email</label></th>
+                <th md-column md-order-by="email"><label>Último reporte</label></th>
               </tr>
             </thead>
             <tbody md-body>
@@ -47,6 +48,7 @@
                   orderBy: monCtrl.order" mdAutoSelect="true" md-select="hiker"
                   md-on-deselect="monCtrl.deSelectItem" md-on-select="monCtrl.selectItem">
                 <td md-cell>{{hiker.email}}</td>
+                <td md-cell>{{hiker.lastReport}}</td>
               </tr>
             </tbody>
           </table>
@@ -63,10 +65,16 @@
       <md-card-content>
         <ui-gmap-google-map
           center='monCtrl.map.center' zoom='monCtrl.map.zoom'>
+          <!-- Track -->
           <ui-gmap-polyline path="monCtrl.track.path" stroke="monCtrl.track.stroke"
             geodesic='monCtrl.track.geodesic' fit="false" editable="false"
             draggable="false" icons='monCtrl.track.icons'>
           </ui-gmap-polyline>
+
+          <!-- Hiker markers -->
+          <ui-gmap-markers models="monCtrl.markers" coords="'self'"
+            options="'options'" icon="'icon'">
+          </ui-gmap-markers>
         </ui-gmap-google-map>
       </md-card-content>
     </md-card>

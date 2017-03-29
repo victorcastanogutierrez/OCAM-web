@@ -15,7 +15,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       latitude: 0,
       longitude: 0
     },
-    zoom: 12
+    zoom: 14
   };
   $ctrl.cargando = false;
   $ctrl.selected = [];
@@ -29,6 +29,23 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   $ctrl.hikers = [];
   $ctrl.initialRowLimit = 5; // Se machacará con otro dato al cargar las actividades
   $ctrl.fl_refreshing = false;
+  $ctrl.currentReports = [];
+
+
+  $ctrl.markers = [];
+
+  var createMarker = function(id,  title, GPSPoint) {
+    return {
+      latitude: GPSPoint.latitude,
+      longitude: GPSPoint.longitude,
+      options: {
+        labelClass:'marker_labels',
+        labelAnchor:'12 60',
+        labelContent: title
+      },
+      id: id
+    };
+  };
 
   /**
     Comprueba que se haya pasado una id por parametro, que la actividad
@@ -38,24 +55,39 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   var notAllowed = function() {
     $state.go('private.actList');
   };
+
+  var cargarActivityReports = function() {
+    $ctrl.promise = activityService.finLastActivityReports($ctrl.activity.id).then(
+      /**
+        Cruza los datos de los hiker con los reportes para asignar a cada uno
+        la fecha de su último reporte
+      */
+      function(response) {
+        $ctrl.currentReports = response;
+        $ctrl.hikers.map(x =>
+          x.lastReport = response.find(y => y.hiker.id == x.id).date
+        );
+      }, function(err) {
+        notAllowed();
+      }
+    )
+  };
+
   var assertActivityRunning = function(activityId) {
-    activityService.findById(activityId).then(function (response) {
+    $ctrl.promise = activityService.findById(activityId).then(function (response) {
       $ctrl.activity = response;
-      $ctrl.cargando = false;
-      $ctrl.hikers = $ctrl.activity.hikers;
-      $ctrl.track = TrackService.getActivityTrack($ctrl.activity.track);
-      $ctrl.map = {
-        center: {
-          latitude: $ctrl.track.path[0].latitude,
-          longitude: $ctrl.track.path[0].longitude
-        },
-        zoom: 12
-      };
-      console.log($ctrl.map);
       if (!$ctrl.activity.status == 'RUNNING') {
         notAllowed();
       } else {
         loadPageOptions();
+        $ctrl.cargando = false;
+        $ctrl.hikers = $ctrl.activity.hikers;
+        $ctrl.track = TrackService.getActivityTrack($ctrl.activity.track);
+        $ctrl.map.center = {
+          latitude: $ctrl.track.path[0].latitude,
+          longitude: $ctrl.track.path[0].longitude
+        };
+        cargarActivityReports();
       }
     }, function() {
       $ctrl.cargando = false;
@@ -145,6 +177,30 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       $ctrl.cargando = false;
       notAllowed();
     });
+  };
+
+  $ctrl.selectItem = function(item) {
+    var report = $ctrl.currentReports.find(x => x.hiker.email == item.email);
+    console.log(report);
+    if (report) {
+      var marker = createMarker(item.id, item.email, report.point);
+      $ctrl.markers.push(marker);
+    }
+  };
+
+  $ctrl.deSelectItem = function(item) {
+    var marker;
+    var pos = null;
+    for (var i = 0; i < $ctrl.markers.length; i++) {
+      marker = $ctrl.markers[i];
+      if (marker.id == item.id) {
+        pos = i;
+        break;
+      }
+    }
+    if (pos != null) {
+      $ctrl.markers.splice(pos, 1);
+    }
   };
 }
 })();

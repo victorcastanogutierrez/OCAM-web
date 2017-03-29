@@ -6,10 +6,10 @@ angular.module('common')
 
 activityService.$inject =['Auth', '$http', 'SERVER_URL', 'PENDING_ACTIVITIES_API',
   'COUNT_PENDING_ACTIVITIES_API', 'SAVE_ACT_API', 'CHECK_ACTIVITY_PASSWORD_API',
-  'ACTIVITY_FIND_BY_ID'];
+  'ACTIVITY_FIND_BY_ID', 'ACTIVITY_LAST_REPORTS'];
 function activityService(Auth, $http, SERVER_URL, PENDING_ACTIVITIES_API,
   COUNT_PENDING_ACTIVITIES_API, SAVE_ACT_API, CHECK_ACTIVITY_PASSWORD_API,
-  ACTIVITY_FIND_BY_ID) {
+  ACTIVITY_FIND_BY_ID, ACTIVITY_LAST_REPORTS) {
 
   var service = this;
 
@@ -68,7 +68,12 @@ function activityService(Auth, $http, SERVER_URL, PENDING_ACTIVITIES_API,
       });
   };
 
-  
+  service.finLastActivityReports = function(activityId) {
+    return $http.get(SERVER_URL + ACTIVITY_LAST_REPORTS + '/' + activityId)
+      .then(function (response) {
+        return response.data;
+      });
+  };
 
 }
 })();
