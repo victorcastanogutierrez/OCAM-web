@@ -32,6 +32,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   $ctrl.markers = [];
   $ctrl.trayectorias = [];
   $ctrl.controlTrayectorias = false;
+  $ctrl.showMapTrack = true;
 
   var createMarker = function(id,  title, GPSPoint) {
     return {
@@ -222,6 +223,18 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     }
     if (pos != null) {
       $ctrl.markers.splice(pos, 1);
+    }
+  };
+
+  /**
+    Función que obtiene el texto para el boton de la trayectoria
+  */
+  $ctrl.getTrayectoriaText = function(hiker) {
+    var trayectoria = $ctrl.trayectorias.find(x => x.id == hiker.id);
+    if (!trayectoria || !trayectoria.visible) {
+      return 'MOSTRAR TRAYECTORIA';
+    } else if (trayectoria.visible){
+      return 'OCULTAR TRAYECTORIA';
     }
   };
 
