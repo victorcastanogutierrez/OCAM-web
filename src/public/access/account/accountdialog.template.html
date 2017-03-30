@@ -1,0 +1,22 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Validación de cuenta</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content" >
+        <h2 ng-show="!AccountCtrl.msg">Estamos validando tu cuenta, por favor, espera unos instantes</h2>
+        <h2 ng-show="AccountCtrl.msg">{{AccountCtrl.msg}}</h2>
+        <div layout="row" layout-align="center center"><br>
+          <md-progress-circular layout-align="center" md-mode="indeterminate" md-diameter="40" ng-show="AccountCtrl.cargando"></md-progress-circular>
+          <md-button ng-click="AccountCtrl.close()" ng-show="!AccountCtrl.cargando">
+            Ir al login
+          </md-button>
+        </div>
+      </div>
+    </md-dialog-content>
+  </form>
+</md-dialog>

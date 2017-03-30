@@ -9,8 +9,8 @@ angular.module('public')
 })
 .constant ('EMAIL_FORMAT', /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/);
 
-RegisterFormController.$inject = ['hikerService', 'EMAIL_FORMAT'];
-function RegisterFormController(hikerService, EMAIL_FORMAT) {
+RegisterFormController.$inject = ['hikerService', 'EMAIL_FORMAT', '$mdDialog'];
+function RegisterFormController(hikerService, EMAIL_FORMAT, $mdDialog) {
   var $ctrl = this;
   $ctrl.emailFormat = EMAIL_FORMAT;
 
@@ -25,7 +25,14 @@ function RegisterFormController(hikerService, EMAIL_FORMAT) {
 
     //Registrado con exito
     var registerSuccess = function(result) {
-      //TODO: notificar y redireccionar
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(false)
+          .title('Confirmación de registro')
+          .textContent('Hemos enviado un correo electrónico a '+$ctrl.email+' con instrucciones\npara validar tu cuenta.')
+          .ok('OK')
+      );
     };
 
     //Error en el registro

@@ -34,7 +34,9 @@ function routeConfig ($stateProvider, $locationProvider) {
       }
     })
     .state('public.access', {
-      url: '/access',
+      url: '/access/:code',
+      controller: 'accessController',
+      controllerAs: 'accessCtrl',
       templateUrl : 'src/public/access/access.html',
       data: {
         authorization: false

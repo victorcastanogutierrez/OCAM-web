@@ -16,6 +16,7 @@ angular.module('common', ['base64', 'ngStorage', 'ui.router'])
 .constant('ACTIVITY_FIND_BY_ID', '/api/activity')
 .constant('ACTIVITY_LAST_REPORTS', '/api/lastActivityReports')
 .constant('HIKER_ALL_REPORTS', '/api/activityHikerReports')
+.constant('HIKER_VALIDATE', '/validateHiker')
 .config(CommonConfig);
 
 CommonConfig.$inject = ['$httpProvider']
