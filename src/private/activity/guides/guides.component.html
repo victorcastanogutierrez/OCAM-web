@@ -16,7 +16,7 @@
   <md-list-item class="md-2-line" ng-repeat="guide in guidesCtrl.guides track by $index">
     <div class="md-list-item-text" layout="column">
       <h3>Guía</h3>
-      <h3> {{guide.email}} </h3>
+      <h3> {{guide.login}} </h3>
     </div>
     <md-button class="md-secondary md-icon-button"
       ng-click="guidesCtrl.removeGuide($index)" aria-label="call"

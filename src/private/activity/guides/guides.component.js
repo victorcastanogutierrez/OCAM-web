@@ -15,37 +15,43 @@ angular.module('private')
   }
 });
 
-ActivityGuidesController.$inject = ['$mdDialog', 'hikerService'];
-function ActivityGuidesController($mdDialog, hikerService) {
+ActivityGuidesController.$inject = ['$mdDialog', 'hikerService', 'Auth'];
+function ActivityGuidesController($mdDialog, hikerService, Auth) {
   var $ctrl = this;
 
   if (!$ctrl.guides) {
     $ctrl.guides = [];
   }
 
+  //Por defecto, viene añadido el propio usuario
+  var myGuide = {
+    login: Auth.getHikerLoggedIn().login
+  };
+  $ctrl.onAdd({ guide : myGuide }); // Notificamos el controlador
+
   $ctrl.addGuide = function() {
     var confirm = $mdDialog.prompt()
       .title('Nuevo guía')
-      .textContent('Introduce el correo electrónico del guía que será asociado a la nueva actividad')
-      .placeholder('Email')
+      .textContent('Introduce el nombre de usuario del guía que será asociado a la nueva actividad')
+      .placeholder('Nombre de usuario')
       .ok('Añadir')
       .cancel('Cancelar');
 
     $mdDialog.show(confirm).then(function(result) {
-      if (!result || $ctrl.guides.find(x => x.email == result)) {
+      if (!result || $ctrl.guides.find(x => x.login == result)) {
         return;
       }
       $ctrl.cargando = true;
       $ctrl.guidesError = "";
-      hikerService.findByEmail(result).then(function() {
+      hikerService.findByLogin(result).then(function() {
         $ctrl.cargando = false;
         var myGuide = {
-          email: result
+          login: result
         };
         $ctrl.onAdd({ guide : myGuide }); // Notificamos el controlador
       }, function() {
         $ctrl.cargando = false;
-        $ctrl.guidesError = "No existe usuario con correo electrónico '"+result+"' registrado";
+        $ctrl.guidesError = "No existe el usuario registrado '"+result+"'";
       });
     });
   };
@@ -55,7 +61,6 @@ function ActivityGuidesController($mdDialog, hikerService) {
     for (var i = 0; i < tam; i++) {
       $ctrl.onRemove({ guide : 0 });
     }
-    $ctrl.guides = [];
   };
 
   $ctrl.removeGuide = function(index) {
