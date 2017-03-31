@@ -8,6 +8,7 @@ angular.module('private')
   templateUrl: 'src/private/activity/guides/guides.component.html',
   bindings: {
     guides: '<',
+    editando: '<',
     nuevaActividad: '<',
     cargando: '=',
     onAdd: '&',
@@ -24,10 +25,13 @@ function ActivityGuidesController($mdDialog, hikerService, Auth) {
   }
 
   //Por defecto, viene añadido el propio usuario
-  var myGuide = {
-    login: Auth.getHikerLoggedIn().login
-  };
-  $ctrl.onAdd({ guide : myGuide }); // Notificamos el controlador
+  console.log($ctrl.editando);
+  if (!$ctrl.editando) {
+    var myGuide = {
+      login: Auth.getHikerLoggedIn().login
+    };
+    $ctrl.onAdd({ guide : myGuide }); // Notificamos el controlador
+  }
 
   $ctrl.addGuide = function() {
     var confirm = $mdDialog.prompt()

@@ -57,13 +57,13 @@
               </span>
             </md-input-container>
           </div>
-          <div>
+          <div ng-show="{{activityCtrl.nuevaActividad || $ctrl.editando || activityCtrl.activity.maxPlaces}}">
             <md-input-container>
               <label>Plazas (máx. 100)</label>
-              <input ng-disabled="!activityCtrl.nuevaActividad" required
+              <input ng-disabled="!activityCtrl.nuevaActividad"
                 type="number" step="any"
-                ng-model="activityCtrl.activity.maxPlaces" min="0"
-                max="70" name="maxPlaces"/>
+                ng-model="activityCtrl.activity.maxPlaces" min="1"
+                max="100" name="maxPlaces" />
             </md-input-container>
           </div>
           <div>
@@ -126,8 +126,9 @@
         </md-toolbar>
         <guides-selection
           guides="activityCtrl.guides"
-          nueva-actividad="activityCtrl.nuevaActividad"
+          editando="activityCtrl.editando"
           cargando="activityCtrl.cargando"
+          nueva-actividad="activityCtrl.nuevaActividad"
           on-add="activityCtrl.onAddGuide(guide)"
           on-remove="activityCtrl.onRemoveGuide(guide)">
         </guidesSelection>
