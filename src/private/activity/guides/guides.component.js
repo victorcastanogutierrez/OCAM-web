@@ -25,7 +25,6 @@ function ActivityGuidesController($mdDialog, hikerService, Auth) {
   }
 
   //Por defecto, viene añadido el propio usuario
-  console.log($ctrl.editando);
   if (!$ctrl.editando) {
     var myGuide = {
       login: Auth.getHikerLoggedIn().login

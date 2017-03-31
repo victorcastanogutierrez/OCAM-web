@@ -5,9 +5,9 @@ angular.module('private')
 .controller('activityController', activityController);
 
 activityController.$inject = ['$stateParams', '$state', '$scope', 'Auth',
-  '$mdDialog', 'activityService'];
+  '$mdDialog', 'activityService', '$window'];
 function activityController($stateParams, $state, $scope, Auth, $mdDialog,
-  activityService) {
+  activityService, $window) {
   var $ctrl = this;
   $ctrl.activity = $stateParams.activity;
 
@@ -50,6 +50,10 @@ function activityController($stateParams, $state, $scope, Auth, $mdDialog,
 
   $ctrl.onLoading = function(loading) {
     $ctrl.cargando = loading;
+  };
+
+  $ctrl.mide = function() {
+    $window.location.href = $ctrl.activity.mide;
   };
 
   $ctrl.monitorizarActividad = function() {

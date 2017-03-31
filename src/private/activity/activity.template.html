@@ -43,20 +43,28 @@
           <div ng-show="!activityCtrl.nuevaActividad">
             <label>Organizador de la actividad: </label> <span>{{activityCtrl.activity.owner.email}}</span>
           </div><br>
-          <div>
+          <div  ng-show="{{activityCtrl.nuevaActividad || activityCtrl.editando || activityCtrl.activity.longDescription}}">
             <md-input-container class="md-block" flex-gt-sm>
-              <label>Descripción de la ruta de la actividad (o enlace MIDE)</label>
-
+              <label>Descripción de la ruta de la actividad</label>
               <textarea ng-disabled="!activityCtrl.nuevaActividad"
                 ng-model="activityCtrl.activity.longDescription" md-select-on-focus
-                ng-maxlength="250" md-maxlength="250" name="longDescription"
-                required>
+                ng-maxlength="250" md-maxlength="250" name="longDescription">
               </textarea>
-              <span class="text-red" ng-if="actForm.longDescription.$invalid && actForm.longDescription.$touched">
-                Debes introducir la descripción técnica de la ruta a seguir
-              </span>
             </md-input-container>
           </div>
+          <div ng-show="{{(activityCtrl.nuevaActividad || activityCtrl.editando) && activityCtrl.activity.mide}}">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Enlace MIDE</label>
+              <textarea ng-disabled="!activityCtrl.nuevaActividad"
+                ng-model="activityCtrl.activity.mide" md-select-on-focus
+                ng-maxlength="100" md-maxlength="100" name="mide">
+              </textarea>
+            </md-input-container>
+          </div>
+          <div ng-show="{{activityCtrl.nuevaActividad == undefined && activityCtrl.editando == undefined && activityCtrl.activity.mide}}">
+            <md-button md-no-ink class="md-primary" ng-click="activityCtrl.mide()">Enlace MIDE</md-button>
+            <label>({{activityCtrl.activity.mide}})</label>
+          </div><br>
           <div ng-show="{{activityCtrl.nuevaActividad || $ctrl.editando || activityCtrl.activity.maxPlaces}}">
             <md-input-container>
               <label>Plazas (máx. 100)</label>

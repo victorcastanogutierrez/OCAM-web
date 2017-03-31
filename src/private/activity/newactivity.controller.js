@@ -52,6 +52,9 @@ function newActivityController($scope, activityService, $mdDialog, $state,
   $ctrl.crearActividad = function() {
     if (!$ctrl.editando || ($ctrl.editando && $ctrl.gpxFile)) {
       $ctrl.error = TrackService.assertGPXFile($ctrl.gpxFile);
+      if (!$ctrl.error) {
+        $ctrl.error = assertActivityDescription();
+      }
     }
     if (!$ctrl.error) {
       var newActivity = getNewActivity();
@@ -118,10 +121,26 @@ function newActivityController($scope, activityService, $mdDialog, $state,
       id: $ctrl.activity.id, // Si la está editando habrá contenido.
       shortDescription: $ctrl.activity.shortDescription,
       longDescription: $ctrl.activity.longDescription,
+      mide: $ctrl.activity.mide,
       startDate: $ctrl.activity.startDate,
       maxPlaces: $ctrl.activity.maxPlaces
     };
   };
+
+  /**
+    Comprueba la descripcion de la actividad
+  */
+  var assertActivityDescription = function() {
+    if (!$ctrl.activity.mide && !$ctrl.activity.longDescription) {
+      return "Debes introducir o una descripción o enlace MIDE (o ambos).";
+    } else if ($ctrl.activity.mide) {
+      console.log("HOLA");
+      if (!$ctrl.activity.mide.includes("mide.montanasegura.com/mide/")) {
+        return "Enlace MIDE inválido";
+      }
+    }
+    return false;
+  }
 }
 
 /**
