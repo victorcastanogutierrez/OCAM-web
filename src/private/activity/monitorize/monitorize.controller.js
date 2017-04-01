@@ -5,9 +5,9 @@ angular.module('private')
 .controller('monitorizeController', monitorizeController);
 
 monitorizeController.$inject = ['$stateParams', '$state', 'activityService',
-  '$scope', 'TrackService'];
+  '$scope', 'TrackService', 'uiGmapGoogleMapApi'];
 function monitorizeController($stateParams, $state, activityService, $scope,
-  TrackService) {
+  TrackService, uiGmapGoogleMapApi) {
   var $ctrl = this;
 
   $ctrl.map = {
@@ -104,6 +104,13 @@ function monitorizeController($stateParams, $state, activityService, $scope,
         $ctrl.cargando = false;
         $ctrl.hikers = $ctrl.activity.hikers;
         $ctrl.track = TrackService.getActivityTrack($ctrl.activity.track);
+        $ctrl.track.icons = [{
+          icon: {
+              path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
+          },
+          offset: '25px',
+          repeat: '50px'
+        }];
         $ctrl.map.center = {
           latitude: $ctrl.track.path[0].latitude,
           longitude: $ctrl.track.path[0].longitude
@@ -203,6 +210,9 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     });
   };
 
+  /**
+    Muestra la última posición conocida de un hiker
+  */
   $ctrl.selectItem = function(item) {
     var report = $ctrl.currentReports.find(x => x.hiker.email == item.email);
     if (report) {
@@ -211,6 +221,9 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     }
   };
 
+  /**
+    Oculta la última posición conocida de un hiker
+  */
   $ctrl.deSelectItem = function(item) {
     var marker;
     var pos = null;
@@ -276,30 +289,43 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     var trayectoria = $ctrl.trayectorias.find(x => x.id == hikerId);
     var exists = trayectoria != undefined;
 
-    if (!exists) {
-      trayectoria = {
-        id: hikerId,
-        path: [],
-        editable: false,
-        draggable: false,
-        geodesic: true,
-        visible: false
-      };
-    } else {
-      trayectoria.path = [];
-    }
+    uiGmapGoogleMapApi.then(function(){
+      if (!exists) {
+        trayectoria = {
+          id: hikerId,
+          path: [],
+          editable: false,
+          draggable: false,
+          geodesic: true,
+          stroke: {
+              color: '#FF0000',
+              weight: 4
+          },
+          visible: false,
+          icons: [{
+            icon: {
+                path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
+            },
+            offset: '25px',
+            repeat: '50px'
+          }]
+        }
+      } else {
+        trayectoria.path = [];
+      }
 
-    reports.forEach(x => {
-      trayectoria.path.push({
-        latitude: x.point.latitude,
-        longitude: x.point.longitude
+      reports.forEach(x => {
+        trayectoria.path.push({
+          latitude: x.point.latitude,
+          longitude: x.point.longitude
+        });
       });
-    });
 
-    trayectoria.visible = true;
-    if (!exists) {
-      $ctrl.trayectorias.push(trayectoria);
-    }
+      trayectoria.visible = true;
+      if (!exists) {
+        $ctrl.trayectorias.push(trayectoria);
+      }
+    });
   };
 
 }

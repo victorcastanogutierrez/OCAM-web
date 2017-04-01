@@ -1,11 +1,22 @@
-<ui-gmap-google-map
-  center='trackCtrl.map.center' zoom='trackCtrl.map.zoom'>
-  </ui-gmap-map-control>
+<button ng-click="trackCtrl.changeMap()">Change</button>
+{{trackCtrl.refreshType}}
+<ui-gmap-google-map refresh="trackCtrl.refreshType"
+  center='trackCtrl.map.center' zoom='trackCtrl.map.zoom' control='trackCtrl.map.control'>
+
   <ui-gmap-polyline path="trackCtrl.track.path" stroke="trackCtrl.track.stroke"
     geodesic='trackCtrl.track.geodesic' fit="false" editable="false"
     draggable="false" icons='trackCtrl.track.icons'>
   </ui-gmap-polyline>
+
   <ui-gmap-markers models="trackCtrl.markers" coords="'self'"
     options="'options'" icon="'icon'">
   </ui-gmap-markers>
+
+  <ui-gmap-map-type options="trackCtrl.mapType" refresh="$ctrl.refreshMap">
+  </ui-gmap-map-type>
+
+  <ui-gmap-map-control template="src/private/activity/track/mapControls.template.html"
+    position="top-left" controller="mapControls">
+  </ui-gmap-map-control>
+
 </ui-gmap-google-map>

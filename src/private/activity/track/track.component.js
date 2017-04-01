@@ -11,9 +11,11 @@ angular.module('private')
   }
 });
 
-ActivityTrackController.$inject = ['TrackService'];
-function ActivityTrackController(TrackService) {
+ActivityTrackController.$inject = ['TrackService', 'mapService', '$scope'];
+function ActivityTrackController(TrackService, mapService, $scope) {
   var $ctrl = this;
+
+  $scope.rf = false;
 
   $ctrl.markers = [];
   $ctrl.map = {
@@ -23,6 +25,7 @@ function ActivityTrackController(TrackService) {
     },
     zoom: 15
   };
+
 
   var createMarker = function(id,  title, GPSPoint) {
     return {
@@ -44,12 +47,32 @@ function ActivityTrackController(TrackService) {
         latitude: $ctrl.track.path[0].latitude,
         longitude: $ctrl.track.path[0].longitude
       },
-      zoom: 15
+      zoom: 5
     };
+
 
     $ctrl.markers.push(createMarker(0, "Inicio", $ctrl.track.path[0]));
     $ctrl.markers.push(createMarker(1, "Fin", $ctrl.track.path[$ctrl.track.path.length-1]));
   }
+
+  //Configuración del tipo de mapa
+  $scope.$on('mapChange', function(event, arg) {
+    var cMap = mapService.getMapTypes().find(x => x.id == arg);
+    if (cMap && cMap.mapType){
+      console.log(cMap.mapType());
+      $ctrl.mapType = cMap.mapType();
+      $ctrl.showMapType = true;
+    } else {
+      $ctrl.showMapType = false;
+    }
+  });
+
+  $ctrl.refreshMap = false;
+  $ctrl.changeMap = function() {
+    $ctrl.mapType = mapService.getOSM();
+    $ctrl.refreshMap = true;
+  }
+
 }
 
 /**
