@@ -2,11 +2,11 @@
 'use strict';
 
 angular.module('private')
-.controller('newActivityController', newActivityController);
+.controller('saveActivityController', saveActivityController);
 
-newActivityController.$inject = ['$scope', 'activityService', '$mdDialog', '$state',
+saveActivityController.$inject = ['$scope', 'activityService', '$mdDialog', '$state',
   'TrackService', '$stateParams', '$mdToast'];
-function newActivityController($scope, activityService, $mdDialog, $state,
+function saveActivityController($scope, activityService, $mdDialog, $state,
   TrackService, $stateParams, $mdToast) {
 
   var $ctrl = this;

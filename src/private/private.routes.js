@@ -61,7 +61,7 @@ function routeConfig ($stateProvider, $locationProvider) {
     })
     .state('private.newActivity', {
       url: '/new',
-      controller: 'newActivityController',
+      controller: 'saveActivityController',
       controllerAs: 'activityCtrl',
       templateUrl : 'src/private/activity/activity.template.html',
       data: {
