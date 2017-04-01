@@ -27,27 +27,18 @@ function mapService() {
         id: 2,
         name: "PNOA IGN",
         mapType: service.getPNOAIGN
+      },
+      {
+        id: 3,
+        name: "Grid",
+        mapType: service.getSquaresType
+      },
+      {
+        id: 4,
+        name: "Raster",
+        mapType: service.getRaster
       }
     ];
-  };
-
-  service.getSquaresType = function() {
-    return {
-      getTile: function(coord, zoom, ownerDocument) {
-        var div = ownerDocument.createElement('div');
-        div.innerHTML = coord;
-        div.style.width = this.tileSize.width + 'px';
-        div.style.height = this.tileSize.height + 'px';
-        div.style.fontSize = '10';
-        div.style.borderStyle = 'solid';
-        div.style.borderWidth = '1px';
-        div.style.borderColor = '#AAAAAA';
-        return div;
-      },
-      tileSize: new google.maps.Size(256, 256),
-      name: 'Black Squares',
-      maxZoom: 16,
-    };
   };
 
   service.getOSM = function() {
@@ -61,33 +52,40 @@ function mapService() {
         return "http://tile.openstreetmap.org/" + zoom + "/" + x + "/" + coord.y + ".png";
       },
       tileSize: new google.maps.Size(256, 256),
-      name: "OpenStreetMap",
+      name: "OSM",
       maxZoom: 16
     };
   };
 
   service.getPNOAIGN = function() {
     return {
-      getTileUrl: function(coord, zoom) {
-        var tilesPerGlobe = 1 << zoom;
-        var x = coord.x % tilesPerGlobe;
-        if (x < 0) {
-            x = tilesPerGlobe+x;
-        }
-        return "https://wxs.ign.fr/CLEF/geoportail/wmts?" +
-         "&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0" +
-         "&STYLE=normal" +
-         "&TILEMATRIXSET=PM" +
-         "&FORMAT=image/jpeg"+
-         "&LAYER=ORTHOIMAGERY.ORTHOPHOTOS"+
-         "&TILEMATRIX=" + zoom +
-         "&TILEROW=" + coord.y +
-         "&TILECOL=" + x;
+      alt: "WMTS del PNOA",
+      getTileUrl: function(tile, zoom) {
+      var url = "http://www.ign.es/wmts/pnoama?request=getTile&layer=OI.OrthoimageCoverage&TileMatrixSet=GoogleMapsCompatible&TileMatrix=" + zoom + "&TileCol=" + tile.x + "&TileRow=" + tile.y + "&format=image/jpeg";
+      return url;
       },
-      tileSize: new google.maps.Size(256, 256),
-      name: "OpenStreetMap",
-      maxZoom: 16
+      maxZoom: 20,
+      minZoom: 1,
+      name: "PNOA",
+      tileSize: new google.maps.Size(256, 256)
     };
   };
+
+  service.getRaster = function() {
+    return {
+      alt: "RasterIGN",
+      getTileUrl: function(tile, zoom) {
+        var url = "http://www.ign.es/wmts/maparaster?request=getTile&layer=MTN&TileMatrixSet=GoogleMapsCompatible&TileMatrix="
+        + zoom
+        + "&TileCol=" + tile.x + "&TileRow=" + tile.y + "&format=image/jpeg";
+         return url;
+       },
+       isPng: false,
+       maxZoom: 20,
+       minZoom: 1,
+       name: "Raster IGN",
+       tileSize: new google.maps.Size(256, 256)
+     };
+   }
 }
 })();

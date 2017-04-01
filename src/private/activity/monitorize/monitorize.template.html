@@ -84,7 +84,7 @@
     <md-card>
       <md-card-content>
         <ui-gmap-google-map
-          center='monCtrl.map.center' zoom='monCtrl.map.zoom'>
+          center='monCtrl.map.center' zoom='monCtrl.map.zoom' options="monCtrl.mapOptions">
           <!-- Track -->
           <ui-gmap-polyline path="monCtrl.track.path" stroke="monCtrl.track.stroke"
             geodesic='monCtrl.track.geodesic' fit="false" editable="false"
@@ -100,6 +100,15 @@
           <ui-gmap-polylines models="monCtrl.trayectorias" path="'path'" stroke="'stroke'" visible="'visible'"
                           geodesic="'geodesic'" editable="'editable'" draggable="'draggable'" static="true" icons="'icons'">
           </ui-gmap-polylines>
+
+          <ui-gmap-map-type options="monCtrl.OSM" id="OSM" show="false">
+          </ui-gmap-map-type>
+
+          <ui-gmap-map-type options="monCtrl.PNOA" id="PNOA" show="false">
+          </ui-gmap-map-type>
+
+          <ui-gmap-map-type options="monCtrl.RASTER" id="RASTER" show="false">
+          </ui-gmap-map-type>
         </ui-gmap-google-map>
       </md-card-content>
     </md-card>

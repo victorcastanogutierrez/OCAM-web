@@ -50,27 +50,25 @@ function ActivityTrackController(TrackService, mapService, $scope) {
       zoom: 5
     };
 
+    $ctrl.OSM = mapService.getOSM();
+    $ctrl.PNOA = mapService.getPNOAIGN();
+    $ctrl.RASTER = mapService.getRaster();
+
+    $ctrl.mapOptions = {
+      mapTypeControl: true,
+      mapTypeId: 'OSM',
+      mapTypeControlOptions: {
+        mapTypeIds: ['OSM', 'PNOA', 'RASTER', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE],
+        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+      },
+      scaleControl:true,
+      rotateControl:true
+    };
+
+
 
     $ctrl.markers.push(createMarker(0, "Inicio", $ctrl.track.path[0]));
     $ctrl.markers.push(createMarker(1, "Fin", $ctrl.track.path[$ctrl.track.path.length-1]));
-  }
-
-  //Configuración del tipo de mapa
-  $scope.$on('mapChange', function(event, arg) {
-    var cMap = mapService.getMapTypes().find(x => x.id == arg);
-    if (cMap && cMap.mapType){
-      console.log(cMap.mapType());
-      $ctrl.mapType = cMap.mapType();
-      $ctrl.showMapType = true;
-    } else {
-      $ctrl.showMapType = false;
-    }
-  });
-
-  $ctrl.refreshMap = false;
-  $ctrl.changeMap = function() {
-    $ctrl.mapType = mapService.getOSM();
-    $ctrl.refreshMap = true;
   }
 
 }

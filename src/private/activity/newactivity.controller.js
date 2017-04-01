@@ -49,6 +49,9 @@ function newActivityController($scope, activityService, $mdDialog, $state,
     $state.go("private.activity", {activity: $ctrl.activity});
   };
 
+  /**
+    Edita o crea la actividad
+  */
   $ctrl.crearActividad = function() {
     if (!$ctrl.editando || ($ctrl.editando && $ctrl.gpxFile)) {
       $ctrl.error = TrackService.assertGPXFile($ctrl.gpxFile);

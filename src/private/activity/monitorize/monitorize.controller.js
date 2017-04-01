@@ -5,9 +5,9 @@ angular.module('private')
 .controller('monitorizeController', monitorizeController);
 
 monitorizeController.$inject = ['$stateParams', '$state', 'activityService',
-  '$scope', 'TrackService', 'uiGmapGoogleMapApi'];
+  '$scope', 'TrackService', 'uiGmapGoogleMapApi', 'mapService'];
 function monitorizeController($stateParams, $state, activityService, $scope,
-  TrackService, uiGmapGoogleMapApi) {
+  TrackService, uiGmapGoogleMapApi, mapService) {
   var $ctrl = this;
 
   $ctrl.map = {
@@ -33,6 +33,20 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   $ctrl.trayectorias = [];
   $ctrl.controlTrayectorias = false;
   $ctrl.showMapTrack = true;
+
+  $ctrl.OSM = mapService.getOSM();
+  $ctrl.PNOA = mapService.getPNOAIGN();
+  $ctrl.RASTER = mapService.getRaster();
+  $ctrl.mapOptions = {
+    mapTypeControl: true,
+    mapTypeId: 'OSM',
+    mapTypeControlOptions: {
+      mapTypeIds: ['OSM', 'PNOA', 'RASTER', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE],
+      style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+    },
+    scaleControl:true,
+    rotateControl:true
+  };
 
   var createMarker = function(id,  title, GPSPoint) {
     return {
@@ -100,22 +114,25 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       if (!$ctrl.activity.status == 'RUNNING') {
         notAllowed();
       } else {
-        loadPageOptions();
-        $ctrl.cargando = false;
-        $ctrl.hikers = $ctrl.activity.hikers;
-        $ctrl.track = TrackService.getActivityTrack($ctrl.activity.track);
-        $ctrl.track.icons = [{
-          icon: {
-              path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
-          },
-          offset: '25px',
-          repeat: '50px'
-        }];
-        $ctrl.map.center = {
-          latitude: $ctrl.track.path[0].latitude,
-          longitude: $ctrl.track.path[0].longitude
-        };
-        cargarActivityReports();
+        uiGmapGoogleMapApi.then(function(){
+          loadPageOptions();
+          $ctrl.cargando = false;
+          $ctrl.hikers = $ctrl.activity.hikers;
+          $ctrl.track = TrackService.getActivityTrack($ctrl.activity.track);
+          $ctrl.track.icons = [{
+            icon: {
+                path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
+            },
+            offset: '25px',
+            repeat: '50px'
+          }];
+          $ctrl.map.center = {
+            latitude: $ctrl.track.path[0].latitude,
+            longitude: $ctrl.track.path[0].longitude
+          };
+
+          cargarActivityReports();
+        });
       }
     }, function() {
       $ctrl.cargando = false;

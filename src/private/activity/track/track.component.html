@@ -1,7 +1,6 @@
-<button ng-click="trackCtrl.changeMap()">Change</button>
-{{trackCtrl.refreshType}}
 <ui-gmap-google-map refresh="trackCtrl.refreshType"
-  center='trackCtrl.map.center' zoom='trackCtrl.map.zoom' control='trackCtrl.map.control'>
+  center='trackCtrl.map.center' zoom='trackCtrl.map.zoom' control='trackCtrl.map.control'
+    options="trackCtrl.mapOptions">
 
   <ui-gmap-polyline path="trackCtrl.track.path" stroke="trackCtrl.track.stroke"
     geodesic='trackCtrl.track.geodesic' fit="false" editable="false"
@@ -12,11 +11,13 @@
     options="'options'" icon="'icon'">
   </ui-gmap-markers>
 
-  <ui-gmap-map-type options="trackCtrl.mapType" refresh="$ctrl.refreshMap">
+  <ui-gmap-map-type options="trackCtrl.OSM" id="OSM" show="false">
   </ui-gmap-map-type>
 
-  <ui-gmap-map-control template="src/private/activity/track/mapControls.template.html"
-    position="top-left" controller="mapControls">
-  </ui-gmap-map-control>
+  <ui-gmap-map-type options="trackCtrl.PNOA" id="PNOA" show="false">
+  </ui-gmap-map-type>
+
+  <ui-gmap-map-type options="trackCtrl.RASTER" id="RASTER" show="false">
+  </ui-gmap-map-type>
 
 </ui-gmap-google-map>
