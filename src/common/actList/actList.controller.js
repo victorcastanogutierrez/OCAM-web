@@ -52,19 +52,27 @@ function activityListController(list, numEle, activityService, $q,
     }
   };
 
-
   //Actualiza los datos
   $ctrl.refreshData = function() {
     $ctrl.fl_refreshing = true;
     //Recarga el número de actividades total
-    $ctrl.promise = activityService.findCountAll().then(function success(response) {
-      $ctrl.numEle = response;
-      //Recarga las actividades
-      activityService.findAllPending(0, DEFAULT_ITEM_PER_PAGE).then(function success(response) {
+    if (listSelected == ID_LIST_PENDING) {
+      console.log("Busca pendientes");
+      $ctrl.promise = activityService.findCountAll().then(function success(response) {
+        $ctrl.numEle = response;
+        //Recarga las actividades
+        activityService.findAllPending(0, DEFAULT_ITEM_PER_PAGE).then(function success(response) {
+          $ctrl.activities = response;
+          $ctrl.fl_refreshing = false;
+        });
+      });
+    } else {
+      $ctrl.promise = activityService.findAllDoneByHiker(Auth.getHikerLoggedIn().login).then(function success(response) {
+        $ctrl.numEle = response.length;
         $ctrl.activities = response;
         $ctrl.fl_refreshing = false;
       });
-    });
+    }
   };
 
   // Configuración de la paginación
@@ -84,7 +92,7 @@ function activityListController(list, numEle, activityService, $q,
 
   // Callback que maneja el cambio de página
   $ctrl.onPageChange = function() {
-    if ($ctrl.page != $ctrl.oldPage) {
+    if ($ctrl.page != $ctrl.oldPage && listSelected == ID_LIST_PENDING) {
       //Auxiliar para no perder el valor
       var oldP = $ctrl.oldPage;
       //Actualizamos el nuevo valor con la página nueva
@@ -114,6 +122,7 @@ function activityListController(list, numEle, activityService, $q,
   */
   $ctrl.onSelect = function(list) {
     listSelected = list.id;
+    $ctrl.refreshData();
   }
 }
 

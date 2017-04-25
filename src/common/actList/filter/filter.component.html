@@ -1,5 +1,5 @@
 <md-card>
-  <div layout="row" layout-wrap class="checkboxes">
+  <div layout="row" layout-wrap class="checkboxes" ng-show="filterCtrl.loggedIn">
     <md-input-container>
       <md-select ng-model="filterCtrl.listSelected" ng-change="filterCtrl.onSelect({list : filterCtrl.listSelected})">
         <md-option ng-value="list" ng-repeat="list in filterCtrl.availableLists">{{ list.name }}</md-option>

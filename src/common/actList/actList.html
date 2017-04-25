@@ -21,7 +21,6 @@
                 md-progress="actListCtrl.promise">
               <thead md-head md-order="actListCtrl.order">
                 <tr md-row>
-                  <th md-column md-order-by="id">ID</th>
                   <th md-column md-order-by="startDate">Fecha</th>
                   <th md-column md-order-by="maxPlaces">Plazas máximas</th>
                   <th md-column md-order-by="shortDescription">Descripción</th>
@@ -31,7 +30,6 @@
                 <tr md-row ng-repeat="activity in actListCtrl.activities |
                     limitTo: actListCtrl.itemsPage : (actListCtrl.page - 1) * actListCtrl.itemsPage |
                     orderBy: actListCtrl.order" ng-click="actListCtrl.onSelect(activity)">
-                  <td md-cell>{{activity.id}}</td>
                   <td md-cell>{{activity.startDate}}</td>
                   <td md-cell>{{activity.maxPlaces}}</td>
                   <td md-cell>{{activity.shortDescription}}</td>

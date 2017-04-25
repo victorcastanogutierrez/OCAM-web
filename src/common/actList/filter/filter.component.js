@@ -11,10 +11,11 @@ angular.module('common')
   }
 });
 
-FilterListController.$inject = [];
-function FilterListController() {
+FilterListController.$inject = ['Auth'];
+function FilterListController(Auth) {
   var $ctrl = this;
 
+  $ctrl.loggedIn = Auth.isUserLoggedIn();
   $ctrl.availableLists = [
     {
       name : 'Actividades pendientes',
