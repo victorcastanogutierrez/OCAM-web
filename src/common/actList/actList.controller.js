@@ -20,6 +20,13 @@ function activityListController(list, numEle, activityService, $q,
 
   var $ctrl = this;
 
+  //Constantes para diferenciar entre las dos listas de actividades posibles
+  //no permitimos mezclar
+  var ID_LIST_PENDING = 0;
+  var ID_LIST_DONE = 1;
+
+  var listSelected = ID_LIST_PENDING;
+
   //Array de elementos seleccionados
   // (no utilizado pero requerido por la libreria)
   $ctrl.selected = [];
@@ -99,6 +106,14 @@ function activityListController(list, numEle, activityService, $q,
           });
       }
     }
+  };
+
+  /**
+    Listener ejecutado desde el component filtercomponent
+    al cambiar de lista en el desplegable
+  */
+  $ctrl.onSelect = function(list) {
+    listSelected = list.id;
   }
 }
 

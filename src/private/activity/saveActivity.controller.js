@@ -138,7 +138,7 @@ function saveActivityController($scope, activityService, $mdDialog, $state,
       return "Debes introducir o una descripción o enlace MIDE (o ambos).";
     } else if ($ctrl.activity.mide) {
       console.log("HOLA");
-      if (!$ctrl.activity.mide.includes("mide.montanasegura.com/mide/")) {
+      if (!$ctrl.activity.mide.includes("http://") && !$ctrl.activity.mide.includes("www")) {
         return "Enlace MIDE inválido";
       }
     }
