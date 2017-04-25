@@ -94,9 +94,10 @@
             <md-input-container  class="md-block" flex-gt-sm>
               <label>Estado de la actividad: {{ activityCtrl.getActivityStatus() }}</label><br>
               <md-button class="md-raised md-primary"
-                ng-disabled="activityCtrl.activity.status != 'RUNNING' || activityCtrl.cargando"
+                ng-disabled="activityCtrl.activity.status == 'PENDING' || activityCtrl.cargando"
                 ng-click="activityCtrl.monitorizarActividad()">
-                Monitorizar
+                {{activityCtrl.activity.status == 'CLOSED' ? 'Ver resumen' :
+                  'Monitorizar' }}
               </md-button>
             </md-input-container>
           </div>

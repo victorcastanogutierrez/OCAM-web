@@ -1,23 +1,24 @@
 <md-content class="md-padding" layout-xs="column" layout="column">
     <md-card>
       <md-card-content>
-        <!-- Formulario de búsqueda oculto -->
+        <!-- Formulario de búsqueda visible -->
         <md-toolbar class="md-table-toolbar md-default"
           ng-hide="monCtrl.showFilter" aria-hiddel="false">
           <div class="md-toolbar-tools">
             <h2>Monitorización de excursionistas</h2>
             <div class="flex" flex=""></div>
             <button md-button class="md-icon-button md-ink-ripple" type="button"
-               ng-click="monCtrl.showFilter=true" ng-disabled="monCtrl.cargando">
+               ng-click="monCtrl.showFilter=true" ng-disabled="monCtrl.cargando"
+               ng-show="!monCtrl.consulta">
               <md-icon class="material-icons md-18" style="color: #50D050">filter_list</md-icon>
             </button>
             <button md-button class="md-icon-button md-ink-ripple" ng-click="monCtrl.refreshData()"
-              ng-disabled="monCtrl.cargando">
+              ng-disabled="monCtrl.cargando" ng-show="!monCtrl.consulta">
               <md-icon class="material-icons md-18" style="color: #50D050">refresh</md-icon>
             </button>
           </div>
         </md-toolbar>
-        <!-- Formulario de búsqueda visible -->
+        <!-- Formulario de búsqueda oculto -->
         <md-toolbar class="md-table-toolbar md-default" ng-show="monCtrl.showFilter" aria-hidden="false">
           <div class="md-toolbar-tools">
             <form flex="" name="filter.form" class="ng-pristine ng-valid flex">
@@ -56,7 +57,7 @@
                     {{monCtrl.getTrayectoriaText(hiker)}}
                   </md-button>
                   <button md-button class="md-icon-button md-ink-ripple" ng-click="monCtrl.cargarTrayectoria(hiker)"
-                    ng-disabled="monCtrl.hikers.trayectoria">
+                    ng-disabled="monCtrl.hikers.trayectoria" ng-show="!monCtrl.consulta">
                     <md-icon class="material-icons md-18" style="color: #50D050">refresh</md-icon>
                   </button>
                 </td>

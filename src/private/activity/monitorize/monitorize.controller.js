@@ -5,9 +5,9 @@ angular.module('private')
 .controller('monitorizeController', monitorizeController);
 
 monitorizeController.$inject = ['$stateParams', '$state', 'activityService',
-  '$scope', 'TrackService', 'uiGmapGoogleMapApi', 'mapService'];
+  '$scope', 'TrackService', 'uiGmapGoogleMapApi', 'mapService', 'Auth'];
 function monitorizeController($stateParams, $state, activityService, $scope,
-  TrackService, uiGmapGoogleMapApi, mapService) {
+  TrackService, uiGmapGoogleMapApi, mapService, Auth) {
   var $ctrl = this;
 
   $ctrl.map = {
@@ -48,6 +48,16 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     rotateControl:true
   };
 
+  /**
+    En caso de entrar por ser una actividad finalizada y por tanto
+    es un participante, entra en modo de consulta de datos.
+    De esta manera se bloquea mucha funcionalidad:
+      - Ver reportes de otras personas que no sea él
+      - Recargar los reportes (nunca más habrá cambios, es absurdo dejar hacerlo)
+    Una vez cargada la actividad se evalua el contenido de este flag
+  */
+  $ctrl.consulta = false;
+
   var createMarker = function(id,  title, GPSPoint) {
     return {
       latitude: GPSPoint.latitude,
@@ -87,33 +97,62 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   */
   var cargarActivityReports = function() {
     $ctrl.cargando = true;
-    $ctrl.promise = activityService.finLastActivityReports($ctrl.activity.id).then(
-      /**
-        Cruza los datos de los hiker con los reportes para asignar a cada uno
-        la fecha de su último reporte
-      */
-      function(response) {
-        $ctrl.cargando = false;
-        $ctrl.currentReports = response;
-        $ctrl.hikers.map(x => {
-          var report = response.find(y => y.hiker.id == x.id);
-          if (report) {
-            x.lastReport = formatDate(report.date);
-          }
-        });
-      }, function(err) {
-        $ctrl.cargando = false;
-        notAllowed();
-      }
-    )
+
+    /**
+      Cruza los datos de los hiker con los reportes para asignar a cada uno
+      la fecha de su último reporte
+    */
+    var procesarDatosReportes = function(response) {
+      $ctrl.cargando = false;
+      $ctrl.currentReports = response;
+      $ctrl.hikers.map(x => {
+        var report = response.find(y => y.hiker.email == x.email);
+        if (report) {
+          x.lastReport = formatDate(report.date);
+        }
+      });
+    };
+
+    var errorData = function() {
+      $ctrl.cargando = false;
+      notAllowed();
+    };
+
+    if ($ctrl.consulta) {
+      $ctrl.promise = activityService.findLastHikerReports($ctrl.activity.id, Auth.getHikerLoggedIn().login).then(
+        function (response) {
+          //Como está en modo consulta, es el único hiker asociado a la actividad
+          $ctrl.hikers = [Auth.isUserLoggedIn()];
+          procesarDatosReportes(response);
+        }, function(err) {
+          errorData();
+        }
+      );
+    } else {
+      $ctrl.promise = activityService.finLastActivityReports($ctrl.activity.id).then(
+        function (response) {
+          procesarDatosReportes(response);
+        }, function(err) {
+          errorData();
+        }
+      );
+    }
+
   };
 
   var assertActivityRunning = function(activityId) {
     $ctrl.promise = activityService.findById(activityId).then(function (response) {
       $ctrl.activity = response;
-      if (!$ctrl.activity.status == 'RUNNING') {
+      if ($ctrl.activity.status != 'RUNNING' && $ctrl.activity.status != 'CLOSED') {
         notAllowed();
       } else {
+        /**
+          El modo consulta deshabilita funcionalidad de la página
+          ver documentación en declaración
+        */
+        if ($ctrl.activity.status == 'CLOSED') {
+          $ctrl.consulta = true;
+        }
         uiGmapGoogleMapApi.then(function(){
           loadPageOptions();
           $ctrl.cargando = false;
@@ -233,7 +272,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   $ctrl.selectItem = function(item) {
     var report = $ctrl.currentReports.find(x => x.hiker.email == item.email);
     if (report) {
-      var marker = createMarker(item.id, item.email, report.point);
+      var marker = createMarker(item.email, item.email, report.point);
       $ctrl.markers.push(marker);
     }
   };
@@ -246,7 +285,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     var pos = null;
     for (var i = 0; i < $ctrl.markers.length; i++) {
       marker = $ctrl.markers[i];
-      if (marker.id == item.id) {
+      if (marker.id == item.email) {
         pos = i;
         break;
       }
@@ -260,7 +299,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     Función que obtiene el texto para el boton de la trayectoria
   */
   $ctrl.getTrayectoriaText = function(hiker) {
-    var trayectoria = $ctrl.trayectorias.find(x => x.id == hiker.id);
+    var trayectoria = $ctrl.trayectorias.find(x => x.id == hiker.email);
     if (!trayectoria || !trayectoria.visible) {
       return 'MOSTRAR TRAYECTORIA';
     } else if (trayectoria.visible){
@@ -274,10 +313,11 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   $ctrl.cargarTrayectoria = function (hiker) {
     $ctrl.cargando = true;
     $ctrl.promise = activityService
-      .findAllActivityReportsByHiker($ctrl.activity.id, hiker.id).then(
+      .findAllActivityReportsByHiker($ctrl.activity.id, hiker.email).then(
       function(response) {
+        console.log(response.length);
         if (response && response.length > 0) {
-          insertarTrayectoria(response, hiker.id);
+          insertarTrayectoria(response, hiker.email);
         }
         $ctrl.cargando = false;
       }, function(err) {
@@ -291,7 +331,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     o la carga en caso contrario.
   */
   $ctrl.trayectoria = function(hiker) {
-    var trayectoria = $ctrl.trayectorias.find(x => x.id == hiker.id);
+    var trayectoria = $ctrl.trayectorias.find(x => x.id == hiker.email);
     if (!trayectoria) {
       $ctrl.cargarTrayectoria(hiker);
     } else {
@@ -302,14 +342,14 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   /**
     Crea una nueva trayectoria sustituyendo en caso de existir la antigua
   */
-  var insertarTrayectoria = function(reports, hikerId) {
-    var trayectoria = $ctrl.trayectorias.find(x => x.id == hikerId);
+  var insertarTrayectoria = function(reports, hikerEmail) {
+    var trayectoria = $ctrl.trayectorias.find(x => x.id == hikerEmail);
     var exists = trayectoria != undefined;
 
     uiGmapGoogleMapApi.then(function(){
       if (!exists) {
         trayectoria = {
-          id: hikerId,
+          id: hikerEmail,
           path: [],
           editable: false,
           draggable: false,

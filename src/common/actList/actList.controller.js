@@ -120,7 +120,7 @@ function activityListController(list, numEle, activityService, $q,
     Listener ejecutado desde el component filtercomponent
     al cambiar de lista en el desplegable
   */
-  $ctrl.onSelect = function(list) {
+  $ctrl.onListSelect = function(list) {
     listSelected = list.id;
     $ctrl.refreshData();
   }

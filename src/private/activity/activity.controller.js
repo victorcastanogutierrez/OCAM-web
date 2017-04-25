@@ -57,6 +57,15 @@ function activityController($stateParams, $state, $scope, Auth, $mdDialog,
   };
 
   $ctrl.monitorizarActividad = function() {
+    /*
+      Si la actividad ya está cerrada no pide password,
+      solo puede llegar a ella un participante
+    */
+    if ($ctrl.activity.status == 'CLOSED') {
+      $state.go("private.monitorize", {activityId: $ctrl.activity.id});
+      $ctrl.cargando = false;
+      return ;
+    }
     var confirm = $mdDialog.prompt()
       .title('Monitorizar actividad')
       .textContent('Introduce la contraseña para acceder a la monitorización de la actividad.')

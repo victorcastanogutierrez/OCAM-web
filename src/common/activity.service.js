@@ -7,11 +7,11 @@ angular.module('common')
 activityService.$inject =['Auth', '$http', 'SERVER_URL', 'PENDING_ACTIVITIES_API',
   'COUNT_PENDING_ACTIVITIES_API', 'SAVE_ACT_API', 'CHECK_ACTIVITY_PASSWORD_API',
   'ACTIVITY_FIND_BY_ID', 'ACTIVITY_LAST_REPORTS', 'HIKER_ALL_REPORTS',
-  'FIND_HIKER_ACTIVITIES_DONE'];
+  'FIND_HIKER_ACTIVITIES_DONE', 'ACTIVITY_HIKER_LAST_REPORT'];
 function activityService(Auth, $http, SERVER_URL, PENDING_ACTIVITIES_API,
   COUNT_PENDING_ACTIVITIES_API, SAVE_ACT_API, CHECK_ACTIVITY_PASSWORD_API,
   ACTIVITY_FIND_BY_ID, ACTIVITY_LAST_REPORTS, HIKER_ALL_REPORTS,
-  FIND_HIKER_ACTIVITIES_DONE) {
+  FIND_HIKER_ACTIVITIES_DONE, ACTIVITY_HIKER_LAST_REPORT) {
 
   var service = this;
 
@@ -77,8 +77,8 @@ function activityService(Auth, $http, SERVER_URL, PENDING_ACTIVITIES_API,
       });
   };
 
-  service.findAllActivityReportsByHiker = function(activityId, hikerId) {
-    return $http.get(SERVER_URL + HIKER_ALL_REPORTS + '/' + activityId + '/' + hikerId)
+  service.findAllActivityReportsByHiker = function(activityId, hikerEmail) {
+    return $http.get(SERVER_URL + HIKER_ALL_REPORTS + '/' + activityId + '/' + hikerEmail)
       .then(function (response) {
         return response.data;
       });
@@ -86,6 +86,13 @@ function activityService(Auth, $http, SERVER_URL, PENDING_ACTIVITIES_API,
 
   service.findAllDoneByHiker = function (hikerLogin) {
     return $http.get(SERVER_URL + FIND_HIKER_ACTIVITIES_DONE + '/' + hikerLogin)
+      .then(function (response) {
+        return response.data;
+      });
+  };
+
+  service.findLastHikerReports = function(activityId, hikerLogin) {
+    return $http.get(SERVER_URL + ACTIVITY_HIKER_LAST_REPORT + '/' + activityId + '/' + hikerLogin)
       .then(function (response) {
         return response.data;
       });
