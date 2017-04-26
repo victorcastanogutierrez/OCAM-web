@@ -5,9 +5,9 @@ angular.module('private')
 .controller('monitorizeController', monitorizeController);
 
 monitorizeController.$inject = ['$stateParams', '$state', 'activityService',
-  '$scope', 'TrackService', 'uiGmapGoogleMapApi', 'mapService', 'Auth'];
+  '$scope', 'TrackService', 'uiGmapGoogleMapApi', 'mapService', 'Auth', 'uiGmapIsReady'];
 function monitorizeController($stateParams, $state, activityService, $scope,
-  TrackService, uiGmapGoogleMapApi, mapService, Auth) {
+  TrackService, uiGmapGoogleMapApi, mapService, Auth, uiGmapIsReady) {
   var $ctrl = this;
 
   $ctrl.map = {
@@ -34,19 +34,33 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   $ctrl.controlTrayectorias = false;
   $ctrl.showMapTrack = true;
 
-  $ctrl.OSM = mapService.getOSM();
-  $ctrl.PNOA = mapService.getPNOAIGN();
-  $ctrl.RASTER = mapService.getRaster();
-  $ctrl.mapOptions = {
-    mapTypeControl: true,
-    mapTypeId: 'OSM',
-    mapTypeControlOptions: {
-      mapTypeIds: ['OSM', 'PNOA', 'RASTER', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE],
-      style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
-    },
-    scaleControl:true,
-    rotateControl:true
-  };
+  /**
+    Cuando el mapa está listo
+  */
+  uiGmapIsReady.promise(1).then(function(instances) {
+      instances.forEach(function(inst) {
+        $ctrl.mapOptions = {
+          mapTypeControl: true,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          mapTypeControlOptions: {
+            mapTypeIds: ['PNOA', 'OSM', 'Raster', 'Raster Francia', google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.ROADMAP],
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+          },
+          scaleControl:true,
+          rotateControl:true
+        };
+
+        var map = inst.map;
+        map.mapTypes.set('PNOA', mapService.getPNOAIGN(map.getProjection()));
+        map.mapTypes.set('OSM', mapService.getOSM());
+        map.mapTypes.set('Raster', mapService.getRaster());
+        map.mapTypes.set('Raster Francia', mapService.getRasterFrance());
+
+
+        $ctrl.markers.push(createMarker(0, "Inicio", $ctrl.track.path[0]));
+        $ctrl.markers.push(createMarker(1, "Fin", $ctrl.track.path[$ctrl.track.path.length-1]));
+      });
+  });
 
   /**
     En caso de entrar por ser una actividad finalizada y por tanto
