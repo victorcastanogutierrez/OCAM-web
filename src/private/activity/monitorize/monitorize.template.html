@@ -75,11 +75,12 @@
     </md-card>
     <md-card>
       <md-card-content>
-      <div layout="row" layout-wrap class="checkboxes">
-        <md-checkbox ng-model="monCtrl.showMapTrack">
-          Track de la ruta
-        </md-checkbox>
-      </div>
+        <div layout="row" layout-wrap class="checkboxes">
+          <md-checkbox ng-model="monCtrl.showMapTrack">
+            Track de la ruta
+          </md-checkbox>
+          <md-button class="md-raised" ng-click="monCtrl.centrarTrack()">Centrar</md-button>
+        </div>
       </md-card-content>
     </md-card>
     <md-card>

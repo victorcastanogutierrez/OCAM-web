@@ -17,6 +17,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     },
     zoom: 14
   };
+  $ctrl.gmap = undefined;
   $ctrl.cargando = false;
   $ctrl.selected = [];
   $ctrl.page = 1;
@@ -55,12 +56,14 @@ function monitorizeController($stateParams, $state, activityService, $scope,
         map.mapTypes.set('OSM', mapService.getOSM());
         map.mapTypes.set('Raster', mapService.getRaster());
         map.mapTypes.set('Raster Francia', mapService.getRasterFrance());
-
+        $ctrl.gmap = map;
 
         $ctrl.markers.push(createMarker(0, "Inicio", $ctrl.track.path[0]));
         $ctrl.markers.push(createMarker(1, "Fin", $ctrl.track.path[$ctrl.track.path.length-1]));
       });
   });
+
+
 
   /**
     En caso de entrar por ser una actividad finalizada y por tanto
@@ -301,6 +304,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   $ctrl.selectItem = function(item) {
     var report = $ctrl.currentReports.find(x => x.hiker.email == item.email);
     if (report) {
+      $ctrl.gmap.panTo(new google.maps.LatLng(report.point.latitude, report.point.longitude));
       var marker = createMarker(item.email, item.email, report.point);
       $ctrl.markers.push(marker);
     }
@@ -411,8 +415,16 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       if (!exists) {
         $ctrl.trayectorias.push(trayectoria);
       }
+      var tam = trayectoria.path.length -1;
+      if (tam < 0) {
+        tam = 0;
+      }
+      $ctrl.gmap.panTo(new google.maps.LatLng(trayectoria.path[tam].latitude, trayectoria.path[tam].longitude));
     });
   };
 
+  $ctrl.centrarTrack = function() {
+      $ctrl.gmap.panTo(new google.maps.LatLng($ctrl.track.path[0].latitude, $ctrl.track.path[0].longitude));
+  };
 }
 })();
