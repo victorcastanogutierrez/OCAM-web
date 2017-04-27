@@ -30,7 +30,8 @@
                 <tr md-row ng-repeat="activity in actListCtrl.activities |
                     limitTo: actListCtrl.itemsPage : (actListCtrl.page - 1) * actListCtrl.itemsPage |
                     orderBy: actListCtrl.order" ng-click="actListCtrl.onSelect(activity)">
-                  <td md-cell>{{activity.startDate}}</td>
+                  <td md-cell ng-hide="activity.status == 'CLOSED'">{{activity.startDate}}</td>
+                  <td md-cell ng-show="activity.status == 'CLOSED'">{{activity.startedDate}}</td>
                   <td md-cell>{{activity.maxPlaces}}</td>
                   <td md-cell>{{activity.shortDescription}}</td>
                 </tr>
