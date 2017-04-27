@@ -58,7 +58,7 @@ function ActivityTrackController(TrackService, mapService, $scope, uiGmapIsReady
         instances.forEach(function(inst) {
           $ctrl.mapOptions = {
             mapTypeControl: true,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeId: 'Raster',
             mapTypeControlOptions: {
               mapTypeIds: ['PNOA', 'OSM', 'Raster', 'Raster Francia', google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.ROADMAP],
               style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
