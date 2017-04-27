@@ -49,7 +49,7 @@ function mapService() {
         if (x < 0) {
             x = tilesPerGlobe+x;
         }
-        return "http://tile.openstreetmap.org/" + zoom + "/" + x + "/" + coord.y + ".png";
+        return "https://tile.openstreetmap.org/" + zoom + "/" + x + "/" + coord.y + ".png";
       },
       tileSize: new google.maps.Size(256, 256),
       name: "OSM",

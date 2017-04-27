@@ -53,7 +53,11 @@ function activityController($stateParams, $state, $scope, Auth, $mdDialog,
   };
 
   $ctrl.mide = function() {
-    $window.location.href = $ctrl.activity.mide;
+    if (!$ctrl.activity.mide.includes("http://") && !$ctrl.activity.mide.includes("https://")) {
+      $window.location.href = "http://" + $ctrl.activity.mide;
+    } else {
+      $window.location.href = $ctrl.activity.mide;
+    }
   };
 
   $ctrl.monitorizarActividad = function() {
