@@ -132,7 +132,20 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       notAllowed();
     };
 
-    if ($ctrl.consulta) {
+    /**
+      Si está en modo consulta solo ve sus reportes
+      Si está en modo consulta y es guía ve los del resto
+      Si no está en modo consulta ve todos
+    */
+    if (!$ctrl.consulta || esGuiaActividad()){
+      $ctrl.promise = activityService.finLastActivityReports($ctrl.activity.id).then(
+        function (response) {
+          procesarDatosReportes(response);
+        }, function(err) {
+          errorData();
+        }
+      );
+    } else if ($ctrl.consulta) {
       $ctrl.promise = activityService.findLastHikerReports($ctrl.activity.id, Auth.getHikerLoggedIn().login).then(
         function (response) {
           //Como está en modo consulta, es el único hiker asociado a la actividad
@@ -142,16 +155,18 @@ function monitorizeController($stateParams, $state, activityService, $scope,
           errorData();
         }
       );
-    } else {
-      $ctrl.promise = activityService.finLastActivityReports($ctrl.activity.id).then(
-        function (response) {
-          procesarDatosReportes(response);
-        }, function(err) {
-          errorData();
-        }
-      );
     }
 
+  };
+
+  var esGuiaActividad = function() {
+    var esGuia = false;
+    $ctrl.activity.guides.forEach(x => {
+      if (x.login == Auth.getHikerLoggedIn().login) {
+        esGuia = true;
+      }
+    });
+    return esGuia;
   };
 
   var assertActivityRunning = function(activityId) {
