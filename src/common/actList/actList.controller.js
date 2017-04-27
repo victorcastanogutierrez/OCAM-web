@@ -20,6 +20,28 @@ function activityListController(list, numEle, activityService, $q,
 
   var $ctrl = this;
 
+  // Source: http://stackoverflow.com/questions/497790
+  var dates = {
+    convert:function(d) {
+        return (
+            d.constructor === Date ? d :
+            d.constructor === Array ? new Date(d[0],d[1],d[2]) :
+            d.constructor === Number ? new Date(d) :
+            d.constructor === String ? new Date(d) :
+            typeof d === "object" ? new Date(d.year,d.month,d.date) :
+            NaN
+        );
+    },
+    compare:function(a,b) {
+      return (
+        isFinite(a=this.convert(a).valueOf()) &&
+        isFinite(b=this.convert(b).valueOf()) ?
+        (a>b)-(a<b) :
+        NaN
+      );
+    }
+  }
+
   //Constantes para diferenciar entre las dos listas de actividades posibles
   //no permitimos mezclar
   var ID_LIST_PENDING = 0;
@@ -52,24 +74,24 @@ function activityListController(list, numEle, activityService, $q,
     }
   };
 
+
   //Actualiza los datos
   $ctrl.refreshData = function() {
     $ctrl.fl_refreshing = true;
     //Recarga el número de actividades total
     if (listSelected == ID_LIST_PENDING) {
-      console.log("Busca pendientes");
       $ctrl.promise = activityService.findCountAll().then(function success(response) {
         $ctrl.numEle = response;
         //Recarga las actividades
         activityService.findAllPending(0, DEFAULT_ITEM_PER_PAGE).then(function success(response) {
-          $ctrl.activities = response;
+          $ctrl.activities = response.sort((x, y) => dates.compare(new Date(y.startDate), new Date(x.startDate)));
           $ctrl.fl_refreshing = false;
         });
       });
     } else {
       $ctrl.promise = activityService.findAllDoneByHiker(Auth.getHikerLoggedIn().login).then(function success(response) {
         $ctrl.numEle = response.length;
-        $ctrl.activities = response;
+        $ctrl.activities = response.sort((x, y) => dates.compare(new Date(y.startedDate), new Date(x.startedDate)));
         $ctrl.fl_refreshing = false;
       });
     }

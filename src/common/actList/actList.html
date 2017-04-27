@@ -21,7 +21,10 @@
                 md-progress="actListCtrl.promise">
               <thead md-head md-order="actListCtrl.order">
                 <tr md-row>
-                  <th md-column md-order-by="startDate">Fecha</th>
+                  <th md-column md-desc="true" md-order-by="startDate"
+                    ng-hide="activity.status == 'CLOSED'">Fecha prevista</th>
+                  <th md-column md-desc="true" md-order-by="startedDate"
+                    ng-show="activity.status == 'CLOSED'">Fecha realizada</th>
                   <th md-column md-order-by="maxPlaces">Plazas máximas</th>
                   <th md-column md-order-by="shortDescription">Descripción</th>
                 </tr>
