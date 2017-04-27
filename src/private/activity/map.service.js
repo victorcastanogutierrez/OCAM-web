@@ -53,7 +53,7 @@ function mapService() {
       },
       tileSize: new google.maps.Size(256, 256),
       name: "OSM",
-      maxZoom: 16
+      maxZoom: 19
     });
   };
 

@@ -15,6 +15,10 @@ ActivityTrackController.$inject = ['TrackService', 'mapService', '$scope', 'uiGm
 function ActivityTrackController(TrackService, mapService, $scope, uiGmapIsReady) {
   var $ctrl = this;
 
+  $ctrl.stroke = {
+      weight: 1.5,
+      color: '#0000FF'
+  };
   $scope.rf = false;
 
   $ctrl.markers = [];

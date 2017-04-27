@@ -17,6 +17,10 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     },
     zoom: 14
   };
+  $ctrl.stroke = {
+      weight: 1.5,
+      color: '#0000FF'
+  };
   $ctrl.gmap = undefined;
   $ctrl.cargando = false;
   $ctrl.selected = [];
@@ -389,7 +393,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
           geodesic: true,
           stroke: {
               color: '#FF0000',
-              weight: 4
+              weight: 1.5
           },
           visible: false,
           icons: [{
