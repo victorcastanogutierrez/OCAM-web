@@ -12,7 +12,7 @@ function mapService() {
 
   var service = this;
 
-  service.getOverlayFn = function(size) {
+  service.getOverlayFn = function(size, map) {
     return {
       tileSize: size,
       getTile: function(coord, zoom, ownerDocument) {
@@ -24,6 +24,10 @@ function mapService() {
           var longitudeMax = (coord.x + 1)/n * 360 -180;
           lat_rad = Math.atan(Math.sinh(Math.PI * (1 - 2 * (coord.y + 1)/n)));
           var latitudeMax = lat_rad * 180/Math.PI;
+
+          var metersPerPixel = 156543.03392 * Math.cos(map.getCenter().lat() * Math.PI / 180) / Math.pow(2, zoom);
+          var coordsLabel = document.getElementById("btDistance");
+          coordsLabel.innerHTML = "Distancia entre vértices: "+(metersPerPixel*this.tileSize.width).toFixed(3)+"m";
 
           var div = ownerDocument.createElement('div');
           div.innerHTML = latitudeMin.toFixed(7)+", "+longitudeMin.toFixed(7);

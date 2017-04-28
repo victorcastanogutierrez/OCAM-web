@@ -109,7 +109,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
 
         //Grid
         map.overlayMapTypes.insertAt(
-            0, mapService.getOverlayFn(new google.maps.Size(256, 256)));
+            0, mapService.getOverlayFn(new google.maps.Size(256, 256), map));
 
         //Localización constante sobre el mapa
         $ctrl.CurrentCoords = "Latitud: -\nLongitud: -";
