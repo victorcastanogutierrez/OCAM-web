@@ -36,8 +36,43 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   $ctrl.currentReports = [];
   $ctrl.markers = [];
   $ctrl.trayectorias = [];
+  $ctrl.puntosTrayectoria = [];
   $ctrl.controlTrayectorias = false;
   $ctrl.showMapTrack = true;
+  /**
+    Array para almacenar los puntos que contiene una polylinea
+  */
+  var polyMarkers = [];
+
+  /**
+    Crea un marcador que se muestra en la polylinea
+  */
+  var createPolyLineMarker = function (map, latln, visibility) {
+    return new google.maps.Marker({
+      position: latln,
+      map: map,
+      visible: visibility,
+      icon: {
+          url: "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png",
+          size: new google.maps.Size(7, 7),
+          anchor: new google.maps.Point(4, 4)
+        },
+    });
+  };
+
+  /*
+    Listener que controla el zoom sobre el mapa. Al pasar determinado nivel
+    mostramos los markers que componen el track.
+    Al volver a una altura considerable los ocultamos
+  */
+  var setUpZoomListener = function(map) {
+    google.maps.event.addListener(map, 'zoom_changed', function() {
+        var zoom = map.getZoom();
+        for (var i = 0; i < polyMarkers.length; i++) {
+            polyMarkers[i].setVisible(!(zoom <= 17));
+        }
+    });
+  };
 
   /**
     Cuando el mapa está listo
@@ -64,6 +99,13 @@ function monitorizeController($stateParams, $state, activityService, $scope,
 
         $ctrl.markers.push(createMarker(0, "Inicio", $ctrl.track.path[0]));
         $ctrl.markers.push(createMarker(1, "Fin", $ctrl.track.path[$ctrl.track.path.length-1]));
+
+        //Markers por la polylinea indicando los puntos que la forman
+        for (var i = 0; i < $ctrl.track.path.length; i++) {
+          var ltln = new google.maps.LatLng($ctrl.track.path[i].latitude, $ctrl.track.path[i].longitude);
+          polyMarkers.push(createPolyLineMarker($ctrl.gmap, ltln, false));
+        }
+        setUpZoomListener($ctrl.gmap);
       });
   });
 
@@ -352,7 +394,6 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     $ctrl.promise = activityService
       .findAllActivityReportsByHiker($ctrl.activity.id, hiker.email).then(
       function(response) {
-        console.log(response.length);
         if (response && response.length > 0) {
           insertarTrayectoria(response, hiker.email);
         }
@@ -373,6 +414,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       $ctrl.cargarTrayectoria(hiker);
     } else {
       trayectoria.visible = !trayectoria.visible;
+      $ctrl.puntosTrayectoria.find(x => x.id == trayectoria.id).markers.forEach(x => x.setVisible(false));
     }
   };
 
@@ -383,48 +425,61 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     var trayectoria = $ctrl.trayectorias.find(x => x.id == hikerEmail);
     var exists = trayectoria != undefined;
 
-    uiGmapGoogleMapApi.then(function(){
-      if (!exists) {
-        trayectoria = {
-          id: hikerEmail,
-          path: [],
-          editable: false,
-          draggable: false,
-          geodesic: true,
-          stroke: {
-              color: '#FF0000',
-              weight: 1.5
-          },
-          visible: false,
-          icons: [{
-            icon: {
-                path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
-            },
-            offset: '25px',
-            repeat: '50px'
-          }]
-        }
-      } else {
-        trayectoria.path = [];
-      }
+    //uiGmapIsReady.promise(1).then(function(instances) {
+        //instances.forEach(function(inst) {
+          if (!exists) {
+            trayectoria = {
+              id: hikerEmail,
+              path: [],
+              editable: false,
+              draggable: false,
+              geodesic: true,
+              stroke: {
+                  color: '#FF0000',
+                  weight: 1.5
+              },
+              visible: false,
+              icons: [{
+                icon: {
+                    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
+                },
+                offset: '25px',
+                repeat: '50px'
+              }]
+            }
+          } else {
+            trayectoria.path = [];
+          }
 
-      reports.forEach(x => {
-        trayectoria.path.push({
-          latitude: x.point.latitude,
-          longitude: x.point.longitude
-        });
-      });
+          reports.forEach(x => {
+            trayectoria.path.push({
+              latitude: x.point.latitude,
+              longitude: x.point.longitude
+            });
+          });
 
-      trayectoria.visible = true;
-      if (!exists) {
-        $ctrl.trayectorias.push(trayectoria);
-      }
-      var tam = trayectoria.path.length -1;
-      if (tam < 0) {
-        tam = 0;
-      }
-      $ctrl.gmap.panTo(new google.maps.LatLng(trayectoria.path[tam].latitude, trayectoria.path[tam].longitude));
-    });
+          var nuevoPunto = {
+            id: trayectoria.id,
+            markers: []
+          };
+          for (var i = 0; i < trayectoria.path.length; i++) {
+            var mark = createPolyLineMarker(
+                $ctrl.gmap, new google.maps.LatLng(trayectoria.path[i].latitude, trayectoria.path[i].longitude, true));
+            nuevoPunto.markers.push(mark);
+          }
+          $ctrl.puntosTrayectoria.push(nuevoPunto);
+
+          trayectoria.visible = true;
+          if (!exists) {
+            $ctrl.trayectorias.push(trayectoria);
+          }
+          var tam = trayectoria.path.length -1;
+          if (tam < 0) {
+            tam = 0;
+          }
+          $ctrl.gmap.panTo(new google.maps.LatLng(trayectoria.path[tam].latitude, trayectoria.path[tam].longitude));
+        //});
+    //});
   };
 
   $ctrl.centrarTrack = function() {

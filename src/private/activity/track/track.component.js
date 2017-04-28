@@ -30,6 +30,10 @@ function ActivityTrackController(TrackService, mapService, $scope, uiGmapIsReady
     zoom: 15
   };
 
+  /**
+    Array para almacenar los puntos que contiene una polylinea
+  */
+  var polyMarkers = [];
 
   var createMarker = function(id,  title, GPSPoint) {
     return {
@@ -44,6 +48,36 @@ function ActivityTrackController(TrackService, mapService, $scope, uiGmapIsReady
     };
   };
 
+  /**
+    Crea un marcador que se muestra en la polylinea
+  */
+  var createPolyLineMarker = function (map, latln) {
+    return new google.maps.Marker({
+      position: latln,
+      map: map,
+      visible: false,
+      icon: {
+          url: "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png",
+          size: new google.maps.Size(7, 7),
+          anchor: new google.maps.Point(4, 4)
+        },
+    });
+  };
+
+  /*
+    Listener que controla el zoom sobre el mapa. Al pasar determinado nivel
+    mostramos los markers que componen el track.
+    Al volver a una altura considerable los ocultamos
+  */
+  var setUpZoomListener = function(map) {
+    google.maps.event.addListener(map, 'zoom_changed', function() {
+        var zoom = map.getZoom();
+        for (var i = 0; i < polyMarkers.length; i++) {
+            polyMarkers[i].setVisible(!(zoom <= 17));
+        }
+    });
+  };
+
   $ctrl.track = TrackService.getActivityTrack($ctrl.activityTrack);
   if (assertTrackContainsPoints($ctrl.track)) {
     $ctrl.map = {
@@ -51,37 +85,46 @@ function ActivityTrackController(TrackService, mapService, $scope, uiGmapIsReady
         latitude: $ctrl.track.path[0].latitude,
         longitude: $ctrl.track.path[0].longitude
       },
-      zoom: 5
+      zoom: 13
     };
-
 
     /**
       Cuando el mapa está listo
     */
     uiGmapIsReady.promise(1).then(function(instances) {
-        instances.forEach(function(inst) {
-          $ctrl.mapOptions = {
-            mapTypeControl: true,
-            mapTypeId: 'Raster',
-            mapTypeControlOptions: {
-              mapTypeIds: ['PNOA', 'OSM', 'Raster', 'Raster Francia', google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.ROADMAP],
-              style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
-            },
-            scaleControl:true,
-            rotateControl:true
-          };
+      instances.forEach(function(inst) {
+        $ctrl.mapOptions = {
+          mapTypeControl: true,
+          mapTypeId: 'Raster',
+          mapTypeControlOptions: {
+            mapTypeIds: ['PNOA', 'OSM', 'Raster', 'Raster Francia', google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.ROADMAP],
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+          },
+          scaleControl:true,
+          rotateControl:true
+        };
 
-          var map = inst.map;
-          map.mapTypes.set('PNOA', mapService.getPNOAIGN(map.getProjection()));
-          map.mapTypes.set('OSM', mapService.getOSM());
-          map.mapTypes.set('Raster', mapService.getRaster());
-          map.mapTypes.set('Raster Francia', mapService.getRasterFrance());
+        //Tipos de mapas
+        var map = inst.map;
+        map.mapTypes.set('PNOA', mapService.getPNOAIGN(map.getProjection()));
+        map.mapTypes.set('OSM', mapService.getOSM());
+        map.mapTypes.set('Raster', mapService.getRaster());
+        map.mapTypes.set('Raster Francia', mapService.getRasterFrance());
 
+        //Marker de inicio y fin de ruta
+        $ctrl.markers.push(createMarker(0, "Inicio", $ctrl.track.path[0]));
+        $ctrl.markers.push(createMarker(1, "Fin", $ctrl.track.path[$ctrl.track.path.length-1]));
 
-          $ctrl.markers.push(createMarker(0, "Inicio", $ctrl.track.path[0]));
-          $ctrl.markers.push(createMarker(1, "Fin", $ctrl.track.path[$ctrl.track.path.length-1]));
-        });
+        //Markers por la polylinea indicando los puntos que la forman
+        for (var i = 0; i < $ctrl.track.path.length; i++) {
+          var ltln = new google.maps.LatLng($ctrl.track.path[i].latitude, $ctrl.track.path[i].longitude);
+          polyMarkers.push(createPolyLineMarker(map, ltln));
+        }
+        setUpZoomListener(map);
+      });
     });
+
+
   }
 }
 
