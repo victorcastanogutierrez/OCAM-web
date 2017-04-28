@@ -12,33 +12,30 @@ function mapService() {
 
   var service = this;
 
-  service.getMapTypes = function() {
-    return [
-      {
-        id: 0,
-        name: "Google"
-      },
-      {
-        id: 1,
-        name: "OSM",
-        mapType: service.getOSM
-      },
-      {
-        id: 2,
-        name: "PNOA IGN",
-        mapType: service.getPNOAIGN
-      },
-      {
-        id: 3,
-        name: "Grid",
-        mapType: service.getSquaresType
-      },
-      {
-        id: 4,
-        name: "Raster",
-        mapType: service.getRaster
+  service.getOverlayFn = function(size) {
+    return {
+      tileSize: size,
+      getTile: function(coord, zoom, ownerDocument) {
+          var n = Math.pow(2, zoom);
+          var longitudeMin = coord.x/n * 360 -180;
+          var lat_rad = Math.atan(Math.sinh(Math.PI * (1 - 2 * coord.y/n)));
+          var latitudeMin = lat_rad * 180/Math.PI;
+
+          var longitudeMax = (coord.x + 1)/n * 360 -180;
+          lat_rad = Math.atan(Math.sinh(Math.PI * (1 - 2 * (coord.y + 1)/n)));
+          var latitudeMax = lat_rad * 180/Math.PI;
+
+          var div = ownerDocument.createElement('div');
+          div.innerHTML = latitudeMin.toFixed(7)+", "+longitudeMin.toFixed(7);
+          div.style.width = this.tileSize.width + 'px';
+          div.style.height = this.tileSize.height + 'px';
+          div.style.fontSize = '10';
+          div.style.borderStyle = 'solid';
+          div.style.borderWidth = '1px';
+          div.style.borderColor = '#AAAAAA';
+          return div;
       }
-    ];
+    };
   };
 
   service.getOSM = function() {

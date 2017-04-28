@@ -107,6 +107,10 @@ function monitorizeController($stateParams, $state, activityService, $scope,
         }
         setUpZoomListener($ctrl.gmap);
 
+        //Grid
+        map.overlayMapTypes.insertAt(
+            0, mapService.getOverlayFn(new google.maps.Size(256, 256)));
+
         //Localización constante sobre el mapa
         $ctrl.CurrentCoords = "Latitud: -\nLongitud: -";
         google.maps.event.addListener(map, 'mousemove', function (event) {

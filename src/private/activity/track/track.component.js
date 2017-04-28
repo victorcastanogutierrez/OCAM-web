@@ -95,7 +95,8 @@ function ActivityTrackController(TrackService, mapService, $scope, uiGmapIsReady
       instances.forEach(function(inst) {
         $ctrl.mapOptions = {
           mapTypeControl: true,
-          mapTypeId: 'Raster',
+          //mapTypeId: 'Raster',
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
           mapTypeControlOptions: {
             mapTypeIds: ['PNOA', 'OSM', 'Raster', 'Raster Francia', google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.ROADMAP],
             style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
@@ -104,9 +105,10 @@ function ActivityTrackController(TrackService, mapService, $scope, uiGmapIsReady
           rotateControl:true
         };
 
-        //Tipos de mapas
+
         var map = inst.map;
 
+        //Posicion constante del mouse
         $ctrl.CurrentCoords = "Latitud: -\nLongitud: -";
         google.maps.event.addListener(map, 'mousemove', function (event) {
           $ctrl.CurrentCoords = "Latitud: "+event.latLng.lat()+"\nLongitud: "+event.latLng.lng();
@@ -114,6 +116,11 @@ function ActivityTrackController(TrackService, mapService, $scope, uiGmapIsReady
           coordsLabel.innerHTML = "Latitud: "+event.latLng.lat().toFixed(7)+"\nLongitud: "+event.latLng.lng().toFixed(7);
         });
 
+        //Grid
+        map.overlayMapTypes.insertAt(
+            0, mapService.getOverlayFn(new google.maps.Size(256, 256)));
+
+        //Tipos de mapas
         map.mapTypes.set('PNOA', mapService.getPNOAIGN(map.getProjection()));
         map.mapTypes.set('OSM', mapService.getOSM());
         map.mapTypes.set('Raster', mapService.getRaster());
