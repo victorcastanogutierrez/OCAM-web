@@ -106,6 +106,14 @@ function monitorizeController($stateParams, $state, activityService, $scope,
           polyMarkers.push(createPolyLineMarker($ctrl.gmap, ltln, false));
         }
         setUpZoomListener($ctrl.gmap);
+
+        //Localización constante sobre el mapa
+        $ctrl.CurrentCoords = "Latitud: -\nLongitud: -";
+        google.maps.event.addListener(map, 'mousemove', function (event) {
+          $ctrl.CurrentCoords = "Latitud: "+event.latLng.lat()+"\nLongitud: "+event.latLng.lng();
+          var coordsLabel = document.getElementById("btCoords");
+          coordsLabel.innerHTML = "Latitud: "+event.latLng.lat().toFixed(7)+"\nLongitud: "+event.latLng.lng().toFixed(7);
+        });
       });
   });
 
@@ -425,61 +433,57 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     var trayectoria = $ctrl.trayectorias.find(x => x.id == hikerEmail);
     var exists = trayectoria != undefined;
 
-    //uiGmapIsReady.promise(1).then(function(instances) {
-        //instances.forEach(function(inst) {
-          if (!exists) {
-            trayectoria = {
-              id: hikerEmail,
-              path: [],
-              editable: false,
-              draggable: false,
-              geodesic: true,
-              stroke: {
-                  color: '#FF0000',
-                  weight: 1.5
-              },
-              visible: false,
-              icons: [{
-                icon: {
-                    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
-                },
-                offset: '25px',
-                repeat: '50px'
-              }]
-            }
-          } else {
-            trayectoria.path = [];
-          }
+    if (!exists) {
+      trayectoria = {
+        id: hikerEmail,
+        path: [],
+        editable: false,
+        draggable: false,
+        geodesic: true,
+        stroke: {
+            color: '#FF0000',
+            weight: 1.5
+        },
+        visible: false,
+        icons: [{
+          icon: {
+              path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
+          },
+          offset: '25px',
+          repeat: '50px'
+        }]
+      }
+    } else {
+      trayectoria.path = [];
+    }
 
-          reports.forEach(x => {
-            trayectoria.path.push({
-              latitude: x.point.latitude,
-              longitude: x.point.longitude
-            });
-          });
+    reports.forEach(x => {
+      trayectoria.path.push({
+        latitude: x.point.latitude,
+        longitude: x.point.longitude
+      });
+    });
 
-          var nuevoPunto = {
-            id: trayectoria.id,
-            markers: []
-          };
-          for (var i = 0; i < trayectoria.path.length; i++) {
-            var mark = createPolyLineMarker(
-                $ctrl.gmap, new google.maps.LatLng(trayectoria.path[i].latitude, trayectoria.path[i].longitude, true));
-            nuevoPunto.markers.push(mark);
-          }
-          $ctrl.puntosTrayectoria.push(nuevoPunto);
+    var nuevoPunto = {
+      id: trayectoria.id,
+      markers: []
+    };
+    for (var i = 0; i < trayectoria.path.length; i++) {
+      var mark = createPolyLineMarker(
+          $ctrl.gmap, new google.maps.LatLng(trayectoria.path[i].latitude, trayectoria.path[i].longitude, true));
+      nuevoPunto.markers.push(mark);
+    }
+    $ctrl.puntosTrayectoria.push(nuevoPunto);
 
-          trayectoria.visible = true;
-          if (!exists) {
-            $ctrl.trayectorias.push(trayectoria);
-          }
-          var tam = trayectoria.path.length -1;
-          if (tam < 0) {
-            tam = 0;
-          }
-          $ctrl.gmap.panTo(new google.maps.LatLng(trayectoria.path[tam].latitude, trayectoria.path[tam].longitude));
-        //});
-    //});
+    trayectoria.visible = true;
+    if (!exists) {
+      $ctrl.trayectorias.push(trayectoria);
+    }
+    var tam = trayectoria.path.length -1;
+    if (tam < 0) {
+      tam = 0;
+    }
+    $ctrl.gmap.panTo(new google.maps.LatLng(trayectoria.path[tam].latitude, trayectoria.path[tam].longitude));
   };
 
   $ctrl.centrarTrack = function() {

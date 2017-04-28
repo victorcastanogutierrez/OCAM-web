@@ -106,6 +106,14 @@ function ActivityTrackController(TrackService, mapService, $scope, uiGmapIsReady
 
         //Tipos de mapas
         var map = inst.map;
+
+        $ctrl.CurrentCoords = "Latitud: -\nLongitud: -";
+        google.maps.event.addListener(map, 'mousemove', function (event) {
+          $ctrl.CurrentCoords = "Latitud: "+event.latLng.lat()+"\nLongitud: "+event.latLng.lng();
+          var coordsLabel = document.getElementById("btCoords");
+          coordsLabel.innerHTML = "Latitud: "+event.latLng.lat().toFixed(7)+"\nLongitud: "+event.latLng.lng().toFixed(7);
+        });
+
         map.mapTypes.set('PNOA', mapService.getPNOAIGN(map.getProjection()));
         map.mapTypes.set('OSM', mapService.getOSM());
         map.mapTypes.set('Raster', mapService.getRaster());
@@ -123,7 +131,6 @@ function ActivityTrackController(TrackService, mapService, $scope, uiGmapIsReady
         setUpZoomListener(map);
       });
     });
-
 
   }
 }
