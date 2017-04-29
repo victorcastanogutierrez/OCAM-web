@@ -6,10 +6,10 @@ angular.module('common')
 
 hikerFactory.$inject =['$http', '$base64', 'SERVER_URL',
   'LOGIN_API', 'REGISTER_API', 'Auth', 'HIKER_DATA', 'HIKER_CHANGE_PASSWORD',
-  'EXISTS_LOGIN_API', 'HIKER_VALIDATE'];
+  'EXISTS_LOGIN_API', 'HIKER_VALIDATE', 'DELETE_HIKER'];
 function hikerFactory($http, $base64, SERVER_URL,
     LOGIN_API, REGISTER_API, Auth, HIKER_DATA, HIKER_CHANGE_PASSWORD,
-    EXISTS_LOGIN_API, HIKER_VALIDATE) {
+    EXISTS_LOGIN_API, HIKER_VALIDATE, DELETE_HIKER) {
 
   var Hiker = {
     logIn: function (username, password, successCallback, errorCallback) {
@@ -76,6 +76,15 @@ function hikerFactory($http, $base64, SERVER_URL,
         success(response.data);
       }, function(err) {
         error(err.data);
+      });
+    },
+
+    deleteHiker: function (login, success) {
+      $http({
+        method: 'POST',
+        url: SERVER_URL + DELETE_HIKER + '/' + login
+      }).then(function (response) {
+        success(response.data);
       });
     },
   }

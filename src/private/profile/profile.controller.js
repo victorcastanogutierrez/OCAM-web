@@ -4,8 +4,8 @@
 angular.module('private')
 .controller('profileController', profileController);
 
-profileController.$inject = ['userData', '$mdDialog'];
-function profileController(userData, $mdDialog) {
+profileController.$inject = ['userData', '$mdDialog', 'Auth', 'hikerService'];
+function profileController(userData, $mdDialog, Auth, hikerService) {
   var $ctrl = this;
 
   $ctrl.user = userData;
@@ -25,6 +25,23 @@ function profileController(userData, $mdDialog) {
       console.log(answer);
     }, function() {
 
+    });
+  };
+
+  $ctrl.eliminar = function(ev) {
+    var confirm = $mdDialog.confirm()
+          .title('¿Quieres eliminar tu cuenta?')
+          .textContent('No podrás volver a acceder y NO habrá marcha atrás')
+          .targetEvent(ev)
+          .ok('Sí')
+          .cancel('Cancelar');
+
+    $mdDialog.show(confirm).then(function() {
+      $ctrl.loading = true;
+      hikerService.deleteHiker(Auth.getHikerLoggedIn().login, function() {
+        Auth.logOutUser();
+        $ctrl.loading = false;
+      });
     });
   };
 

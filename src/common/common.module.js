@@ -2,8 +2,8 @@
 "use strict";
 
 angular.module('common', ['base64', 'ngStorage', 'ui.router'])
-.constant('SERVER_URL', 'https://ocamserver.herokuapp.com')
-//.constant('SERVER_URL', 'https://localhost:8443')
+//.constant('SERVER_URL', 'https://ocamserver.herokuapp.com')
+.constant('SERVER_URL', 'https://localhost:8443')
 .constant('LOGIN_API', '/api/auth/login')
 .constant('REGISTER_API', '/hiker')
 .constant('PENDING_ACTIVITIES_API', '/pendingActivities')
@@ -19,6 +19,7 @@ angular.module('common', ['base64', 'ngStorage', 'ui.router'])
 .constant('HIKER_VALIDATE', '/validateHiker')
 .constant('FIND_HIKER_ACTIVITIES_DONE', '/api/findHikerFinishActivities')
 .constant('ACTIVITY_HIKER_LAST_REPORT', '/api/findLastHikerActivityReport')
+.constant('DELETE_HIKER', '/api/hiker/delete')
 .config(CommonConfig);
 
 CommonConfig.$inject = ['$httpProvider']
