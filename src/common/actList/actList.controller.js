@@ -145,7 +145,21 @@ function activityListController(list, numEle, activityService, $q,
   $ctrl.onListSelect = function(list) {
     listSelected = list.id;
     $ctrl.refreshData();
-  }
+  };
+
+  /**
+    Función que obtiene el string a mostrar
+    según el estado de la actividad
+  */
+  $ctrl.getStatus = function(status) {
+    if (status == 'RUNNING') {
+      return 'En curso';
+    } else if (status == 'PENDING') {
+      return 'Pendiente';
+    } else if (status == 'CLOSED') {
+      return 'Realizada';
+    }
+  };
 }
 
 })();
