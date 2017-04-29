@@ -86,6 +86,10 @@
           </div>
           <div ng-show="activityCtrl.nuevaActividad">
             <label>Track de la ruta (gpx)</label>
+            <span ng-show="activityCtrl.nuevaActividad && activityCtrl.editando">
+              <br>
+              Se conservará el track actual si no se introduce uno nuevo
+            </span>
             <input ng-model="activityCtrl.trackFile"
                onchange="angular.element(this).scope().file_changed(this)"
                type="file" accept=".gpx"/>
