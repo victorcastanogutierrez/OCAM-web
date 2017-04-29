@@ -39,6 +39,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   $ctrl.puntosTrayectoria = [];
   $ctrl.controlTrayectorias = false;
   $ctrl.showMapTrack = true;
+  $ctrl.collapsed = false;
   /**
     Array para almacenar los puntos que contiene una polylinea
   */
@@ -72,6 +73,10 @@ function monitorizeController($stateParams, $state, activityService, $scope,
             polyMarkers[i].setVisible(!(zoom <= 17));
         }
     });
+  };
+
+  $ctrl.collapse = function() {
+    $ctrl.collapsed = !$ctrl.collapsed;
   };
 
   /**
