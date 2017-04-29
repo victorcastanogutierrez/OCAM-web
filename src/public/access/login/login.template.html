@@ -27,4 +27,8 @@
   </div>
   <md-button class="md-raised md-primary" ng-click="loginCtrl.login()"
     ng-disabled="loginCtrl.loading">Login</md-button>
+  <md-button class="md-primary" ng-disabled="loginCtrl.loading"
+    ng-click="loginCtrl.recuperarCuenta($event)">
+    Recuperar cuenta
+  </md-button>
 </form>

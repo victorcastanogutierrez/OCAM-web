@@ -20,6 +20,7 @@ angular.module('common', ['base64', 'ngStorage', 'ui.router'])
 .constant('FIND_HIKER_ACTIVITIES_DONE', '/api/findHikerFinishActivities')
 .constant('ACTIVITY_HIKER_LAST_REPORT', '/api/findLastHikerActivityReport')
 .constant('DELETE_HIKER', '/api/hiker/delete')
+.constant('RESET_PASSWORD', '/hiker/resetPassword')
 .config(CommonConfig);
 
 CommonConfig.$inject = ['$httpProvider']
