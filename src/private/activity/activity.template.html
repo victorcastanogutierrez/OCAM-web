@@ -109,9 +109,9 @@
         <br>
         <loading></loading>
       </md-card-content>
-      <span class="text-red" ng-show="activityCtrl.error">
-        {{activityCtrl.error}}
-      </span>
+      <div class="alert alert-danger" ng-show="activityCtrl.error">
+        <strong>{{activityCtrl.error}}</strong>
+      </div>
       <md-button class="md-raised md-primary"
         ng-click="activityCtrl.cancelarEdicion()"
         ng-disabled="activityCtrl.cargando"
