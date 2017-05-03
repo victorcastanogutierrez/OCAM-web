@@ -67,11 +67,28 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     Al volver a una altura considerable los ocultamos
   */
   var setUpZoomListener = function(map) {
+    var tray;
     google.maps.event.addListener(map, 'zoom_changed', function() {
-        var zoom = map.getZoom();
+        /*
+          Puntos del track
+        */
+        var show = map.getZoom() <= 15;
         for (var i = 0; i < polyMarkers.length; i++) {
-            polyMarkers[i].setVisible(!(zoom <= 17));
+            polyMarkers[i].setVisible(!show);
         }
+
+        /*
+          Puntos de cada trayectoria visible. En este caso lo que hacemos es
+          comprobar si la trayectoria en si está visible. Si lo está actuamos
+          sobre sus puntos
+        */
+        $ctrl.trayectorias.filter(x => x.visible)
+          .forEach(x => {
+            tray = $ctrl.puntosTrayectoria.find(y => y.id == x.id);
+            if (tray) {
+              tray.markers.map(y => y.setVisible(!show));
+            }
+          });
     });
   };
 
@@ -82,49 +99,53 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   /**
     Cuando el mapa está listo
   */
-  uiGmapIsReady.promise(1).then(function(instances) {
-      instances.forEach(function(inst) {
-        $ctrl.mapOptions = {
-          mapTypeControl: true,
-          mapTypeId: 'Raster',
-          mapTypeControlOptions: {
-            mapTypeIds: ['PNOA', 'OSM', 'Raster', 'Raster Francia', google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.ROADMAP],
-            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
-          },
-          scaleControl:true,
-          rotateControl:true
-        };
+  var loadMapData = function() {
+    uiGmapIsReady.promise(1).then(function(instances) {
+        instances.forEach(function(inst) {
+          $ctrl.mapOptions = {
+            mapTypeControl: true,
+            mapTypeId: 'Raster',
+            mapTypeControlOptions: {
+              mapTypeIds: ['PNOA', 'OSM', 'Raster', 'Raster Francia', google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.ROADMAP],
+              style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+            },
+            scaleControl:true,
+            rotateControl:true
+          };
 
-        var map = inst.map;
-        map.mapTypes.set('PNOA', mapService.getPNOAIGN(map.getProjection()));
-        map.mapTypes.set('OSM', mapService.getOSM());
-        map.mapTypes.set('Raster', mapService.getRaster());
-        map.mapTypes.set('Raster Francia', mapService.getRasterFrance());
-        $ctrl.gmap = map;
+          var map = inst.map;
+          map.mapTypes.set('PNOA', mapService.getPNOAIGN(map.getProjection()));
+          map.mapTypes.set('OSM', mapService.getOSM());
+          map.mapTypes.set('Raster', mapService.getRaster());
+          map.mapTypes.set('Raster Francia', mapService.getRasterFrance());
+          $ctrl.gmap = map;
 
-        $ctrl.markers.push(createMarker(0, "Inicio", $ctrl.track.path[0]));
-        $ctrl.markers.push(createMarker(1, "Fin", $ctrl.track.path[$ctrl.track.path.length-1]));
+          $ctrl.markers.push(createMarker(0, "Inicio", $ctrl.track.path[0]));
+          $ctrl.markers.push(createMarker(1, "Fin", $ctrl.track.path[$ctrl.track.path.length-1]));
 
-        //Markers por la polylinea indicando los puntos que la forman
-        for (var i = 0; i < $ctrl.track.path.length; i++) {
-          var ltln = new google.maps.LatLng($ctrl.track.path[i].latitude, $ctrl.track.path[i].longitude);
-          polyMarkers.push(createPolyLineMarker($ctrl.gmap, ltln, false));
-        }
-        setUpZoomListener($ctrl.gmap);
+          //Markers por la polylinea indicando los puntos que la forman
+          for (var i = 0; i < $ctrl.track.path.length; i++) {
+            var ltln = new google.maps.LatLng($ctrl.track.path[i].latitude, $ctrl.track.path[i].longitude);
+            polyMarkers.push(createPolyLineMarker($ctrl.gmap, ltln, false));
+          }
+          setUpZoomListener($ctrl.gmap);
 
-        //Grid
-        map.overlayMapTypes.insertAt(
-            0, mapService.getOverlayFn(new google.maps.Size(256, 256), map));
+          //Grid
+          map.overlayMapTypes.insertAt(
+              0, mapService.getOverlayFn(new google.maps.Size(256, 256), map));
 
-        //Localización constante sobre el mapa
-        $ctrl.CurrentCoords = "Latitud: -\nLongitud: -";
-        google.maps.event.addListener(map, 'mousemove', function (event) {
-          $ctrl.CurrentCoords = "Latitud: "+event.latLng.lat()+"\nLongitud: "+event.latLng.lng();
-          var coordsLabel = document.getElementById("btCoords");
-          coordsLabel.innerHTML = "Latitud: "+event.latLng.lat().toFixed(7)+"\nLongitud: "+event.latLng.lng().toFixed(7);
+          //Localización constante sobre el mapa
+          $ctrl.CurrentCoords = "Latitud: -\nLongitud: -";
+          google.maps.event.addListener(map, 'mousemove', function (event) {
+            $ctrl.CurrentCoords = "Latitud: "+event.latLng.lat()+"\nLongitud: "+event.latLng.lng();
+            var coordsLabel = document.getElementById("btCoords");
+            coordsLabel.innerHTML = "Latitud: "+event.latLng.lat().toFixed(7)+"\nLongitud: "+event.latLng.lng().toFixed(7);
+          });
         });
-      });
-  });
+    });
+
+  };
+
 
 
 
@@ -207,6 +228,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       $ctrl.promise = activityService.finLastActivityReports($ctrl.activity.id).then(
         function (response) {
           procesarDatosReportes(response);
+          loadMapData();
         }, function(err) {
           errorData();
         }
@@ -431,7 +453,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       $ctrl.cargarTrayectoria(hiker);
     } else {
       trayectoria.visible = !trayectoria.visible;
-      $ctrl.puntosTrayectoria.find(x => x.id == trayectoria.id).markers.forEach(x => x.setVisible(false));
+      $ctrl.puntosTrayectoria.find(x => x.id == trayectoria.id).markers.forEach(x => x.setVisible(trayectoria.visible));
     }
   };
 
@@ -464,6 +486,13 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       }
     } else {
       trayectoria.path = [];
+      //Si existía y era visible
+      if (trayectoria.visible) {
+        var tray = $ctrl.puntosTrayectoria.find(x => x.id == trayectoria.id);
+        if (tray) {
+          tray.markers.map(x => x.setVisible(false));
+        }
+      }
     }
 
     reports.forEach(x => {
@@ -473,16 +502,23 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       });
     });
 
-    var nuevoPunto = {
-      id: trayectoria.id,
-      markers: []
-    };
+    //Trayectoria de puntos
+    var punto = $ctrl.puntosTrayectoria.find(x => x.id == trayectoria.id);
+    if (!punto) {
+      punto = {
+        id: trayectoria.id,
+        markers: []
+      };
+    } else {
+      punto.markers = [];
+    }
+
     for (var i = 0; i < trayectoria.path.length; i++) {
       var mark = createPolyLineMarker(
           $ctrl.gmap, new google.maps.LatLng(trayectoria.path[i].latitude, trayectoria.path[i].longitude, true));
-      nuevoPunto.markers.push(mark);
+      punto.markers.push(mark);
     }
-    $ctrl.puntosTrayectoria.push(nuevoPunto);
+    $ctrl.puntosTrayectoria.push(punto);
 
     trayectoria.visible = true;
     if (!exists) {

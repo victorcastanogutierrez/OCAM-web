@@ -33,7 +33,7 @@
             <md-input-container class="md-block" flex-gt-sm>
               <label>Descripción breve de la actividad</label>
               <textarea ng-model="activityCtrl.activity.shortDescription" md-select-on-focus
-                ng-maxlength="40" md-maxlength="40" name="shortDescription" required>
+                ng-maxlength="250" md-maxlength="250" name="shortDescription" required>
               </textarea>
               <span class="text-red" ng-if="actForm.shortDescription.$invalid && actForm.shortDescription.$touched">
                 Debes introducir una breve descripción para la actividad
@@ -48,7 +48,7 @@
               <label>Descripción de la ruta de la actividad</label>
               <textarea ng-disabled="!activityCtrl.nuevaActividad"
                 ng-model="activityCtrl.activity.longDescription" md-select-on-focus
-                ng-maxlength="250" md-maxlength="250" name="longDescription">
+                ng-maxlength="500" md-maxlength="500" name="longDescription">
               </textarea>
             </md-input-container>
           </div>
@@ -63,7 +63,7 @@
           </div>
           <div ng-show="!activityCtrl.nuevaActividad && !activityCtrl.editando && activityCtrl.activity.mide">
             <md-button md-no-ink class="md-primary" ng-click="activityCtrl.mide()">Enlace MIDE</md-button>
-            <label>({{activityCtrl.activity.mide}})</label>
+            <a target="_blank" href="{{activityCtrl.activity.mide}}">Enlace MIDE ({{activityCtrl.activity.mide}})</a>
           </div><br>
           <div ng-show="activityCtrl.nuevaActividad || $ctrl.editando || activityCtrl.activity.maxPlaces">
             <md-input-container>

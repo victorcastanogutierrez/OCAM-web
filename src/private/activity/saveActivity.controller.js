@@ -137,7 +137,6 @@ function saveActivityController($scope, activityService, $mdDialog, $state,
     if (!$ctrl.activity.mide && !$ctrl.activity.longDescription) {
       return "Debes introducir o una descripción o enlace MIDE (o ambos).";
     } else if ($ctrl.activity.mide) {
-      console.log("HOLA");
       if (!$ctrl.activity.mide.includes("http://") && !$ctrl.activity.mide.includes("www")) {
         return "Enlace MIDE inválido";
       }
