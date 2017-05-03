@@ -120,11 +120,12 @@ function saveActivityController($scope, activityService, $mdDialog, $state,
     Retorna el objeto actividad con los datos necsarios
   */
   var getNewActivity = function(){
+    var mideAct = $ctrl.activity.mide;
     return {
       id: $ctrl.activity.id, // Si la está editando habrá contenido.
       shortDescription: $ctrl.activity.shortDescription,
       longDescription: $ctrl.activity.longDescription,
-      mide: $ctrl.activity.mide,
+      mide: mideAct ? (mideAct.length == 0 ? null : mideAct) : null,
       startDate: $ctrl.activity.startDate,
       maxPlaces: $ctrl.activity.maxPlaces
     };
