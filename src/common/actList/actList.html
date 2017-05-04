@@ -37,7 +37,7 @@
                   <td md-cell ng-hide="activity.status == 'CLOSED'">{{activity.startDate}}</td>
                   <td md-cell ng-show="activity.status == 'CLOSED'">{{activity.startedDate}}</td>
                   <td md-cell>{{activity.maxPlaces}}</td>
-                  <td md-cell>{{activity.shortDescription}}</td>
+                  <td md-cell>{{ activity.shortDescription | limitTo:80 }}</td>
                   <td md-cell>
                       <label>{{actListCtrl.getStatus(activity.status)}}</label>
                   </td>

@@ -40,6 +40,9 @@ function routeConfig ($stateProvider, $locationProvider) {
       templateUrl : 'src/public/access/access.html',
       data: {
         authorization: false
+      },
+      params: {
+        showError: null
       }
     });
   }

@@ -1,4 +1,8 @@
+
 <div layout="column" ng-cloak class="md-inline-form">
+  <div class="alert alert-danger" ng-show="accessCtrl.showError">
+    <strong>{{accessCtrl.showError}}</strong>
+  </div>
   <md-content md-theme="default" layout="row">
     <div flex="0" flex-gt-sm="35"/>
     <div flex="100" flex-gt-sm="30">

@@ -25,6 +25,7 @@
     </md-button>
   </md-list-item>
 </md-list>
-<div>
-  {{guidesCtrl.guidesError}}
+
+<div class="alert alert-danger" ng-show="guidesCtrl.guidesError">
+  <strong>{{guidesCtrl.guidesError}}</strong>
 </div>

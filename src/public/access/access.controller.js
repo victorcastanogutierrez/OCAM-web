@@ -9,6 +9,7 @@ function accessController($stateParams, $mdDialog) {
 
   var $ctrl = this;
   var code = $stateParams.code;
+  $ctrl.showError = $stateParams.showError;
 
   var showDialog = function() {
     $mdDialog.show({
