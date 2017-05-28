@@ -21,7 +21,7 @@ function config($urlRouterProvider, $mdThemingProvider, $mdAriaProvider,
   // En caso de no estar logueado la aplicación le redirigirá a la Lista
   // pública
   $urlRouterProvider.otherwise('/activities');
-  $locationProvider.html5Mode(true);
+  //$locationProvider.html5Mode(true);
 
   // Theme de la aplicación
   $mdThemingProvider.theme('default')
