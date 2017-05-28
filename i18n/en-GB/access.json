@@ -1,0 +1,16 @@
+{
+  "nombre": "Username",
+  "password": "Password",
+  "login": "Login",
+  "recuperar": "Recover account",
+  "registro": "Register",
+  "correo": "Email",
+  "repite.password": "Re password",
+  "registrarse": "Register",
+  "bienvenido": "Welcome",
+  "avisorecuperar": "If the account exists, an email has been sent with a new password.",
+  "aceptar": "Accept",
+  "cancelar": "Cancel",
+  "confirmar.nueva.password": "Send new password",
+  "introducir.correo": "Type the email you used in the register proccess"
+}
