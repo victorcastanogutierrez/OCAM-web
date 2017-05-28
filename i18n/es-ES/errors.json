@@ -1,9 +1,0 @@
-{
-  "error.login.username.required": "¡Debes introducir tu nombre de usuario!",
-  "error.login.password.required": "¡Debes introducir tu contraseña!",
-  "error.registro.email.required": "¡Debes introducir tu correo electrónico!",
-  "error.registro.usernameDetailed.required": "Debes introducir tu nombre de usuario! Mínimo 4 caracteres, máximo 20",
-  "error.registro.password.required": "¡Debes introducir tu contraseña!",
-  "error.registro.password.coinciden": "Las contraseñas no coinciden",
-  "error.login.credenciales": "Credenciales inválidas"
-}

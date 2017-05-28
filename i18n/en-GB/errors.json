@@ -1,9 +1,0 @@
-{
-  "error.login.username.required": "Username is required!",
-  "error.login.password.required": "Password is required!",
-  "error.registro.email.required": "Email is required!",
-  "error.registro.usernameDetailed.required": "Username is required! Between 4 and 20 characters",
-  "error.registro.password.required": "Password is required!",
-  "error.registro.password.coinciden": "Password does not match",
-  "error.login.credenciales": "Username or password incorrect"
-}
