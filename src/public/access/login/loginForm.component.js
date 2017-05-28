@@ -8,14 +8,16 @@ angular.module('public')
   controllerAs: 'loginCtrl'
 });
 
-LoginFormController.$inject = ['hikerService', '$mdToast', '$scope', '$mdDialog'];
-function LoginFormController(hikerService, $mdToast, $scope, $mdDialog) {
+LoginFormController.$inject = ['hikerService', '$mdToast', '$scope', '$mdDialog',
+  '$filter'];
+function LoginFormController(hikerService, $mdToast, $scope, $mdDialog, $filter) {
   var $ctrl = this;
 
   $ctrl.login = function() {
     $ctrl.loading = true;
     if (!$ctrl.username || !$ctrl.password) {
-      displayError("Credenciales inválidas.")
+      displayError($filter('translate')('error.login.credenciales'));
+      $ctrl.loading = false;
       return;
     }
 
@@ -29,7 +31,7 @@ function LoginFormController(hikerService, $mdToast, $scope, $mdDialog) {
     //Login error callback
     var loginError = function(error){
       if (error.status == 401) {
-        displayError("Credenciales inválidas.");
+        displayError($filter('translate')('error.login.credenciales'));
         $ctrl.loading = false;
       }
     };
@@ -46,12 +48,12 @@ function LoginFormController(hikerService, $mdToast, $scope, $mdDialog) {
     };
 
     var confirm = $mdDialog.prompt()
-      .title('Recuerar cuenta')
-      .textContent('Introduce el correo electrónico con el que te registraste')
-      .placeholder('Correo electrónico')
+      .title($filter('translate')('recuperar'))
+      .textContent($filter('translate')('introducir.correo'))
+      .placeholder($filter('translate')('correo'))
       .targetEvent(ev)
-      .ok('Enviar nueva password')
-      .cancel('Cancelar');
+      .ok($filter('translate')('confirmar.nueva.password'))
+      .cancel($filter('translate')('cancelar'));
 
     var cambiaPassword = function() {
       $ctrl.loading = false;
@@ -59,9 +61,9 @@ function LoginFormController(hikerService, $mdToast, $scope, $mdDialog) {
         $mdDialog.alert()
           .parent(angular.element(document.querySelector('#popupContainer')))
           .clickOutsideToClose(true)
-          .title('Recuperar cuenta')
-          .textContent('Se ha enviado un email con una nueva contraseña en caso de coincidir con alguna cuenta existente.')
-          .ok('Aceptar')
+          .title($filter('translate')('recuperar'))
+          .textContent($filter('translate')('avisorecuperar'))
+          .ok($filter('translate')('aceptar'))
           .targetEvent(ev)
       );
     };
@@ -91,7 +93,7 @@ function LoginFormController(hikerService, $mdToast, $scope, $mdDialog) {
   var showWelcomeToast = function() {
     $mdToast.show(
       $mdToast.simple()
-        .textContent('¡Bienvenido ' + $ctrl.username + '!')
+        .textContent('¡' + $filter('translate')('bienvenido') + $ctrl.username + '!')
         .position("bottom, right")
         .hideDelay(3000)
     );

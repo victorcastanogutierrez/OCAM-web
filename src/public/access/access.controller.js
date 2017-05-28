@@ -4,12 +4,17 @@
 angular.module('public')
 .controller('accessController', accessController);
 
-accessController.$inject = ['$stateParams', '$mdDialog'];
-function accessController($stateParams, $mdDialog) {
+accessController.$inject = ['$stateParams', '$mdDialog', '$translate',
+  '$translatePartialLoader'];
+function accessController($stateParams, $mdDialog, $translate,
+  $translatePartialLoader) {
 
   var $ctrl = this;
   var code = $stateParams.code;
   $ctrl.showError = $stateParams.showError;
+  $translatePartialLoader.addPart('access');
+  $translatePartialLoader.addPart('errors');
+  $translate.refresh();
 
   var showDialog = function() {
     $mdDialog.show({

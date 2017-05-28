@@ -3,11 +3,11 @@
   <div class="form-group has-feedback">
     <md-input-container class="md-block" flex-gt-sm>
       <md-icon class="material-icons md-24" style="color: #50D050">person</md-icon>
-      <input placeholder="Nombre de usuario"
+      <input placeholder="{{'nombre' | translate}}"
         ng-model='loginCtrl.username' name="username"
         ng-click='loginCtrl.disableErrors()' required>
       <span class="text-red" ng-if="loginForm.username.$invalid && loginForm.username.$touched">
-        Debes introducir tu nombre de usuario!
+        {{'error.login.username.required' | translate}}
       </span>
     </md-input-container>
   </div>
@@ -18,7 +18,7 @@
         ng-model='loginCtrl.password' name="password"
         ng-click='loginCtrl.disableErrors()' required>
       <span class="text-red" ng-if="loginForm.password.$invalid && loginForm.password.$touched">
-        Debes introducir tu contraseña!
+        {{'error.login.password.required' | translate}}
       </span>
     </md-input-container>
   </div>
@@ -29,6 +29,6 @@
     ng-disabled="loginCtrl.loading">Login</md-button>
   <md-button class="md-primary" ng-disabled="loginCtrl.loading"
     ng-click="loginCtrl.recuperarCuenta($event)">
-    Recuperar cuenta
+    {{"recuperar" | translate}}
   </md-button>
 </form>

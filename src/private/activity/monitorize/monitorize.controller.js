@@ -434,6 +434,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       .findAllActivityReportsByHiker($ctrl.activity.id, hiker.email).then(
       function(response) {
         if (response && response.length > 0) {
+          console.log(response);
           insertarTrayectoria(response, hiker.email);
         }
         $ctrl.cargando = false;

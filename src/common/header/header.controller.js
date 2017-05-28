@@ -4,12 +4,17 @@
 angular.module('common')
 .controller('headerController', headerController);
 
-headerController.$inject = ['Auth', '$rootScope', '$state'];
-function headerController(Auth, $rootScope, $state) {
+headerController.$inject = ['Auth', '$rootScope', '$state', 'translateService'];
+function headerController(Auth, $rootScope, $state, translateService) {
   var $ctrl = this;
 
   $ctrl.currentNavItem = $state.current.name;
   $ctrl.user = Auth.isUserLoggedIn() || false;
+  $ctrl.languages = translateService.getLanguages();
+
+  $ctrl.onLangSelect = function(code) {
+    translateService.setLanguage(code);
+  };
 
   //Listener para cuando un usuario hace login o cierra sesión
   var listener;

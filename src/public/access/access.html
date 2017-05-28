@@ -7,7 +7,7 @@
     <div flex="0" flex-gt-sm="35"/>
     <div flex="100" flex-gt-sm="30">
       <md-tabs md-dynamic-height md-border-bottom>
-        <md-tab label="Login" ng-disabled="$ctrl.loading">
+        <md-tab label="{{'login' | translate}}" ng-disabled="$ctrl.loading">
           <md-content class="md-padding">
             <div class="panel-body">
               <!-- LoginForm component -->
@@ -16,10 +16,10 @@
             </div>
           </md-content>
         </md-tab>
-        <md-tab label="Registro" ng-disabled="$ctrl.loading">
+        <md-tab label="{{'registro' | translate}}" ng-disabled="$ctrl.loading">
           <md-content class="md-padding">
             <div class="panel-body">
-              <!-- LoginForm component -->
+              <!-- Register component -->
               <register-form/>
               <loading></loading>
             </div>

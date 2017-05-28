@@ -3,45 +3,45 @@
   <div class="form-group has-feedback">
     <md-input-container class="md-block" flex-gt-sm>
       <md-icon class="material-icons md-24" style="color: #50D050">email</md-icon>
-      <input type="email" placeholder="Correo electrónico"
+      <input type="email" placeholder="{{'correo' | translate}}"
         ng-model='registerCtrl.email' name="email"
         ng-click='registerCtrl.disableErrors()' required
         ng-pattern="registerCtrl.emailFormat">
       <span class="text-red" ng-if="registerForm.email.$invalid && registerForm.email.$touched">
-        Debes introducir tu correo electrónico!
+        {{'error.registro.email.required' | translate}}
       </span>
     </md-input-container>
     <md-input-container class="md-block" flex-gt-sm>
       <md-icon class="material-icons md-24" style="color: #50D050">person</md-icon>
-      <input placeholder="Nombre de usuario"
+      <input placeholder="{{'nombre' | translate}}"
         ng-model='registerCtrl.username' name="username"
         ng-click='registerCtrl.disableErrors()' required
         ng-minlength="4"
         ng-maxlength="20" md-maxlength="20">
       <span class="text-red" ng-if="registerForm.username.$invalid && registerForm.username.$touched">
-        Debes introducir tu nombre de usuario! Mínimo 4 caracteres, máximo 20.
+        {{'error.registro.usernameDetailed.required' | translate}}
       </span>
     </md-input-container>
     <md-input-container class="md-block" flex-gt-sm>
       <md-icon class="material-icons md-24" style="color: #50D050">lock outline</md-icon>
-      <input type="password" placeholder="Password"
+      <input type="password" placeholder="{{'password' | translate}}"
         ng-model='registerCtrl.password' name="password"
         ng-click='registerCtrl.disableErrors()' required
         ng-maxlength="256" md-maxlength="256">
       <span class="text-red" ng-if="registerForm.password.$invalid && registerForm.password.$touched">
-        Debes introducir tu contraseña!
+        {{'error.registro.password.required' | translate}}
       </span>
     </md-input-container>
     <md-input-container class="md-block" flex-gt-sm>
-      <input type="password" placeholder="Repite password"
+      <input type="password" placeholder="{{'repite.password' | translate}}"
         ng-model='registerCtrl.repassword' name="repassword"
         ng-click='registerCtrl.disableErrors()'
         password-verify='registerCtrl.password' required>
       <span class="text-red" ng-if="registerForm.repassword.$error.required && registerForm.repassword.$touched">
-        Debes introducir tu contraseña!
+        {{'error.registro.password.required' | translate}}
       </span>
       <span class="text-red" ng-show="registerForm.repassword.$error.passwordVerify">
-        Las contraseñas no coinciden
+        {{'error.registro.password.coinciden' | translate}}
       </span>
     </md-input-container>
   </div>
@@ -49,5 +49,5 @@
     <p>{{ registerCtrl.errors }}</p>
   </div>
   <md-button class="md-raised md-primary" ng-click="registerCtrl.register()"
-    ng-disabled="registerCtrl.loading || registerForm.$invalid">Registrarte</md-button>
+    ng-disabled="registerCtrl.loading || registerForm.$invalid">{{'registrarse' | translate}}</md-button>
 </form>

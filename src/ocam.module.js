@@ -5,20 +5,23 @@
 Application main module
 */
 angular.module('ocam', ['public', 'common', 'private', 'ngMaterial',
-  'md.data.table', 'uiGmapgoogle-maps'])
+  'md.data.table', 'uiGmapgoogle-maps', 'pascalprecht.translate'])
 .config(config)
 .run(authConfig);
 
 config.$inject = ['$urlRouterProvider', '$mdThemingProvider', '$mdAriaProvider',
-  'uiGmapGoogleMapApiProvider'];
+  'uiGmapGoogleMapApiProvider', '$locationProvider', '$translateProvider',
+  '$translatePartialLoaderProvider'];
 function config($urlRouterProvider, $mdThemingProvider, $mdAriaProvider,
-  uiGmapGoogleMapApiProvider) {
+  uiGmapGoogleMapApiProvider, $locationProvider, $translateProvider,
+  $translatePartialLoaderProvider) {
 
   // Si va a una ruta no conocida le mandamos a /actividades
   // que es la lista de actividades de la zona privada.
   // En caso de no estar logueado la aplicación le redirigirá a la Lista
   // pública
   $urlRouterProvider.otherwise('/activities');
+  $locationProvider.html5Mode(true);
 
   // Theme de la aplicación
   $mdThemingProvider.theme('default')
@@ -32,6 +35,12 @@ function config($urlRouterProvider, $mdThemingProvider, $mdAriaProvider,
   uiGmapGoogleMapApiProvider.configure({
       libraries: 'weather,geometry,visualization'
   });
+
+  //i18n
+  $translateProvider.useLoader('$translatePartialLoader', {
+    urlTemplate: 'i18n/{lang}/{part}.json'
+  });
+  $translateProvider.preferredLanguage('es-ES');
 }
 
 authConfig.$inject = ['Auth']

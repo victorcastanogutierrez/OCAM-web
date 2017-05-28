@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
+    <base href="/">
     <title>OCAM</title>
 
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -40,6 +41,8 @@
     <script src="lib/ngStorage.min.js"></script>
     <script src="lib/gpxParser.js"></script>
     <script type="text/javascript" src="lib/md-data-table.min.js"></script>
+    <script src="lib/angular-translate.min.js"></script>
+    <script src="lib/angular-translate-loader-partial.min.js"></script>
 
     <!-- Maps libraries -->
     <script src='//maps.googleapis.com/maps/api/js?key=AIzaSyC1qtuDRnaAs3B3OBgWfUdhpBTZexMjbi8'></script>
@@ -75,6 +78,7 @@
 
     <!-- Common Module -->
     <script src="src/common/common.module.js"></script>
+    <script src="src/common/translate/translate.service.js"></script>
     <script src="src/common/loading/loading.interceptor.js"></script>
     <script src="src/common/loading/loading.component.js"></script>
     <script src="src/common/header/header.controller.js"></script>
