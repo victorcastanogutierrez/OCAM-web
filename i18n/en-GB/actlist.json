@@ -1,0 +1,13 @@
+{
+  "actlist.tabla.fechaprevista": "Expected date",
+  "actlist.tabla.plazas": "Max places",
+  "actlist.tabla.descripcion": "Description",
+  "actlist.tabla.estado": "State",
+  "actlist.tabla.fecharealizada": "Date of realization",
+  "actlist.dialog.detalle.titulo": "See activity details",
+  "actlist.dialog.detalle.contenido": "You have to be logged to see the activity details.",
+  "actlist.dialog.detalle.cancelar": "Cancel",
+  "actlist.dialog.detalle.login": "Login",
+  "actlist.titulo": "Activities",
+  "actlist.nueva.tooltip": "New activity"
+}

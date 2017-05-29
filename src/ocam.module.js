@@ -41,6 +41,7 @@ function config($urlRouterProvider, $mdThemingProvider, $mdAriaProvider,
     urlTemplate: 'i18n/{lang}/{part}.json'
   });
   $translateProvider.preferredLanguage('es-ES');
+  $translateProvider.useSanitizeValueStrategy('escape');
 }
 
 authConfig.$inject = ['Auth']

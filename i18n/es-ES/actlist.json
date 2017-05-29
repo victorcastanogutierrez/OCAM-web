@@ -1,0 +1,13 @@
+{
+  "actlist.tabla.fechaprevista": "Fecha prevista",
+  "actlist.tabla.plazas": "Plazas máximas",
+  "actlist.tabla.descripcion": "Descripción",
+  "actlist.tabla.estado": "Estado",
+  "actlist.tabla.fecharealizada": "Fecha realización",
+  "actlist.dialog.detalle.titulo": "Ver detalle actividad",
+  "actlist.dialog.detalle.contenido": "Para ver el detalle de una actividad debes estar logueado",
+  "actlist.dialog.detalle.cancelar": "Cancelar",
+  "actlist.dialog.detalle.login": "Login",
+  "actlist.titulo": "Actividades",
+  "actlist.nueva.tooltip": "Nueva actividad"
+}

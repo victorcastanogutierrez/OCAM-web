@@ -14,11 +14,14 @@ angular.module('common')
 
 */
 activityListController.$inject = ['list', 'numEle', 'activityService', '$q',
-  'DEFAULT_ITEM_PER_PAGE', '$state', 'Auth', '$mdDialog'];
+  'DEFAULT_ITEM_PER_PAGE', '$state', 'Auth', '$mdDialog', '$translatePartialLoader',
+  '$filter'];
 function activityListController(list, numEle, activityService, $q,
-    DEFAULT_ITEM_PER_PAGE, $state, Auth, $mdDialog) {
+    DEFAULT_ITEM_PER_PAGE, $state, Auth, $mdDialog, $translatePartialLoader,
+    $filter) {
 
   var $ctrl = this;
+  $translatePartialLoader.addPart('actlist');
 
   // Source: http://stackoverflow.com/questions/497790
   var dates = {
@@ -47,7 +50,7 @@ function activityListController(list, numEle, activityService, $q,
   var ID_LIST_PENDING = 0;
   var ID_LIST_DONE = 1;
 
-  var listSelected = ID_LIST_PENDING;
+  $ctrl.listSelected = ID_LIST_PENDING;
 
   //Array de elementos seleccionados
   // (no utilizado pero requerido por la libreria)
@@ -63,10 +66,10 @@ function activityListController(list, numEle, activityService, $q,
       $state.go("private.activity", {activity: item});
     } else {
       var login = $mdDialog.confirm()
-            .title('Ver detalle actividad')
-            .textContent('Para ver el detalle de una actividad debes estar logueado!')
-            .ok('Login')
-            .cancel('Cancelar');
+            .title($filter('translate')('actlist.dialog.detalle.titulo'))
+            .textContent($filter('translate')('actlist.dialog.detalle.contenido'))
+            .ok($filter('translate')('actlist.dialog.detalle.login'))
+            .cancel($filter('translate')('actlist.dialog.detalle.cancelar'));
 
       $mdDialog.show(login).then(function() {
         $state.go('public.access');
@@ -79,7 +82,7 @@ function activityListController(list, numEle, activityService, $q,
   $ctrl.refreshData = function() {
     $ctrl.fl_refreshing = true;
     //Recarga el número de actividades total
-    if (listSelected == ID_LIST_PENDING) {
+    if ($ctrl.listSelected == ID_LIST_PENDING) {
       $ctrl.promise = activityService.findCountAll().then(function success(response) {
         $ctrl.numEle = response;
         //Recarga las actividades
@@ -114,7 +117,7 @@ function activityListController(list, numEle, activityService, $q,
 
   // Callback que maneja el cambio de página
   $ctrl.onPageChange = function() {
-    if ($ctrl.page != $ctrl.oldPage && listSelected == ID_LIST_PENDING) {
+    if ($ctrl.page != $ctrl.oldPage && $ctrl.listSelected == ID_LIST_PENDING) {
       //Auxiliar para no perder el valor
       var oldP = $ctrl.oldPage;
       //Actualizamos el nuevo valor con la página nueva
@@ -143,7 +146,7 @@ function activityListController(list, numEle, activityService, $q,
     al cambiar de lista en el desplegable
   */
   $ctrl.onListSelect = function(list) {
-    listSelected = list.id;
+    $ctrl.listSelected = list.id;
     $ctrl.refreshData();
   };
 

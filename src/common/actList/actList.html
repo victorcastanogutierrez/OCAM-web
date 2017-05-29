@@ -2,7 +2,7 @@
 <md-card>
   <md-toolbar class="md-table-toolbar md-default">
     <div class="md-toolbar-tools">
-      <span>Actividades</span>
+      <span>{{'actlist.titulo' | translate}}</span>
       <div flex></div>
       <md-button class="md-icon-button" ng-click="actListCtrl.refreshData()"
         ng-disabled="actListCtrl.fl_refreshing">
@@ -21,13 +21,13 @@
                 md-progress="actListCtrl.promise">
               <thead md-head md-order="actListCtrl.order">
                 <tr md-row>
-                  <th md-column md-desc="true" md-order-by="startDate"
-                    ng-hide="activity.status == 'CLOSED'">Fecha prevista</th>
-                  <th md-column md-desc="true" md-order-by="startedDate"
-                    ng-show="activity.status == 'CLOSED'">Fecha realizada</th>
-                  <th md-column md-order-by="maxPlaces">Plazas máximas</th>
-                  <th md-column md-order-by="shortDescription">Descripción</th>
-                  <th md-column md-order-by="status">Estado</th>
+                  <th md-column md-desc="true" md-order-by="startDate">
+                    {{actListCtrl.listSelected == 0 ? ('actlist.tabla.fechaprevista' | translate)
+                      : ('actlist.tabla.fecharealizada' | translate)}}
+                  </th>
+                  <th md-column md-order-by="maxPlaces">{{'actlist.tabla.plazas' | translate}}</th>
+                  <th md-column md-order-by="shortDescription">{{'actlist.tabla.descripcion' | translate}}</th>
+                  <th md-column md-order-by="status">{{'actlist.tabla.estado' | translate}}</th>
                 </tr>
               </thead>
               <tbody md-body>
@@ -58,7 +58,7 @@
               ng-show="actListCtrl.fl_create_allowed" ui-sref="private.newActivity">
               <md-tooltip
                 md-direction="bottom">
-                Nueva actividad
+                {{'actlist.nueva.tooltip' | translate}}
               </md-tooltip>
               <md-icon class="material-icons md-18">
                 add

@@ -93,7 +93,7 @@ function LoginFormController(hikerService, $mdToast, $scope, $mdDialog, $filter)
   var showWelcomeToast = function() {
     $mdToast.show(
       $mdToast.simple()
-        .textContent('¡' + $filter('translate')('bienvenido') + $ctrl.username + '!')
+        .textContent('¡' + $filter('translate')('bienvenido') + ' ' + $ctrl.username + '!')
         .position("bottom, right")
         .hideDelay(3000)
     );
