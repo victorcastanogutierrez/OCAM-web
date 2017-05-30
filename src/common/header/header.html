@@ -12,19 +12,19 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li ui-sref-active="active" ng-show="!headerCtrl.user">
-          <a ui-sref="public.actList"> </i><span>Actividades</span></a>
+          <a ui-sref="public.actList"> </i><span>{{'toolbar.actividades' | translate}}</span></a>
         </li>
         <li ui-sref-active="active" ng-show="headerCtrl.user">
-          <a ui-sref="private.actList"> </i><span>Actividades</span></a>
+          <a ui-sref="private.actList"> </i><span>{{'toolbar.actividades' | translate}}</span></a>
         </li>
         <li ui-sref-active="active" ng-show="headerCtrl.user">
-          <a ui-sref="private.newActivity"> </i><span>Nueva actividad</span></a>
+          <a ui-sref="private.newActivity"> </i><span>{{'toolbar.nueva.actividad' | translate}}</span></a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            Idioma<span class="caret"></span>
+            {{'toolbar.idioma' | translate}}<span class="caret"></span>
           <ul class="dropdown-menu">
             <li ng-repeat-start="lan in headerCtrl.languages">
               <a ng-click="headerCtrl.onLangSelect(lan.code)" href="javascript:void(0)">{{lan.name}}</a>
@@ -39,15 +39,15 @@
           </a>
           <ul class="dropdown-menu">
             <li><a ui-sref-active="active" ui-sref="private.profile">
-              Mi perfil</a>
+              {{'toolbar.perfil' | translate}}</a>
             </li>
             <li role="separator" class="divider"></li>
-            <li><a ui-sref="public.access">Cerrar sesión</a></li>
+            <li><a ui-sref="public.access">{{'toolbar.cerrarsesion' | translate}}</a></li>
           </ul>
         </li>
 
         <li ui-sref-active="active"ng-show="!headerCtrl.user">
-          <a ui-sref="public.access"> </i><span>Acceso</span></a>
+          <a ui-sref="public.access"> </i><span>{{'toolbar.acceso' | translate}}</span></a>
         </li>
       </ul>
     </div>
