@@ -57,7 +57,6 @@ function ToolsController($scope, $timeout, $state, activityService,
     return $ctrl.activity.status == 'CLOSED';
   };
 
-
   $ctrl.edit = true;
   $ctrl.items = [
     { name: "Editar", icon: "mode_edit", direction: "bottom",

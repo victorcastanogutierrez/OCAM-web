@@ -9,7 +9,7 @@
   <md-fab-actions>
     <div ng-repeat="item in toolsCtrl.items">
       <md-button aria-label="{{item.name}}" class="md-fab md-raised md-mini"
-         ng-click="toolsCtrl.optionClicked(item)" ng-disabled="toolsCtrl.activity.status=='CLOSED'">
+         ng-click="toolsCtrl.optionClicked(item)" ng-disabled="{{item.disabled}}">
         <md-tooltip md-direction="{{item.direction}}" md-visible="toolsCtrl.tooltipVisible"
                     md-autohide="false" ng-disabled="true">
           {{item.name}}
