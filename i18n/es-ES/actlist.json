@@ -9,5 +9,7 @@
   "actlist.dialog.detalle.cancelar": "Cancelar",
   "actlist.dialog.detalle.login": "Login",
   "actlist.titulo": "Actividades",
-  "actlist.nueva.tooltip": "Nueva actividad"
+  "actlist.nueva.tooltip": "Nueva actividad",
+  "actlist.opciones.pendientes": "Actividades pendientes",
+  "actlist.opciones.realizadas": "Actividades realizadas"
 }

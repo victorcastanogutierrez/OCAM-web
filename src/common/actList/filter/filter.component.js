@@ -11,18 +11,18 @@ angular.module('common')
   }
 });
 
-FilterListController.$inject = ['Auth'];
-function FilterListController(Auth) {
+FilterListController.$inject = ['Auth', '$filter'];
+function FilterListController(Auth, $filter) {
   var $ctrl = this;
 
   $ctrl.loggedIn = Auth.isUserLoggedIn();
   $ctrl.availableLists = [
     {
-      name : 'Actividades pendientes',
+      name : $filter('translate')('actlist.opciones.pendientes'),
       id : 0
     },
     {
-      name : 'Mis actividades realizadas',
+      name : $filter('translate')('actlist.opciones.realizadas'),
       id: 1
     }
   ];
