@@ -5,15 +5,16 @@ angular.module('common')
 .controller('headerController', headerController);
 
 headerController.$inject = ['Auth', '$rootScope', '$state', 'translateService',
-  '$translatePartialLoader'];
+  '$translatePartialLoader', '$translate'];
 function headerController(Auth, $rootScope, $state, translateService,
-  $translatePartialLoader) {
+  $translatePartialLoader, $translate) {
   var $ctrl = this;
 
   $ctrl.currentNavItem = $state.current.name;
   $ctrl.user = Auth.isUserLoggedIn() || false;
   $ctrl.languages = translateService.getLanguages();
   $translatePartialLoader.addPart('toolbar');
+  $translate.refresh();
 
   $ctrl.onLangSelect = function(code) {
     translateService.setLanguage(code);

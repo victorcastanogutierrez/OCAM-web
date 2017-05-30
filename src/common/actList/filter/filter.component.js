@@ -11,22 +11,41 @@ angular.module('common')
   }
 });
 
-FilterListController.$inject = ['Auth', '$filter'];
-function FilterListController(Auth, $filter) {
+FilterListController.$inject = ['Auth', '$filter', '$translate', '$rootScope'];
+function FilterListController(Auth, $filter, $translate, $rootScope) {
   var $ctrl = this;
-
   $ctrl.loggedIn = Auth.isUserLoggedIn();
-  $ctrl.availableLists = [
-    {
-      name : $filter('translate')('actlist.opciones.pendientes'),
-      id : 0
-    },
-    {
-      name : $filter('translate')('actlist.opciones.realizadas'),
-      id: 1
-    }
-  ];
+  $translate.refresh();
+
+  var getList = function() {
+    return [
+      {
+        name: 'Actividades pendientes',
+        //name : $filter('translate')('actlist.opciones.pendientes'),
+        id : 0
+      },
+      {
+        name: 'Actividades realizadas',
+        //name : $filter('translate')('actlist.opciones.realizadas'),
+        id: 1
+      }
+    ];
+  };
+  $ctrl.availableLists = getList();
   $ctrl.listSelected = $ctrl.availableLists[0];
+
+  var languageChanges = function() {
+    $ctrl.availableLists = getList();
+  };
+
+  var listener;
+  $ctrl.$onInit = function() {
+    listener = $rootScope.$on('language:changes', languageChanges);
+  };
+
+  $ctrl.$onDestroy = function() {
+    listener();
+  };
 }
 
 

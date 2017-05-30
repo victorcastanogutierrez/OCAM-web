@@ -15,13 +15,14 @@ angular.module('common')
 */
 activityListController.$inject = ['list', 'numEle', 'activityService', '$q',
   'DEFAULT_ITEM_PER_PAGE', '$state', 'Auth', '$mdDialog', '$translatePartialLoader',
-  '$filter'];
+  '$filter', '$translate'];
 function activityListController(list, numEle, activityService, $q,
     DEFAULT_ITEM_PER_PAGE, $state, Auth, $mdDialog, $translatePartialLoader,
-    $filter) {
+    $filter, $translate) {
 
   var $ctrl = this;
   $translatePartialLoader.addPart('actlist');
+  $translate.refresh();
 
   // Source: http://stackoverflow.com/questions/497790
   var dates = {

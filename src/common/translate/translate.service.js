@@ -7,8 +7,8 @@ angular.module('common')
 /**
   Servicio encargado de i18n
 */
-translateService.$inject = ['$translate'];
-function translateService($translate) {
+translateService.$inject = ['$translate', '$rootScope'];
+function translateService($translate, $rootScope) {
 
   var service = this;
 
@@ -27,6 +27,7 @@ function translateService($translate) {
 
   service.setLanguage = function(code) {
     $translate.use(code);
+    $rootScope.$broadcast("language:changes", {});
   };
 }
 })();

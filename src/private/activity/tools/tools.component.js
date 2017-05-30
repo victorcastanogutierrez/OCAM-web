@@ -50,11 +50,11 @@ function ToolsController($scope, $timeout, $state, activityService,
   }
 
   var isActivityPending = function() {
-    return $ctrl.activity.status == 'PENDING';
+    return $ctrl.activity && $ctrl.activity.status == 'PENDING';
   };
 
   var isActivityClosed = function() {
-    return $ctrl.activity.status == 'CLOSED';
+    return $ctrl.activity && $ctrl.activity.status == 'CLOSED';
   };
 
   $ctrl.edit = true;
