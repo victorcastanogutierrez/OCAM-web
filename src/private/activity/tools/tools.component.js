@@ -49,11 +49,23 @@ function ToolsController($scope, $timeout, $state, activityService,
     });
   }
 
+  var isActivityPending = function() {
+    return $ctrl.activity.status == 'PENDING';
+  };
+
+  var isActivityClosed = function() {
+    return $ctrl.activity.status == 'CLOSED';
+  };
+
+
   $ctrl.edit = true;
   $ctrl.items = [
-    { name: "Editar", icon: "mode_edit", direction: "bottom", action: editActivity},
-    { name: "Monitorizar", icon: "visibility", direction: "top", action: $ctrl.monitorizar},
-    { name: "Eliminar", icon:"delete_forever", direction: "bottom", action: deleteActivity}
+    { name: "Editar", icon: "mode_edit", direction: "bottom",
+      action: editActivity, disabled: isActivityClosed()},
+    { name: "Monitorizar", icon: "visibility", direction: "top",
+      action: $ctrl.monitorizar, disabled: isActivityClosed()},
+    { name: "Eliminar", icon:"delete_forever", direction: "bottom",
+      action: deleteActivity, disabled: !isActivityPending() || isActivityClosed()}
   ];
   $ctrl.hidden = false;
   $ctrl.isOpen = false;
