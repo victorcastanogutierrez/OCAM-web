@@ -8,11 +8,11 @@
               <span>
                 <md-icon class="material-icons md-18" style="color: #50D050">terrain</md-icon>
                 <label ng-show="activityCtrl.nuevaActividad">
-                  Datos generales de la actividad
+                  {{'activity.datos.generales' | translate}}
                   <md-button class="md-primary"
                     ng-show="activityCtrl.editando"
                     ng-disabled="true">
-                    EDITANDO
+                      {{'editando' | translate}}
                   </md-button>
                 </label>
                 <label ng-show="!activityCtrl.nuevaActividad">
@@ -31,21 +31,21 @@
         <form name='actForm' novalidate>
           <div ng-show="activityCtrl.nuevaActividad">
             <md-input-container class="md-block" flex-gt-sm>
-              <label>Descripción breve de la actividad</label>
+              <label>{{'activity.descripcion.breve' | translate}}</label>
               <textarea ng-model="activityCtrl.activity.shortDescription" md-select-on-focus
                 ng-maxlength="250" md-maxlength="250" name="shortDescription" required>
               </textarea>
               <span class="text-red" ng-if="actForm.shortDescription.$invalid && actForm.shortDescription.$touched">
-                Debes introducir una breve descripción para la actividad
+                {{'activity.description.required' | translate}}
               </span>
             </md-input-container>
           </div>
           <div ng-show="!activityCtrl.nuevaActividad">
-            <label>Organizador de la actividad: </label> <span>{{activityCtrl.activity.owner.email}}</span>
+            <label>{{'activity.organizador' | translate}}: </label> <span>{{activityCtrl.activity.owner.email}}</span>
           </div><br>
           <div  ng-show="activityCtrl.nuevaActividad || activityCtrl.editando || activityCtrl.activity.longDescription">
             <md-input-container class="md-block" flex-gt-sm>
-              <label>Descripción de la ruta de la actividad</label>
+              <label>{{'activity.descripcion.ruta' | translate}}</label>
               <textarea ng-disabled="!activityCtrl.nuevaActividad"
                 ng-model="activityCtrl.activity.longDescription" md-select-on-focus
                 ng-maxlength="500" md-maxlength="500" name="longDescription">
@@ -54,7 +54,7 @@
           </div>
           <div ng-show="{{activityCtrl.nuevaActividad || activityCtrl.editando}}">
             <md-input-container class="md-block" flex-gt-sm>
-              <label>Enlace a descripción de la ruta</label>
+              <label>{{'activity.enlace.descripcion' | translate}}</label>
               <textarea ng-disabled="!activityCtrl.nuevaActividad"
                 ng-model="activityCtrl.activity.mide" md-select-on-focus
                 ng-maxlength="100" md-maxlength="100" name="mide">
@@ -62,12 +62,12 @@
             </md-input-container>
           </div>
           <div ng-show="!activityCtrl.nuevaActividad && !activityCtrl.editando && activityCtrl.activity.mide">
-            <md-button md-no-ink class="md-primary" ng-click="activityCtrl.mide()">Enlace MIDE</md-button>
-            <a target="_blank" href="{{activityCtrl.activity.mide}}">Enlace MIDE ({{activityCtrl.activity.mide}})</a>
+            <md-button md-no-ink class="md-primary" ng-click="activityCtrl.mide()">{{'activity.enlace.mide' | translate}}</md-button>
+            <a target="_blank" href="{{activityCtrl.activity.mide}}">{{'activity.enlace.mide' | translate}} ({{activityCtrl.activity.mide}})</a>
           </div><br>
           <div ng-show="activityCtrl.nuevaActividad || $ctrl.editando || activityCtrl.activity.maxPlaces">
             <md-input-container>
-              <label>Plazas (máx. 100)</label>
+              <label>{{'activity.plazas' | translate}}</label>
               <input ng-disabled="!activityCtrl.nuevaActividad"
                 type="number" step="any"
                 ng-model="activityCtrl.activity.maxPlaces" min="1"
@@ -76,19 +76,19 @@
           </div>
           <div>
             <md-input-container  class="md-block" flex-gt-sm>
-              <label>Fecha de comienzo</label>
+              <label>{{'activity.fecha.comienzo' | translate}}</label>
               <md-datepicker ng-disabled="!activityCtrl.nuevaActividad"
-                md-placeholder="Fecha" name="startDate"
+                md-placeholder="{{'activity.fecha' | translate}}" name="startDate"
                 ng-model="activityCtrl.activity.startDate" md-hide-icons="calendar"
                 md-min-date="activityCtrl.currentDate" required>
               </md-datepicker>
             </md-input-container>
           </div>
           <div ng-show="activityCtrl.nuevaActividad">
-            <label>Track de la ruta (gpx)</label>
+            <label>{{'activity.track.gpx' | translate}}</label>
             <span ng-show="activityCtrl.nuevaActividad && activityCtrl.editando">
               <br>
-              Se conservará el track actual si no se introduce uno nuevo
+              {{'activity.track.aviso.edicion' | translate}}
             </span>
             <input ng-model="activityCtrl.trackFile"
                onchange="angular.element(this).scope().file_changed(this)"
@@ -96,12 +96,12 @@
           </div>
           <div ng-show="!activityCtrl.nuevaActividad">
             <md-input-container  class="md-block" flex-gt-sm>
-              <label>Estado de la actividad: {{ activityCtrl.getActivityStatus() }}</label><br>
+              <label>{{'activity.estado.actividad' | translate}} {{ activityCtrl.getActivityStatus() }}</label><br>
               <md-button class="md-raised md-primary"
                 ng-disabled="activityCtrl.activity.status == 'PENDING' || activityCtrl.cargando"
                 ng-click="activityCtrl.monitorizarActividad()">
-                {{activityCtrl.activity.status == 'CLOSED' ? 'Ver resumen' :
-                  'Monitorizar' }}
+                {{activityCtrl.activity.status == 'CLOSED' ? ('activity.ver.resumen' | translate) :
+                  ('activity.monitorizar' | translate) }}
               </md-button>
             </md-input-container>
           </div>
@@ -116,13 +116,13 @@
         ng-click="activityCtrl.cancelarEdicion()"
         ng-disabled="activityCtrl.cargando"
         ng-show="activityCtrl.editando">
-        Cancelar edición
+        {{'activity.cancelar.edicion' | translate}}
       </md-button>
       <md-button class="md-raised md-primary"
         ng-click="activityCtrl.crearActividad()"
         ng-disabled="actForm.$invalid || activityCtrl.cargando"
         ng-show="activityCtrl.nuevaActividad">
-        Guardar
+        {{'activity.guardar' | translate}}
       </md-button>
     </md-card>
   </div>
@@ -133,7 +133,7 @@
           <div class="md-toolbar-tools">
             <span>
               <md-icon class="material-icons md-18" style="color: #50D050">directions_walk</md-icon>
-              <label>Guías de la actividad</label>
+              <label>{{'activity.guias' | translate}}</label>
             </span>
           </div>
         </md-toolbar>
@@ -158,7 +158,7 @@
         <div class="md-toolbar-tools">
           <span>
             <md-icon class="material-icons md-18" style="color: #50D050">map</md-icon>
-            <label>Track de la ruta</label>
+            <label>{{'activity.track' | translate}}</label>
           </span>
         </div>
       </md-toolbar><br>

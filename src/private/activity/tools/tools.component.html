@@ -12,7 +12,7 @@
          ng-click="toolsCtrl.optionClicked(item)" ng-disabled="{{item.disabled}}">
         <md-tooltip md-direction="{{item.direction}}" md-visible="toolsCtrl.tooltipVisible"
                     md-autohide="false" ng-disabled="true">
-                    item.name
+          {{item.name}}
         </md-tooltip>
         <md-icon class="material-icons md-18" style="color: #50D050">{{item.icon}}</md-icon>
       </md-button>

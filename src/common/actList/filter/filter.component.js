@@ -33,19 +33,6 @@ function FilterListController(Auth, $filter, $translate, $rootScope) {
   };
   $ctrl.availableLists = getList();
   $ctrl.listSelected = $ctrl.availableLists[0];
-
-  var languageChanges = function() {
-    $ctrl.availableLists = getList();
-  };
-
-  var listener;
-  $ctrl.$onInit = function() {
-    listener = $rootScope.$on('language:changes', languageChanges);
-  };
-
-  $ctrl.$onDestroy = function() {
-    listener();
-  };
 }
 
 
