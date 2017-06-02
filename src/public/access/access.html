@@ -3,30 +3,44 @@
   <div class="alert alert-danger" ng-show="accessCtrl.showError">
     <strong>{{accessCtrl.showError}}</strong>
   </div>
-  <md-content md-theme="default" layout="row">
-    <div flex="0" flex-gt-sm="35"/>
-    <div flex="100" flex-gt-sm="30">
-      <md-tabs md-dynamic-height md-border-bottom>
-        <md-tab label="{{'login' | translate}}" ng-disabled="$ctrl.loading">
-          <md-content class="md-padding">
-            <div class="panel-body">
-              <!-- LoginForm component -->
-              <login-form/>
-              <loading></loading>
-            </div>
-          </md-content>
-        </md-tab>
-        <md-tab label="{{'registro' | translate}}" ng-disabled="$ctrl.loading">
-          <md-content class="md-padding">
-            <div class="panel-body">
-              <!-- Register component -->
-              <register-form/>
-              <loading></loading>
-            </div>
-          </md-content>
-        </md-tab>
-      </md-tabs>
+  <md-content md-theme="default" layout="column">
+    <md-content md-theme="default" layout="row">
+      <div flex="0" flex-gt-sm="35"/>
+      <div flex="100" flex-gt-sm="30">
+        <md-tabs md-dynamic-height md-border-bottom>
+          <md-tab label="{{'login' | translate}}" ng-disabled="$ctrl.loading">
+            <md-content class="md-padding">
+              <div class="panel-body">
+                <!-- LoginForm component -->
+                <login-form/>
+                <loading></loading>
+              </div>
+            </md-content>
+          </md-tab>
+          <md-tab label="{{'registro' | translate}}" ng-disabled="$ctrl.loading">
+            <md-content class="md-padding">
+              <div class="panel-body">
+                <!-- Register component -->
+                <register-form/>
+                <loading></loading>
+              </div>
+            </md-content>
+          </md-tab>
+        </md-tabs>
+      </div>
+      <div flex="0" flex-gt-sm="35"/>
+    </md-content>
+    <div layout="row" layout-align="center center">
+      <div flex="0" flex-gt-sm="35"/>
+      <md-icon class="material-icons md-24" style="color:rgb(76,175,80);font:bold;margin:0px;" >
+        android
+      </md-icon>
+      <md-button class="md-primary" ng-disabled="loginCtrl.loading"
+        ng-click="loginCtrl.recuperarCuenta($event)"
+        target="_blank" href="http://TO-DO.es">
+        {{"descargar.android" | translate}}
+      </md-button>
+      <div flex="0" flex-gt-sm="35"/>
     </div>
-    <div flex="0" flex-gt-sm="35"/>
   </md-content>
 </div>

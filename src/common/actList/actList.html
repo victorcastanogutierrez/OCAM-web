@@ -39,7 +39,12 @@
                   <td md-cell>{{activity.maxPlaces}}</td>
                   <td md-cell>{{ activity.shortDescription | limitTo:80 }}</td>
                   <td md-cell>
-                      <label>{{actListCtrl.getStatus(activity.status)}}</label>
+                      <button class="btn_pendiente" ng-show="activity.status == 'PENDING'">
+                        {{actListCtrl.getStatus(activity.status)}}
+                      </button>
+                        <button class="btn_encurso" ng-show="activity.status == 'RUNNING'">
+                          {{actListCtrl.getStatus(activity.status)}}
+                        </button>
                   </td>
 
                 </tr>

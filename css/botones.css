@@ -1,0 +1,38 @@
+.btn_pendiente {
+  -webkit-border-radius: 3;
+  -moz-border-radius: 3;
+  border-radius: 3px;
+  font-family: Roboto,Helvetica Neue,sans-serif;
+  color: #ffffff;
+  font-size: 15px;
+  background: #b8361f;
+  padding: 0.6em 0.6em 0.6em 0.6em;
+  text-decoration: none;
+  border:0px;
+  width:100%;
+}
+
+.btn_pendiente:hover {
+  background: #ad2525;
+  text-decoration: none;
+}
+
+
+.btn_encurso {
+  -webkit-border-radius: 3;
+  -moz-border-radius: 3;
+  border-radius: 3px;
+  font-family: Roboto,Helvetica Neue,sans-serif;
+  color: #ffffff;
+  font-size: 15px;
+  background: #37BA60;
+  padding: 0.6em 0.6em 0.6em 0.6em;
+  text-decoration: none;
+  border:0px;
+  width:100%;
+}
+
+.btn_encurso:hover {
+  background: #2CAA54;
+  text-decoration: none;
+}
