@@ -5,11 +5,13 @@ angular.module('private')
 .controller('activityController', activityController);
 
 activityController.$inject = ['$stateParams', '$state', '$scope', 'Auth',
-  '$mdDialog', 'activityService', '$window', '$translatePartialLoader'];
+  '$mdDialog', 'activityService', '$window', '$translatePartialLoader',
+  '$translate'];
 function activityController($stateParams, $state, $scope, Auth, $mdDialog,
-  activityService, $window, $translatePartialLoader) {
+  activityService, $window, $translatePartialLoader, $translate) {
   var $ctrl = this;
   $translatePartialLoader.addPart('activity');
+  $translate.refresh();
   $ctrl.activity = $stateParams.activity;
 
   /**

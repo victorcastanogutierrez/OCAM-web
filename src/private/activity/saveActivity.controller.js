@@ -5,12 +5,13 @@ angular.module('private')
 .controller('saveActivityController', saveActivityController);
 
 saveActivityController.$inject = ['$scope', 'activityService', '$mdDialog', '$state',
-  'TrackService', '$stateParams', '$mdToast', '$translatePartialLoader'];
+  'TrackService', '$stateParams', '$mdToast', '$translatePartialLoader', '$translate'];
 function saveActivityController($scope, activityService, $mdDialog, $state,
-  TrackService, $stateParams, $mdToast, $translatePartialLoader) {
+  TrackService, $stateParams, $mdToast, $translatePartialLoader, $translate) {
 
   var $ctrl = this;
   $translatePartialLoader.addPart('activity');
+  $translate.refresh();
   $ctrl.activity = $stateParams.activity;
 
   //Flag que controla la editabilidad de los campos del template
