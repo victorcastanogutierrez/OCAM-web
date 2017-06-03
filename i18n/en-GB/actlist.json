@@ -11,5 +11,8 @@
   "actlist.titulo": "Activities",
   "actlist.nueva.tooltip": "New activity",
   "actlist.opciones.pendientes": "Pending activities",
-  "actlist.opciones.realizadas": "Closed activities"
+  "actlist.opciones.realizadas": "Closed activities",
+  "actlist.estado.pendiente": "Pending",
+  "actlist.estado.encurso": "Running",
+  "actlist.estado.realizada": "Done"
 }

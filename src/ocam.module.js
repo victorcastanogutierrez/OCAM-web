@@ -11,10 +11,10 @@ angular.module('ocam', ['public', 'common', 'private', 'ngMaterial',
 
 config.$inject = ['$urlRouterProvider', '$mdThemingProvider', '$mdAriaProvider',
   'uiGmapGoogleMapApiProvider', '$locationProvider', '$translateProvider',
-  '$translatePartialLoaderProvider'];
+  '$translatePartialLoaderProvider', '$mdDateLocaleProvider'];
 function config($urlRouterProvider, $mdThemingProvider, $mdAriaProvider,
   uiGmapGoogleMapApiProvider, $locationProvider, $translateProvider,
-  $translatePartialLoaderProvider) {
+  $translatePartialLoaderProvider, $mdDateLocaleProvider) {
 
   // Si va a una ruta no conocida le mandamos a /actividades
   // que es la lista de actividades de la zona privada.
@@ -42,6 +42,13 @@ function config($urlRouterProvider, $mdThemingProvider, $mdAriaProvider,
   });
   $translateProvider.preferredLanguage('es-ES');
   $translateProvider.useSanitizeValueStrategy('escape');
+
+  //Locale config
+  $mdDateLocaleProvider.firstDayOfWeek = 1;
+
+  $mdDateLocaleProvider.formatDate = function(date) {
+     return moment(date).format('DD-MM-YYYY ');
+  };
 }
 
 authConfig.$inject = ['Auth']

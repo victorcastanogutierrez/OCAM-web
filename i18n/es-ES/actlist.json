@@ -11,5 +11,8 @@
   "actlist.titulo": "Actividades",
   "actlist.nueva.tooltip": "Nueva actividad",
   "actlist.opciones.pendientes": "Actividades pendientes",
-  "actlist.opciones.realizadas": "Actividades realizadas"
+  "actlist.opciones.realizadas": "Actividades realizadas",
+  "actlist.estado.pendiente": "Pendiente",
+  "actlist.estado.encurso": "En curso",
+  "actlist.estado.realizada": "Realizada"
 }

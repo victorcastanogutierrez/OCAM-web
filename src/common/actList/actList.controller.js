@@ -169,11 +169,11 @@ function activityListController(list, numEle, activityService, $q,
   */
   $ctrl.getStatus = function(status) {
     if (status == 'RUNNING') {
-      return 'En curso';
+      return $filter('translate')('actlist.estado.encurso');
     } else if (status == 'PENDING') {
-      return 'Pendiente';
+      return $filter('translate')('actlist.estado.pendiente');
     } else if (status == 'CLOSED') {
-      return 'Realizada';
+      return $filter('translate')('actlist.estado.realizada');
     }
   };
 }
