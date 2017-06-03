@@ -20,13 +20,13 @@ function FilterListController(Auth, $filter, $translate, $rootScope) {
   var getList = function() {
     return [
       {
-        name: 'Actividades pendientes',
-        //name : $filter('translate')('actlist.opciones.pendientes'),
+        //name: 'Actividades pendientes',
+        name : $filter('translate')('actlist.opciones.pendientes'),
         id : 0
       },
       {
-        name: 'Actividades realizadas',
-        //name : $filter('translate')('actlist.opciones.realizadas'),
+        //name: 'Actividades realizadas',
+        name : $filter('translate')('actlist.opciones.realizadas'),
         id: 1
       }
     ];
