@@ -2,21 +2,18 @@
   <div flex-xs flex-gt-xs="50" layout="column">
     <md-card>
       <md-card-content>
-        <md-toolbar layout="row" class="md-hue-3">
+        <md-toolbar layout="row" class="md-hue-3" ng-show="activityCtrl.isOwner">
           <div class="md-toolbar-tools" layout="row">
-            <div flex>
+            <div flex ng-show="activityCtrl.nuevaActividad">
               <span>
                 <md-icon class="material-icons md-18" style="color: #50D050">terrain</md-icon>
-                <label ng-show="activityCtrl.nuevaActividad">
+                <label>
                   {{'activity.datos.generales' | translate}}
                   <md-button class="md-primary"
                     ng-show="activityCtrl.editando"
                     ng-disabled="true">
-                      {{'editando' | translate}}
+                      {{'activity.editando' | translate}}
                   </md-button>
-                </label>
-                <label ng-show="!activityCtrl.nuevaActividad">
-                  {{ activityCtrl.activity.shortDescription }}
                 </label>
               </span>
             </div>
@@ -43,6 +40,15 @@
           <div ng-show="!activityCtrl.nuevaActividad">
             <label>{{'activity.organizador' | translate}}: </label> <span>{{activityCtrl.activity.owner.email}}</span>
           </div><br>
+
+          <div  ng-show="!activityCtrl.nuevaActividad && !activityCtrl.editando">
+            <md-input-container class="md-block" flex-gt-sm>
+              <textarea ng-disabled="true"
+                ng-model="activityCtrl.activity.shortDescription">
+              </textarea>
+            </md-input-container>
+          </div>
+
           <div  ng-show="activityCtrl.nuevaActividad || activityCtrl.editando || activityCtrl.activity.longDescription">
             <md-input-container class="md-block" flex-gt-sm>
               <label>{{'activity.descripcion.ruta' | translate}}</label>

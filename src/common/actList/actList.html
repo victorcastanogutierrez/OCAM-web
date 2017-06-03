@@ -38,7 +38,7 @@
                   <td md-cell ng-show="activity.status == 'CLOSED'">{{activity.startedDate}}</td>
                   <td md-cell>{{activity.maxPlaces}}</td>
                   <td md-cell>{{ activity.shortDescription | limitTo:80 }}</td>
-                  <td md-cell>
+                  <td md-cell ng-show="activity.status != 'DONE'">
                       <button class="btn_pendiente" ng-show="activity.status == 'PENDING'">
                         {{actListCtrl.getStatus(activity.status)}}
                       </button>

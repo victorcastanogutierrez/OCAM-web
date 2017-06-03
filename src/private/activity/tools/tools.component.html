@@ -1,21 +1,26 @@
-<md-fab-speed-dial ng-hide="toolsCtrl.hidden" md-direction="left" md-open="toolsCtrl.isOpen"
-   class="md-scale" ng-class="{ 'md-hover-full': toolsCtrl.hover }"
-   ng-mouseenter="toolsCtrl.isOpen=true" ng-mouseleave="toolsCtrl.isOpen=false">
-  <md-fab-trigger>
-    <md-button aria-label="menu">
-      <md-icon class="material-icons md-18" style="color: #50D050">settings</md-icon>
-    </md-button>
-  </md-fab-trigger>
-  <md-fab-actions>
-    <div ng-repeat="item in toolsCtrl.items">
-      <md-button aria-label="{{item.name}}" class="md-fab md-raised md-mini"
-         ng-click="toolsCtrl.optionClicked(item)" ng-disabled="{{item.disabled}}">
-        <md-tooltip md-direction="{{item.direction}}" md-visible="toolsCtrl.tooltipVisible"
-                    md-autohide="false" ng-disabled="true">
-          {{item.name}}
-        </md-tooltip>
-        <md-icon class="material-icons md-18" style="color: #50D050">{{item.icon}}</md-icon>
-      </md-button>
-    </div>
-  </md-fab-actions>
-</md-fab-speed-dial>
+<md-button aria-label="Editar" class="md-fab md-raised md-mini"
+   ng-click="toolsCtrl.editActivity()" ng-disabled="toolsCtrl.isActivityClosed()">
+  <md-tooltip md-direction="bottom" md-visible="toolsCtrl.tooltipVisible"
+              md-autohide="false" ng-disabled="true">
+    "Editar"
+  </md-tooltip>
+  <md-icon class="material-icons md-18" style="color: #50D050">mode_edit</md-icon>
+</md-button>
+
+<md-button aria-label="Monitorizar" class="md-fab md-raised md-mini"
+   ng-click="toolsCtrl.monitorizar()" ng-disabled="toolsCtrl.isActivityClosed()">
+  <md-tooltip md-direction="top" md-visible="toolsCtrl.tooltipVisible"
+              md-autohide="false" ng-disabled="true">
+    "Monitorizar"
+  </md-tooltip>
+  <md-icon class="material-icons md-18" style="color: #50D050">visibility</md-icon>
+</md-button>
+
+<md-button aria-label="Eliminar" class="md-fab md-raised md-mini"
+   ng-click="toolsCtrl.deleteActivity()" ng-disabled="!toolsCtrl.isActivityPending() || toolsCtrl.isActivityClosed()">
+  <md-tooltip md-direction="top" md-visible="toolsCtrl.tooltipVisible"
+              md-autohide="false" ng-disabled="true">
+    "Eliminar"
+  </md-tooltip>
+  <md-icon class="material-icons md-18" style="color: #50D050">delete_forever</md-icon>
+</md-button>
