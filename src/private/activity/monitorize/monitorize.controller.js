@@ -194,6 +194,29 @@ function monitorizeController($stateParams, $state, activityService, $scope,
   };
 
   /**
+    Tras cargar losd atos de los hiker recarga lo que se está mostrando en el mapa
+    Si es para un solo hiker o si es para todos, se comprueba con el parametro
+  */
+  var reloadPolylines = function(hiker) {
+    var tray = [];
+    if (!hiker) {
+      tray = $ctrl.trayectorias;
+    } else {
+      var entry = $ctrl.trayectorias.find(x => x.id == hiker.email);
+      if (entry) {
+        tray.push(entry);
+      }
+    }
+    if (tray) {
+      tray.forEach(x => {
+        x.visible = false;
+        $ctrl.puntosTrayectoria.find(y => y.id == x.id).markers.forEach(z => z.setVisible(false));
+        console.log("Se oculta");
+      });
+    }
+  };
+
+  /**
     Carga los últimos reportes de cada hiker
   */
   var cargarActivityReports = function() {
@@ -229,6 +252,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
         function (response) {
           procesarDatosReportes(response);
           loadMapData();
+          reloadPolylines();
         }, function(err) {
           errorData();
         }
@@ -429,6 +453,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     Carga la trayectoria de un excursionista
   */
   $ctrl.cargarTrayectoria = function (hiker) {
+    reloadPolylines(hiker);
     $ctrl.cargando = true;
     $ctrl.promise = activityService
       .findAllActivityReportsByHiker($ctrl.activity.id, hiker.email).then(
