@@ -9,8 +9,9 @@ angular.module('public')
 });
 
 LoginFormController.$inject = ['hikerService', '$mdToast', '$scope', '$mdDialog',
-  '$filter'];
-function LoginFormController(hikerService, $mdToast, $scope, $mdDialog, $filter) {
+  '$filter', 'Auth'];
+function LoginFormController(hikerService, $mdToast, $scope, $mdDialog, $filter,
+  Auth) {
   var $ctrl = this;
 
   $ctrl.login = function() {
@@ -25,6 +26,8 @@ function LoginFormController(hikerService, $mdToast, $scope, $mdDialog, $filter)
 
     //Login success callback
     var loginSuccess = function(result) {
+      Auth.logUser(result.data.login, result.data);
+      Auth.configureHttpAuth();
       showWelcomeToast();
     };
 
@@ -35,7 +38,6 @@ function LoginFormController(hikerService, $mdToast, $scope, $mdDialog, $filter)
         $ctrl.loading = false;
       }
     };
-
     hikerService.logIn($ctrl.username, $ctrl.password, loginSuccess, loginError);
   };
 

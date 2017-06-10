@@ -97,7 +97,9 @@ function activityListController(list, numEle, activityService, $q,
     //Recarga el número de actividades total
     if ($ctrl.listSelected == ID_LIST_PENDING) {
       $ctrl.promise = activityService.findCountAll().then(function success(response) {
+console.log(response);
         $ctrl.numEle = response;
+
         //Recarga las actividades
         activityService.findAllPending(0, DEFAULT_ITEM_PER_PAGE).then(function success(response) {
           $ctrl.activities = response.sort((x, y) => dates.compare(new Date(y.startDate), new Date(x.startDate)));

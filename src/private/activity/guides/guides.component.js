@@ -32,6 +32,24 @@ function ActivityGuidesController($mdDialog, hikerService, Auth) {
     $ctrl.onAdd({ guide : myGuide }); // Notificamos el controlador
   }
 
+  $ctrl.confirmarNuevoGuia = function(result) {
+    if (!result || $ctrl.guides.find(x => x.login == result)) {
+      return;
+    }
+    $ctrl.cargando = true;
+    $ctrl.guidesError = "";
+    hikerService.findByLogin(result).then(function() {
+      $ctrl.cargando = false;
+      var myGuide = {
+        login: result
+      };
+      $ctrl.onAdd({ guide : myGuide }); // Notificamos el controlador
+    }, function() {
+      $ctrl.cargando = false;
+      $ctrl.guidesError = "No existe el usuario registrado '"+result+"'";
+    });
+  }
+
   $ctrl.addGuide = function() {
     var confirm = $mdDialog.prompt()
       .title('Nuevo guía')
@@ -41,21 +59,7 @@ function ActivityGuidesController($mdDialog, hikerService, Auth) {
       .cancel('Cancelar');
 
     $mdDialog.show(confirm).then(function(result) {
-      if (!result || $ctrl.guides.find(x => x.login == result)) {
-        return;
-      }
-      $ctrl.cargando = true;
-      $ctrl.guidesError = "";
-      hikerService.findByLogin(result).then(function() {
-        $ctrl.cargando = false;
-        var myGuide = {
-          login: result
-        };
-        $ctrl.onAdd({ guide : myGuide }); // Notificamos el controlador
-      }, function() {
-        $ctrl.cargando = false;
-        $ctrl.guidesError = "No existe el usuario registrado '"+result+"'";
-      });
+      $ctrl.confirmarNuevoGuia(result);
     });
   };
 
