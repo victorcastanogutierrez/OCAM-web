@@ -5,9 +5,11 @@ angular.module('private')
 .controller('saveActivityController', saveActivityController);
 
 saveActivityController.$inject = ['$scope', 'activityService', '$mdDialog', '$state',
-  'TrackService', '$stateParams', '$mdToast', '$translatePartialLoader', '$translate'];
+  'TrackService', '$stateParams', '$mdToast', '$translatePartialLoader', '$translate',
+  '$filter'];
 function saveActivityController($scope, activityService, $mdDialog, $state,
-  TrackService, $stateParams, $mdToast, $translatePartialLoader, $translate) {
+  TrackService, $stateParams, $mdToast, $translatePartialLoader, $translate,
+  $filter) {
 
   var $ctrl = this;
   $translatePartialLoader.addPart('activity');
@@ -138,10 +140,10 @@ function saveActivityController($scope, activityService, $mdDialog, $state,
   */
   var assertActivityDescription = function() {
     if (!$ctrl.activity.mide && !$ctrl.activity.longDescription) {
-      return "Debes introducir o una descripción o enlace MIDE (o ambos).";
+      return $filter('translate')('activity.enlace.mide.requerido');
     } else if ($ctrl.activity.mide) {
       if (!$ctrl.activity.mide.includes("http://") && !$ctrl.activity.mide.includes("www")) {
-        return "Enlace MIDE inválido";
+        return $filter('translate')('activity.enlace.mide.invalido');
       }
     }
     return false;

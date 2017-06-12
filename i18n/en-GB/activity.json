@@ -2,6 +2,8 @@
   "activity.organizador": "Activity organizer",
   "activity.descripcion": "Description",
   "activity.enlace.mide": "MIDE link",
+  "activity.enlace.mide.requerido": "You have to write at least the description or the MIDE link (or both).",
+  "activity.enlace.mide.invalido": "Invalid MIDE link. Example: http://google.com (It has to be a real link)",
   "activity.plazas": "Places (máx. 100)",
   "activity.fecha.comienzo": "Start date",
   "activity.estado.actividad": "Activity status:",

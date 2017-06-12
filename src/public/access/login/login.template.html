@@ -22,8 +22,8 @@
       </span>
     </md-input-container>
   </div>
-  <div ng-show="loginCtrl.errors">
-    <p>{{loginCtrl.errors}}</p>
+  <div class="alert alert-danger" ng-show="loginCtrl.errors">
+    <strong>{{loginCtrl.errors}}</strong>
   </div>
   <md-button class="md-raised md-primary" ng-click="loginCtrl.login()"
     ng-disabled="loginCtrl.loading">Login</md-button>
