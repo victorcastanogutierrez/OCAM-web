@@ -7,7 +7,7 @@ angular.module('public')
   templateUrl: 'src/public/access/register/register.template.html',
   controllerAs: 'registerCtrl'
 })
-.constant ('EMAIL_FORMAT', /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/);
+.constant ('EMAIL_FORMAT', /^[a-zA-Z]+[a-zA-Z0-9._]+@[a-z]+\.[a-z.]{2,5}$/);
 
 RegisterFormController.$inject = ['hikerService', 'EMAIL_FORMAT', '$mdDialog'];
 function RegisterFormController(hikerService, EMAIL_FORMAT, $mdDialog) {

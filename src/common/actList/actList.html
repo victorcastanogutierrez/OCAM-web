@@ -27,7 +27,7 @@
                   </th>
                   <th md-column md-order-by="maxPlaces">{{'actlist.tabla.plazas' | translate}}</th>
                   <th md-column md-order-by="shortDescription">{{'actlist.tabla.descripcion' | translate}}</th>
-                  <th md-column md-order-by="status">{{'actlist.tabla.estado' | translate}}</th>
+                  <th md-column md-order-by="status" ng-hide="actListCtrl.listSelected != 0">{{'actlist.tabla.estado' | translate}}</th>
                 </tr>
               </thead>
               <tbody md-body>
@@ -38,7 +38,7 @@
                   <td md-cell ng-show="activity.status == 'CLOSED'">{{activity.startedDate}}</td>
                   <td md-cell>{{activity.maxPlaces}}</td>
                   <td md-cell>{{ activity.shortDescription | limitTo:80 }}</td>
-                  <td md-cell ng-show="activity.status != 'DONE'">
+                  <td md-cell ng-show="activity.status != 'CLOSED'">
                       <button class="btn_pendiente" ng-show="activity.status == 'PENDING'">
                         {{actListCtrl.getStatus(activity.status)}}
                       </button>
