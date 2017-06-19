@@ -68,8 +68,7 @@
             </md-input-container>
           </div>
           <div ng-show="!activityCtrl.nuevaActividad && !activityCtrl.editando && activityCtrl.activity.mide">
-            <md-button md-no-ink class="md-primary" ng-click="activityCtrl.mide()">{{'activity.enlace.mide' | translate}}</md-button>
-            <a target="_blank" href="{{activityCtrl.activity.mide}}">{{'activity.enlace.mide' | translate}} ({{activityCtrl.activity.mide}})</a>
+            <a class="enlaceMIDE" target="_blank" href="{{activityCtrl.activity.mide}}">{{'activity.enlace.mide' | translate}} ({{activityCtrl.activity.mide}})</a>
           </div><br>
           <div ng-show="activityCtrl.nuevaActividad || $ctrl.editando || activityCtrl.activity.maxPlaces">
             <md-input-container>
