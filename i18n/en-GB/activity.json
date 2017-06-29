@@ -27,5 +27,18 @@
   "activity.descripcion.required": "You have to write a short activity description.",
   "activity.anadir.guia": "Add guide",
   "activity.eliminar.guias": "Remove all",
-  "activity.fecha": "Fecha"
+  "activity.fecha": "Date",
+  "activity.error.contenido.gpx": "Invalid GPX content",
+  "activity.error.guia.minimo": "There has to be at least one guide",
+  "activity.confirmacion.creada": "Acitivity created",
+  "activity.confirmacion.actualizada": "Activity updated",
+  "activity.confirmacion.crear": "Are you sure? You are going to create this activity",
+  "activity.confirmacion.editar": "Are you sure? You are going to update this activity",
+  "activity.guardar.actividad": "Save activity",
+  "activity.editar.actividad": "Update activity",
+  "activity.guias.nuevo": "New guide",
+  "activity.guias.contenido": "Type the username of the new activity's guide",
+  "activity.guias.nombre": "Username",
+  "activity.guias.aniadir": "Add",
+  "activity.guias.cancelar": "Cancel"
 }

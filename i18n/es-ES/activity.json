@@ -27,5 +27,18 @@
   "activity.descripcion.required": "Debes introducir una breve descripción para la actividad",
   "activity.anadir.guia": "Añadir guía",
   "activity.eliminar.guias": "Eliminar todos",
-  "activity.fecha": "Fecha"
+  "activity.fecha": "Fecha",
+  "activity.error.contenido.gpx": "Contenido del fichero GPX inválido",
+  "activity.error.guia.minimo": "Debe haber como mínimo un guía",
+  "activity.confirmacion.creada": "Actividad creada con éxito",
+  "activity.confirmacion.actualizada": "Actividad actualizada con éxito",
+  "activity.confirmacion.crear": "¿Estás seguro de que quieres crear esta actividad?",
+  "activity.confirmacion.editar": "Estás seguro de que quieres editar la actividad?",
+  "activity.guardar.actividad": "Guardar actividad",
+  "activity.editar.actividad": "Editar actividad",
+  "activity.guias.nuevo": "Nuevo guía",
+  "activity.guias.contenido": "Introduce el nombre de usuario del guía que será asociado a la nueva actividad",
+  "activity.guias.nombre": "Nombre de usuario",
+  "activity.guias.aniadir": "Añadir",
+  "activity.guias.cancelar": "Cancelar"
 }

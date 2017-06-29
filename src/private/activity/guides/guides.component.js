@@ -16,8 +16,8 @@ angular.module('private')
   }
 });
 
-ActivityGuidesController.$inject = ['$mdDialog', 'hikerService', 'Auth'];
-function ActivityGuidesController($mdDialog, hikerService, Auth) {
+ActivityGuidesController.$inject = ['$mdDialog', 'hikerService', 'Auth', '$filter'];
+function ActivityGuidesController($mdDialog, hikerService, Auth, $filter) {
   var $ctrl = this;
 
   if (!$ctrl.guides) {
@@ -52,11 +52,11 @@ function ActivityGuidesController($mdDialog, hikerService, Auth) {
 
   $ctrl.addGuide = function() {
     var confirm = $mdDialog.prompt()
-      .title('Nuevo guía')
-      .textContent('Introduce el nombre de usuario del guía que será asociado a la nueva actividad')
-      .placeholder('Nombre de usuario')
-      .ok('Añadir')
-      .cancel('Cancelar');
+      .title($filter('translate')('activity.guias.nuevo'))
+      .textContent($filter('translate')('activity.guias.contenido'))
+      .placeholder($filter('translate')('activity.guias.nombre'))
+      .ok($filter('translate')('activity.guias.aniadir'))
+      .cancel($filter('translate')('activity.guias.cancelar'));
 
     $mdDialog.show(confirm).then(function(result) {
       $ctrl.confirmarNuevoGuia(result);

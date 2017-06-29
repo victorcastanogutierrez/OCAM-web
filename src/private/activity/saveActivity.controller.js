@@ -58,7 +58,7 @@ function saveActivityController($scope, activityService, $mdDialog, $state,
   */
   $ctrl.crearActividad = function() {
     if (!assertGuides()) {
-      $ctrl.error = "Debe haber como mínimo un guía!";
+      $ctrl.error = $filter('translate')('activity.error.guia.minimo');
       return;
     }
     if (!$ctrl.editando || ($ctrl.editando && $ctrl.gpxFile)) {
@@ -71,9 +71,9 @@ function saveActivityController($scope, activityService, $mdDialog, $state,
       var newActivity = getNewActivity();
       var successGPXLoad = function(gpxContent) {
         if (!assertGPXFileContent(gpxContent)) { // Comprobación GPX (contenido)
-          $ctrl.error = "Contenido del fichero GPX inválido";
+          $ctrl.error = $filter('translate')('activity.error.contenido.gpx');
         } else if (!assertGuides()) {
-          $ctrl.error = "Debe haber como mínimo un guía!";
+          $ctrl.error = $filter('translate')('activity.error.guia.minimo');
         } else {
           confirmSave(function() {
             $ctrl.cargando = true;
@@ -163,28 +163,28 @@ var assertGPXFileContent = function(track) {
 
 var getToastText = function(editando) {
   if (!editando) {
-    return 'Actividad creada con éxito';
+    return $filter('translate')('activity.confirmacion.creada');
   }
   else {
-    return 'Actividad actualizada con éxito'
+    return $filter('translate')('activity.confirmacion.actualizada');
   }
 };
 
 var getConfirmText = function(editando) {
   if (!editando) {
-    return '¿Estás seguro de que quieres crear esta actividad?';
+    return $filter('translate')('activity.confirmacion.crear');
   }
   else {
-    return 'Estás seguro de que quieres editar la actividad?'
+    return $filter('translate')('activity.confirmacion.editar');
   }
 };
 
 var getTitleText = function(editando) {
   if (!editando) {
-    return 'Guardar actividad';
+    return $filter('translate')('activity.guardar.actividad');
   }
   else {
-    return 'Actualizar actividad';
+    return $filter('translate')('activity.editar.actividad');
   }
 };
 
