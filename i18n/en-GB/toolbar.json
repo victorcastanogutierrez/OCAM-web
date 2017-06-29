@@ -4,5 +4,6 @@
   "toolbar.idioma": "Language",
   "toolbar.acceso": "Access",
   "toolbar.cerrarsesion": "Logout",
-  "toolbar.perfil": "Account"
+  "toolbar.perfil": "Account",
+  "toolbar.aplicacion.movil": "Android app"
 }
