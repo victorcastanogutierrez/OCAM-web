@@ -63,7 +63,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
 
   /*
     Listener que controla el zoom sobre el mapa. Al pasar determinado nivel
-    mostramos los markers que componen el track.
+    mostramos los markers que componen el track y las trayectorias.
     Al volver a una altura considerable los ocultamos
   */
   var setUpZoomListener = function(map) {
@@ -72,7 +72,7 @@ function monitorizeController($stateParams, $state, activityService, $scope,
         /*
           Puntos del track
         */
-        var show = map.getZoom() <= 15;
+        var show = map.getZoom() <= 12;
         for (var i = 0; i < polyMarkers.length; i++) {
             polyMarkers[i].setVisible(!show);
         }

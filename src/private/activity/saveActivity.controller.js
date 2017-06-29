@@ -57,6 +57,10 @@ function saveActivityController($scope, activityService, $mdDialog, $state,
     Edita o crea la actividad
   */
   $ctrl.crearActividad = function() {
+    if (!assertGuides()) {
+      $ctrl.error = "Debe haber como mínimo un guía!";
+      return;
+    }
     if (!$ctrl.editando || ($ctrl.editando && $ctrl.gpxFile)) {
       $ctrl.error = TrackService.assertGPXFile($ctrl.gpxFile);
       if (!$ctrl.error) {
