@@ -174,7 +174,8 @@ function saveActivityController($scope, activityService, $mdDialog, $state,
     if (!$ctrl.activity.mide && !$ctrl.activity.longDescription) {
       return $filter('translate')('activity.enlace.mide.requerido');
     } else if ($ctrl.activity.mide) {
-      if (!$ctrl.activity.mide.includes("http://") && !$ctrl.activity.mide.includes("www")) {
+      if (!$ctrl.activity.mide.includes("http://") && !$ctrl.activity.mide.includes("www")
+        && !$ctrl.activity.mide.includes("https://")) {
         return $filter('translate')('activity.enlace.mide.invalido');
       }
     }
