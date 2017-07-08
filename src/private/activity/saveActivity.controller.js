@@ -35,6 +35,34 @@ function saveActivityController($scope, activityService, $mdDialog, $state,
      });
   };
 
+  //Métodos de utilidad
+  var getToastText = function(editando) {
+    if (!editando) {
+      return $filter('translate')('activity.confirmacion.creada');
+    }
+    else {
+      return $filter('translate')('activity.confirmacion.actualizada');
+    }
+  };
+
+  var getConfirmText = function(editando) {
+    if (!editando) {
+      return $filter('translate')('activity.confirmacion.crear');
+    }
+    else {
+      return $filter('translate')('activity.confirmacion.editar');
+    }
+  };
+
+  var getTitleText = function(editando) {
+    if (!editando) {
+      return $filter('translate')('activity.guardar.actividad');
+    }
+    else {
+      return $filter('translate')('activity.editar.actividad');
+    }
+  };
+
   /**
     Metodo llamado desde el componente para añadir el guía
   */
@@ -159,33 +187,6 @@ function saveActivityController($scope, activityService, $mdDialog, $state,
 */
 var assertGPXFileContent = function(track) {
   return track;
-};
-
-var getToastText = function(editando) {
-  if (!editando) {
-    return $filter('translate')('activity.confirmacion.creada');
-  }
-  else {
-    return $filter('translate')('activity.confirmacion.actualizada');
-  }
-};
-
-var getConfirmText = function(editando) {
-  if (!editando) {
-    return $filter('translate')('activity.confirmacion.crear');
-  }
-  else {
-    return $filter('translate')('activity.confirmacion.editar');
-  }
-};
-
-var getTitleText = function(editando) {
-  if (!editando) {
-    return $filter('translate')('activity.guardar.actividad');
-  }
-  else {
-    return $filter('translate')('activity.editar.actividad');
-  }
 };
 
 })();
