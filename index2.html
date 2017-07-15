@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+	<meta http-equiv="refresh" content="40">
+    <!-- <base href="OCAM-web/"> -->
+    <title>OCAM</title>
+
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <!-- Google material design icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+    <!-- Bootstrap last version -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+
+    <!-- Material Angular -->
+    <link href="css/md-data-table.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Navbar style -->
+    <link href="css/navbar.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Map -->
+    <link href="css/mapstyle.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Filter card -->
+    <link href="css/filterCard.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Botones -->
+    <link href="css/botones.css" rel="stylesheet" type="text/css"/>
+
+    <!-- General -->
+    <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
+
+  </head>
+  <body ng-app="ocam" ng-strict-di>
+
+    <!-- Libs -->
+    <script src="lib/jquery-3.1.1.min.js"></script>
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-ui-router.min.js"></script>
+    <script src="lib/angular-base64.min.js"></script>
+    <script src="lib/ngStorage.min.js"></script>
+    <script src="lib/gpxParser.js"></script>
+    <script type="text/javascript" src="lib/md-data-table.min.js"></script>
+    <script src="lib/angular-translate.min.js"></script>
+    <script src="lib/angular-translate-loader-partial.min.js"></script>
+    <script src="lib/moment.min.js"></script>
+
+    <!-- Maps libraries -->
+    <script src='//maps.googleapis.com/maps/api/js?key=AIzaSyC1qtuDRnaAs3B3OBgWfUdhpBTZexMjbi8'></script>
+    <script type="text/javascript" src="lib/angular-simple-logger.js"></script>
+    <script type="text/javascript" src="lib/lodash.min.js"></script>
+    <script type="text/javascript" src="lib/angular-google-maps.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- Angular.js Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+    <!-- Angular Material Libraries -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.js"></script> -->
+    <script src="lib/angular-material.min.js"></script>
+
+    <!-- OCAM main module -->
+    <script src="src/ocam.module.js"></script>
+
+    <!-- Public Module -->
+    <script src="src/public/public.module.js"></script>
+    <script src="src/public/public.routes.js"></script>
+
+    <!-- Access (Login & Register) -->
+    <script src="src/public/access/login/loginForm.component.js"></script>
+    <script src="src/public/access/register/registerForm.component.js"></script>
+    <script src="src/public/access/passwordmatch.directive.js"></script>
+    <script src="src/public/access/access.controller.js"></script>
+    <script src="src/public/access/account/account.controller.js"></script>
+
+    <!-- Common Module -->
+    <script src="src/common/common.module.js"></script>
+    <script src="src/common/translate/translate.service.js"></script>
+    <script src="src/common/loading/loading.interceptor.js"></script>
+    <script src="src/common/loading/loading.component.js"></script>
+    <script src="src/common/header/header.controller.js"></script>
+    <script src="src/common/auth/auth.routes.js"></script>
+    <script src="src/common/auth/auth.service.js"></script>
+    <script src="src/common/hiker.service.js"></script>
+    <script src="src/common/activity.service.js"></script>
+    <script src="src/common/actList/actList.controller.js"></script>
+    <script src="src/common/actList/filter/filter.component.js"></script>
+    <script src="src/common/httphandler.interceptor.js"></script>
+
+    <!-- Private Module -->
+    <script src="src/private/private.module.js"></script>
+    <script src="src/private/private.routes.js"></script>
+    <script src="src/private/activity/track/track.component.js"></script>
+    <script src="src/private/profile/profile.controller.js"></script>
+    <script src="src/private/activity/activity.controller.js"></script>
+    <script src="src/private/activity/saveActivity.controller.js"></script>
+    <script src="src/private/activity/guides/guides.component.js"></script>
+    <script src="src/private/activity/track/track.service.js"></script>
+    <script src="src/private/activity/tools/tools.component.js"></script>
+    <script src="src/private/activity/monitorize/monitorize.controller.js"></script>
+    <script src="src/private/activity/map.service.js"></script>
+
+    <ui-view>
+    </ui-view>
+
+  </body>
+
+</html>

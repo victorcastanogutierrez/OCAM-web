@@ -72,9 +72,12 @@ function monitorizeController($stateParams, $state, activityService, $scope,
         /*
           Puntos del track
         */
-        var show = map.getZoom() <= 12;
-        for (var i = 0; i < polyMarkers.length; i++) {
-            polyMarkers[i].setVisible(!show);
+
+        if ($ctrl.showMapTrack) {
+          var show = map.getZoom() <= 12;
+          for (var i = 0; i < polyMarkers.length; i++) {
+              polyMarkers[i].setVisible(!show);
+          }
         }
 
         /*
@@ -166,7 +169,8 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       options: {
         labelClass:'marker_labels',
         labelAnchor:'12 60',
-        labelContent: title
+        labelContent: title,
+        visible: true
       },
       id: id
     };
@@ -558,6 +562,21 @@ function monitorizeController($stateParams, $state, activityService, $scope,
 
   $ctrl.centrarTrack = function() {
       $ctrl.gmap.panTo(new google.maps.LatLng($ctrl.track.path[0].latitude, $ctrl.track.path[0].longitude));
+  };
+
+  $ctrl.onShowHideTrack = function() {
+    $ctrl.markers[0].options.visible = $ctrl.showMapTrack; // Inicio y fin
+    $ctrl.markers[1].options.visible = $ctrl.showMapTrack;
+    if (!$ctrl.showMapTrack) {
+      for (var i = 0; i < polyMarkers.length; i++) {
+          polyMarkers[i].setVisible(false);
+      }
+    } else {
+      var show = map.getZoom() <= 12;
+      for (var i = 0; i < polyMarkers.length; i++) {
+          polyMarkers[i].setVisible(!show);
+      }
+    }
   };
 }
 })();
