@@ -80,7 +80,8 @@ function routeConfig ($stateProvider, $locationProvider) {
         authorization: true
       },
       params: {
-        activityId: null
+        activityId: null,
+        track : null
       }
     });
   }

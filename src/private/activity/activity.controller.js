@@ -69,7 +69,7 @@ function activityController($stateParams, $state, $scope, Auth, $mdDialog,
       solo puede llegar a ella un participante
     */
     if ($ctrl.activity.status == 'CLOSED') {
-      $state.go("private.monitorize", {activityId: $ctrl.activity.id});
+      $state.go("private.monitorize", {activityId: $ctrl.activity.id, track: $ctrl.activity.track});
       $ctrl.cargando = false;
       return ;
     }
@@ -88,7 +88,7 @@ function activityController($stateParams, $state, $scope, Auth, $mdDialog,
       $ctrl.cargando = true;
 
       activityService.checkPassword($ctrl.activity.id, result).then(function() {
-        $state.go("private.monitorize", {activityId: $ctrl.activity.id});
+        $state.go("private.monitorize", {activityId: $ctrl.activity.id, track: $ctrl.activity.track});
         $ctrl.cargando = false;
       }, function(err) {
         errorPassword(err.data.message);

@@ -181,6 +181,8 @@ function monitorizeController($stateParams, $state, activityService, $scope,
     exista y que esté en estado RUNNING
   */
   var activityId = $stateParams.activityId;
+  $ctrl.track = TrackService.getActivityTrack($stateParams.track);
+  console.log($ctrl.track);
   var notAllowed = function() {
     $state.go('private.actList');
   };
@@ -215,7 +217,6 @@ function monitorizeController($stateParams, $state, activityService, $scope,
       tray.forEach(x => {
         x.visible = false;
         $ctrl.puntosTrayectoria.find(y => y.id == x.id).markers.forEach(z => z.setVisible(false));
-        console.log("Se oculta");
       });
     }
   };
